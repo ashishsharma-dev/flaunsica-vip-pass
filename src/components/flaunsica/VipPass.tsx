@@ -4,38 +4,27 @@ import { CalendarPlus, Download, ShieldCheck } from "lucide-react";
 import { EVENT } from "./event";
 import type { GuestDetails } from "./types";
 
-function passId(guest: GuestDetails) {
-  const digits = guest.phone.replace(/\D/g, "").slice(-4) || "0000";
-  return `FLX-26-${digits}-${guest.name.trim().slice(0, 2).toUpperCase() || "VP"}`;
-}
-
 function category(guest: GuestDetails) {
   if (guest.isBride === "Yes") return "Bride";
   return guest.purpose[0] ?? "Guest";
 }
 
-export function VipPass({ guest }: { guest: GuestDetails }) {
+export function VipPass({
+  guest,
+  passCode,
+  delivery,
+}: {
+  guest: GuestDetails;
+  passCode: string;
+  delivery?: { email: boolean; sms: boolean };
+}) {
   const [qr, setQr] = useState<string>("");
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
-  const id = passId(guest);
+  const id = passCode;
 
   useEffect(() => {
-    const payload = JSON.stringify({
-      pass: id,
-      event: EVENT.name,
-      edition: EVENT.edition,
-      date: EVENT.dateLabel,
-      venue: EVENT.venue,
-      name: guest.name,
-      phone: `+91 ${guest.phone}`,
-      email: guest.email,
-      bride: guest.isBride === "Yes",
-      purpose: guest.purpose,
-      attendingWith: guest.attendingWith[0] ?? "",
-      interests: guest.interests,
-      checkin: `https://flaunsica.com/checkin/${id}`,
-    });
-    QRCode.toDataURL(payload, {
+    const origin = typeof window === "undefined" ? "" : window.location.origin;
+    QRCode.toDataURL(`${origin}/pass/${id}`, {
       width: 640,
       margin: 1,
       errorCorrectionLevel: "M",
@@ -43,7 +32,8 @@ export function VipPass({ guest }: { guest: GuestDetails }) {
     })
       .then(setQr)
       .catch(() => setQr(""));
-  }, [guest, id]);
+  }, [id]);
+
 
   const downloadPass = async () => {
     const canvas = canvasRef.current ?? document.createElement("canvas");
@@ -203,10 +193,14 @@ export function VipPass({ guest }: { guest: GuestDetails }) {
           <p className="flex items-start gap-2 text-xs leading-relaxed text-muted-foreground">
             <ShieldCheck className="mt-0.5 size-4 shrink-0 text-primary" aria-hidden="true" />
             <span>
-              A copy of this digital entry QR pass has been dispatched via WhatsApp to{" "}
-              <strong className="font-medium text-foreground">+91 {guest.phone}</strong> and emailed
-              to <strong className="font-medium text-foreground">{guest.email}</strong>.
+              Verified against{" "}
+              <strong className="font-medium text-foreground">+91 {guest.phone}</strong> and{" "}
+              <strong className="font-medium text-foreground">{guest.email}</strong>.
+              {delivery?.email || delivery?.sms
+                ? " A copy of this pass has been dispatched to you."
+                : " Scanning this QR opens your verified guest details at the VIP desk."}
             </span>
+
           </p>
         </footer>
       </article>
