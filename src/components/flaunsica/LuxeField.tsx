@@ -1,12 +1,13 @@
 import { forwardRef, type InputHTMLAttributes, type ReactNode } from "react";
 import { cn } from "@/lib/utils";
 
-interface LuxeFieldProps extends InputHTMLAttributes<HTMLInputElement> {
+interface LuxeFieldProps extends Omit<InputHTMLAttributes<HTMLInputElement>, "prefix"> {
   label: string;
   id: string;
   prefix?: ReactNode;
   error?: string;
 }
+
 
 export const LuxeField = forwardRef<HTMLInputElement, LuxeFieldProps>(function LuxeField(
   { label, id, prefix, error, className, ...props },
