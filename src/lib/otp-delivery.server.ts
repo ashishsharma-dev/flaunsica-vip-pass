@@ -2,8 +2,8 @@
  * Delivery of the 4-digit verification code to the guest's email and mobile.
  *
  * Both channels are optional at runtime:
- *  - Email is sent through Lovable's managed email API via the
- *    'vip-verification-code' template once the email domain is verified.
+ *  - Email is sent through Resend via the 'vip-verification-code' template
+ *    once RESEND_API_KEY is configured.
  *  - SMS is sent through Twilio once TWILIO_ACCOUNT_SID / TWILIO_AUTH_TOKEN /
  *    TWILIO_FROM_NUMBER are set.
  */
@@ -18,7 +18,10 @@ export async function sendEmailCode(
   name: string,
   code: string,
 ): Promise<boolean> {
-  if (!process.env["LOVABLE_API_KEY"]) return false;
+  if (!process.env["RESEND_API_KEY"]) {
+    console.log(`[Dev OTP] Verification code for ${to} (${name}): ${code}`);
+    return true;
+  }
 
   try {
     const { sendTemplateEmail } = await import("./email-templates/send-email");

@@ -23,7 +23,7 @@ function makeCode() {
 }
 
 export const startRegistration = createServerFn({ method: "POST" })
-  .inputValidator((input: unknown) => guestSchema.parse(input))
+  .validator((input: unknown) => guestSchema.parse(input))
   .handler(async ({ data }) => {
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
     const { sendEmailCode, sendSmsCode } = await import("./otp-delivery.server");
@@ -76,7 +76,7 @@ export const startRegistration = createServerFn({ method: "POST" })
   });
 
 export const resendCode = createServerFn({ method: "POST" })
-  .inputValidator((input: unknown) => z.object({ registrationId: z.string().uuid() }).parse(input))
+  .validator((input: unknown) => z.object({ registrationId: z.string().uuid() }).parse(input))
   .handler(async ({ data }) => {
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
     const { sendEmailCode, sendSmsCode } = await import("./otp-delivery.server");
@@ -104,7 +104,7 @@ export const resendCode = createServerFn({ method: "POST" })
   });
 
 export const verifyCode = createServerFn({ method: "POST" })
-  .inputValidator((input: unknown) =>
+  .validator((input: unknown) =>
     z
       .object({ registrationId: z.string().uuid(), code: z.string().regex(/^\d{4}$/) })
       .parse(input),
@@ -153,7 +153,7 @@ export const verifyCode = createServerFn({ method: "POST" })
   });
 
 export const getPass = createServerFn({ method: "GET" })
-  .inputValidator((input: unknown) =>
+  .validator((input: unknown) =>
     z.object({ passCode: z.string().trim().min(6).max(40) }).parse(input),
   )
   .handler(async ({ data }) => {
