@@ -564,6 +564,7 @@ button, input {
   overflow: hidden;
   box-shadow: 0 20px 45px rgba(0, 0, 0, 0.18);
   transition: var(--transition-smooth);
+  aspect-ratio: 3.2 / 4;
 }
 
 .card-primary {
@@ -2339,18 +2340,53 @@ button, input {
   }
   .hero-section {
     padding: 2.5rem 1.25rem 3.5rem;
+    overflow-x: hidden;
   }
   .hero-headline {
     font-size: 2.85rem;
   }
+  .hero-actions-row {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 1.25rem;
+  }
+  .btn-primary-luxury {
+    width: 100%;
+    justify-content: center;
+    text-align: center;
+  }
+  .curator-seal {
+    border-left: none;
+    border-top: 2px solid var(--color-gold);
+    padding-left: 0;
+    padding-top: 0.75rem;
+    text-align: center;
+  }
   .visual-editorial-stack {
     height: 380px;
+  }
+  .category-strip {
+    gap: 0.5rem;
+    padding: 0.85rem;
+    border-radius: var(--radius-lg);
+  }
+  .cat-pill {
+    font-size: 0.75rem;
   }
   .luxury-form-card {
     padding: 2rem 1.25rem;
   }
   .form-title {
     font-size: 1.85rem;
+  }
+  .modal-card {
+    padding: 2rem 1.25rem;
+  }
+  .pass-ticket-card {
+    padding: 1.5rem 1.25rem;
+  }
+  .ticket-perforation {
+    margin: 0.5rem -1.25rem 1.25rem;
   }
   .ticket-main-grid {
     grid-template-columns: 1fr;
@@ -2375,6 +2411,9 @@ button, input {
   .footer-grid {
     grid-template-columns: 1fr;
     gap: 2rem;
+  }
+  .btn-sheen {
+    pointer-events: none;
   }
 }
 
