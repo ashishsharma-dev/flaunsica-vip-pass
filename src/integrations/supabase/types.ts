@@ -14,7 +14,92 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      registrations: {
+        Row: {
+          attending_with: string[]
+          checked_in_at: string | null
+          created_at: string
+          email: string
+          email_verified: boolean
+          id: string
+          interests: string[]
+          is_bride: boolean
+          name: string
+          pass_code: string
+          phone: string
+          phone_verified: boolean
+          purpose: string[]
+        }
+        Insert: {
+          attending_with?: string[]
+          checked_in_at?: string | null
+          created_at?: string
+          email: string
+          email_verified?: boolean
+          id?: string
+          interests?: string[]
+          is_bride?: boolean
+          name: string
+          pass_code: string
+          phone: string
+          phone_verified?: boolean
+          purpose?: string[]
+        }
+        Update: {
+          attending_with?: string[]
+          checked_in_at?: string | null
+          created_at?: string
+          email?: string
+          email_verified?: boolean
+          id?: string
+          interests?: string[]
+          is_bride?: boolean
+          name?: string
+          pass_code?: string
+          phone?: string
+          phone_verified?: boolean
+          purpose?: string[]
+        }
+        Relationships: []
+      }
+      verification_codes: {
+        Row: {
+          attempts: number
+          code: string
+          consumed_at: string | null
+          created_at: string
+          expires_at: string
+          id: string
+          registration_id: string
+        }
+        Insert: {
+          attempts?: number
+          code: string
+          consumed_at?: string | null
+          created_at?: string
+          expires_at: string
+          id?: string
+          registration_id: string
+        }
+        Update: {
+          attempts?: number
+          code?: string
+          consumed_at?: string | null
+          created_at?: string
+          expires_at?: string
+          id?: string
+          registration_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "verification_codes_registration_id_fkey"
+            columns: ["registration_id"]
+            isOneToOne: false
+            referencedRelation: "registrations"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Views: {
       [_ in never]: never
