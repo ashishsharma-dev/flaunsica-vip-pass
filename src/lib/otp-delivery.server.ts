@@ -2,8 +2,8 @@
  * Delivery of the 4-digit verification code to the guest's email and mobile.
  *
  * Both channels are optional at runtime:
- *  - Email is sent through Lovable's managed email API once an email domain is
- *    configured for the project (LOVABLE_API_KEY + EMAIL_SENDER_DOMAIN).
+ *  - Email is sent through Lovable's managed email API via the
+ *    'vip-verification-code' template once the email domain is verified.
  *  - SMS is sent through Twilio once TWILIO_ACCOUNT_SID / TWILIO_AUTH_TOKEN /
  *    TWILIO_FROM_NUMBER are set.
  */
@@ -18,41 +18,15 @@ export async function sendEmailCode(
   name: string,
   code: string,
 ): Promise<boolean> {
-  const apiKey = process.env["LOVABLE_API_KEY"];
-  const senderDomain = process.env["EMAIL_SENDER_DOMAIN"];
-  if (!apiKey || !senderDomain) return false;
-
-  const html = `<!doctype html><html><body style="background:#ffffff;font-family:Arial,Helvetica,sans-serif;color:#1A1A1A;padding:24px">
-    <div style="max-width:520px;margin:0 auto;border:1px solid #eee;border-radius:8px;overflow:hidden">
-      <div style="background:#7B1113;color:#FAF8F5;padding:24px;text-align:center">
-        <div style="font-family:Georgia,serif;font-size:24px;letter-spacing:4px">FLAUNSICA</div>
-        <div style="font-size:11px;letter-spacing:2px;opacity:.85;margin-top:6px">10TH REFINED EDITION</div>
-      </div>
-      <div style="padding:28px;text-align:center">
-        <p style="margin:0 0 8px">Hi ${escapeHtml(name)},</p>
-        <p style="margin:0 0 20px;color:#6B6B6B">Use this code to verify your VIP registration.</p>
-        <div style="font-family:Georgia,serif;font-size:38px;letter-spacing:12px">${code}</div>
-        <p style="margin:20px 0 0;font-size:12px;color:#6B6B6B">This code expires in 10 minutes.</p>
-      </div>
-    </div>
-  </body></html>`;
+  if (!process.env["LOVABLE_API_KEY"]) return false;
 
   try {
-    const res = await fetch("https://api.lovable.dev/v1/email/send", {
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${apiKey}`,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        from: `Flaunsica <noreply@${senderDomain}>`,
-        to,
-        subject: `${code} is your Flaunsica VIP verification code`,
-        html,
-        purpose: "transactional",
-      }),
+    const { sendTemplateEmail } = await import("./email-templates/send-email");
+    const result = await sendTemplateEmail("vip-verification-code", to, {
+      templateData: { name, code },
+      idempotencyKey: `vip-verification-code-${to.toLowerCase()}-${code}`,
     });
-    return res.ok;
+    return result.sent;
   } catch (error) {
     console.error("email code send failed", error);
     return false;
@@ -84,10 +58,4 @@ export async function sendSmsCode(phone: string, code: string): Promise<boolean>
     console.error("sms code send failed", error);
     return false;
   }
-}
-
-function escapeHtml(value: string) {
-  return value.replace(/[&<>"']/g, (c) =>
-    ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c] ?? c,
-  );
 }
