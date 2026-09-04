@@ -193,10 +193,14 @@ export function VipPass({
           <p className="flex items-start gap-2 text-xs leading-relaxed text-muted-foreground">
             <ShieldCheck className="mt-0.5 size-4 shrink-0 text-primary" aria-hidden="true" />
             <span>
-              A copy of this digital entry QR pass has been dispatched via WhatsApp to{" "}
-              <strong className="font-medium text-foreground">+91 {guest.phone}</strong> and emailed
-              to <strong className="font-medium text-foreground">{guest.email}</strong>.
+              Verified against{" "}
+              <strong className="font-medium text-foreground">+91 {guest.phone}</strong> and{" "}
+              <strong className="font-medium text-foreground">{guest.email}</strong>.
+              {delivery?.email || delivery?.sms
+                ? " A copy of this pass has been dispatched to you."
+                : " Scanning this QR opens your verified guest details at the VIP desk."}
             </span>
+
           </p>
         </footer>
       </article>
