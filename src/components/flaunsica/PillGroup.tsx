@@ -6,7 +6,7 @@ interface PillGroupProps {
   value: string[];
   multi?: boolean;
   onChange: (next: string[]) => void;
-  error?: string;
+  error?: string | undefined;
 }
 
 export function PillGroup({

@@ -126,7 +126,7 @@ export function RsvpFlow() {
                 autoComplete="name"
                 value={guest.name}
                 onChange={(e) => set("name", e.target.value)}
-                error={errors.name}
+                error={errors["name"]}
               />
               <LuxeField
                 id="phone"
@@ -138,7 +138,7 @@ export function RsvpFlow() {
                 prefix="+91"
                 value={guest.phone}
                 onChange={(e) => set("phone", e.target.value.replace(/\D/g, "").slice(0, 10))}
-                error={errors.phone}
+                error={errors["phone"]}
               />
               <LuxeField
                 id="email"
@@ -147,7 +147,7 @@ export function RsvpFlow() {
                 autoComplete="email"
                 value={guest.email}
                 onChange={(e) => set("email", e.target.value)}
-                error={errors.email}
+                error={errors["email"]}
               />
 
               <PillGroup
@@ -155,7 +155,7 @@ export function RsvpFlow() {
                 options={["Yes", "No"]}
                 value={guest.isBride ? [guest.isBride] : []}
                 onChange={(v) => set("isBride", v[0] ?? "")}
-                error={errors.isBride}
+                error={errors["isBride"]}
               />
               <PillGroup
                 legend="Purpose of visit"
@@ -163,14 +163,14 @@ export function RsvpFlow() {
                 value={guest.purpose}
                 multi
                 onChange={(v) => set("purpose", v)}
-                error={errors.purpose}
+                error={errors["purpose"]}
               />
               <PillGroup
                 legend="Who are you attending with?"
                 options={COMPANY_OPTIONS}
                 value={guest.attendingWith}
                 onChange={(v) => set("attendingWith", v)}
-                error={errors.attendingWith}
+                error={errors["attendingWith"]}
               />
               <PillGroup
                 legend="What are you most likely to buy?"
@@ -178,7 +178,7 @@ export function RsvpFlow() {
                 value={guest.interests}
                 multi
                 onChange={(v) => set("interests", v)}
-                error={errors.interests}
+                error={errors["interests"]}
               />
 
               <button

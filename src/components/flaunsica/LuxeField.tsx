@@ -5,7 +5,7 @@ interface LuxeFieldProps extends Omit<InputHTMLAttributes<HTMLInputElement>, "pr
   label: string;
   id: string;
   prefix?: ReactNode;
-  error?: string;
+  error?: string | undefined;
 }
 
 
