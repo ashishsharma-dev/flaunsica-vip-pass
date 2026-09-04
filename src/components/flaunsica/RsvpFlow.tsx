@@ -1,17 +1,9 @@
 import { useEffect, useRef, useState } from "react";
 import { useServerFn } from "@tanstack/react-start";
 import { z } from "zod";
-import { ArrowLeft, Loader2, MessageCircle } from "lucide-react";
-import { LuxeField } from "./LuxeField";
-import { PillGroup } from "./PillGroup";
 import { VipPass } from "./VipPass";
 import { resendCode, startRegistration, verifyCode } from "@/lib/rsvp.functions";
-import {
-  COMPANY_OPTIONS,
-  INTEREST_OPTIONS,
-  PURPOSE_OPTIONS,
-  type GuestDetails,
-} from "./types";
+import type { GuestDetails } from "./types";
 
 const guestSchema = z.object({
   name: z
@@ -30,14 +22,14 @@ const guestSchema = z.object({
   interests: z.array(z.string()).min(1, "Select at least one category"),
 });
 
-const EMPTY: GuestDetails = {
+const DEFAULT_GUEST: GuestDetails = {
   name: "",
   phone: "",
   email: "",
-  isBride: "",
-  purpose: [],
-  attendingWith: [],
-  interests: [],
+  isBride: "No",
+  purpose: ["Wedding Shopping"],
+  attendingWith: ["Just me"],
+  interests: ["Jewellery", "Clothing"],
 };
 
 type Step = "form" | "otp" | "pass";
@@ -45,7 +37,7 @@ type Delivery = { email: boolean; sms: boolean };
 
 export function RsvpFlow() {
   const [step, setStep] = useState<Step>("form");
-  const [guest, setGuest] = useState<GuestDetails>(EMPTY);
+  const [guest, setGuest] = useState<GuestDetails>(DEFAULT_GUEST);
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [submitting, setSubmitting] = useState(false);
   const [formError, setFormError] = useState("");
@@ -107,7 +99,7 @@ export function RsvpFlow() {
       setOtpError("");
       setResendIn(30);
       setStep("otp");
-      setTimeout(() => otpRefs.current[0]?.focus(), 120);
+      setTimeout(() => otpRefs.current[0]?.focus(), 150);
     } catch (error) {
       console.error(error);
       setFormError("Something went wrong. Please try again in a moment.");
@@ -122,24 +114,49 @@ export function RsvpFlow() {
     next[index] = digit;
     setOtp(next);
     setOtpError("");
-    if (digit && index < 3) otpRefs.current[index + 1]?.focus();
+    if (digit && index < 3) {
+      otpRefs.current[index + 1]?.focus();
+    }
+    if (digit && index === 3) {
+      const full = [...next.slice(0, 3), digit].join("");
+      if (full.length === 4) {
+        doVerify(full);
+      }
+    }
   };
 
-  const verifyOtp = async (e: React.FormEvent) => {
+  const handlePaste = (e: React.ClipboardEvent<HTMLInputElement>) => {
     e.preventDefault();
-    if (otp.some((d) => d === "")) {
+    const pasteData = e.clipboardData.getData("text").replace(/\D/g, "").slice(0, 4);
+    if (pasteData.length > 0) {
+      const digits = ["", "", "", ""];
+      pasteData.split("").forEach((ch, idx) => {
+        if (idx < 4) digits[idx] = ch;
+      });
+      setOtp(digits);
+      const nextIndex = Math.min(pasteData.length, 3);
+      otpRefs.current[nextIndex]?.focus();
+      if (pasteData.length === 4) {
+        doVerify(pasteData);
+      }
+    }
+  };
+
+  const doVerify = async (codeToVerify: string) => {
+    if (codeToVerify.length !== 4) {
       setOtpError("Please enter all 4 digits");
       return;
     }
     setSubmitting(true);
     try {
-      const res = await verify({ data: { registrationId, code: otp.join("") } });
+      const res = await verify({ data: { registrationId, code: codeToVerify } });
       if (!res.ok) {
-        setOtpError(res.error);
+        setOtpError(res.error || "Invalid verification code. Please try again.");
         return;
       }
       setPassCode(res.passCode);
       setStep("pass");
+      document.getElementById("rsvp-section")?.scrollIntoView({ behavior: "smooth" });
     } catch (error) {
       console.error(error);
       setOtpError("We couldn't verify that code. Please try again.");
@@ -161,184 +178,363 @@ export function RsvpFlow() {
     }
   };
 
-  const sentTo = [delivery.sms ? "WhatsApp/SMS" : null, delivery.email ? "email" : null].filter(
-    Boolean,
-  );
+  if (step === "pass") {
+    return (
+      <VipPass
+        guest={guest}
+        passCode={passCode}
+        delivery={delivery}
+        onReset={() => {
+          setStep("form");
+          setGuest(DEFAULT_GUEST);
+          setErrors({});
+          setFormError("");
+        }}
+      />
+    );
+  }
 
   return (
-    <section id="rsvp" className="scroll-mt-16 bg-background px-5 py-20 sm:py-28">
-      <div className="mx-auto max-w-xl">
-        <header className="text-center">
-          <p className="text-[0.65rem] uppercase tracking-luxe text-primary">Guest Registration</p>
-          <h2 className="mt-4 font-display text-4xl leading-tight sm:text-5xl">
-            Request Your VIP Invitation
-          </h2>
-          <div className="rule-luxe mx-auto mt-6 w-40" />
-        </header>
+    <section id="rsvp-section" className="registration-section">
+      <div className="reg-container">
+        <div className="luxury-form-card" id="form-card-container">
+          {/* Progress Tracker Header */}
+          <div className="form-progress-bar">
+            <div className={`step-node ${step === "form" ? "active" : "completed"}`} id="step-node-1">
+              <span className="step-num">{step === "form" ? "1" : "✓"}</span>
+              <span className="step-label">Guest Details</span>
+            </div>
+            <div className={`step-line ${step !== "form" ? "completed" : ""}`} id="step-line-1" />
+            <div className={`step-node ${step === "otp" ? "active" : ""}`} id="step-node-2">
+              <span className="step-num">2</span>
+              <span className="step-label">OTP Verification</span>
+            </div>
+            <div className="step-line" id="step-line-2" />
+            <div className="step-node" id="step-node-3">
+              <span className="step-num">3</span>
+              <span className="step-label">VIP QR Pass</span>
+            </div>
+          </div>
 
-        <div className="mt-10">
-          {step === "form" && (
-            <form onSubmit={submitForm} noValidate className="animate-rise space-y-9">
-              <LuxeField
-                id="name"
-                label="Full Name"
+          <div className="form-header">
+            <span className="form-badge">INVITATION DESK</span>
+            <h2 className="form-title">Request Your VIP Invitation</h2>
+            <p className="form-subtitle">
+              Fill in your information below to generate your personalized entry QR pass.
+            </p>
+          </div>
+
+          {/* The Registration Form */}
+          <form id="guest-form" className="luxury-form" noValidate onSubmit={submitForm}>
+            {/* 1. Full Name */}
+            <div className={`form-group floating-group ${errors.name ? "has-error" : ""}`}>
+              <input
+                type="text"
+                id="fullName"
+                name="fullName"
+                className="form-input"
+                placeholder=" "
+                required
                 autoComplete="name"
                 value={guest.name}
                 onChange={(e) => set("name", e.target.value)}
-                error={errors["name"]}
               />
-              <LuxeField
-                id="phone"
-                label="WhatsApp / Mobile Number"
+              <label htmlFor="fullName" className="floating-label">Full Name *</label>
+              {errors.name ? <span className="field-error">{errors.name}</span> : null}
+            </div>
+
+            {/* 2. WhatsApp / Mobile Number */}
+            <div className={`form-group floating-group tel-group ${errors.phone ? "has-error" : ""}`}>
+              <div className="tel-prefix-box">
+                <span className="tel-flag">🇮🇳</span>
+                <span className="tel-code">+91</span>
+              </div>
+              <input
                 type="tel"
-                inputMode="numeric"
+                id="mobile"
+                name="mobile"
+                className="form-input tel-input"
+                placeholder=" "
                 maxLength={10}
+                required
                 autoComplete="tel-national"
-                prefix="+91"
                 value={guest.phone}
                 onChange={(e) => set("phone", e.target.value.replace(/\D/g, "").slice(0, 10))}
-                error={errors["phone"]}
               />
-              <LuxeField
-                id="email"
-                label="Email Address"
+              <label htmlFor="mobile" className="floating-label tel-label">WhatsApp / Mobile Number *</label>
+              {errors.phone ? <span className="field-error">{errors.phone}</span> : null}
+              <span className="field-hint">Your QR pass will be sent to this WhatsApp number & email</span>
+            </div>
+
+            {/* 3. Email Address */}
+            <div className={`form-group floating-group ${errors.email ? "has-error" : ""}`}>
+              <input
                 type="email"
+                id="email"
+                name="email"
+                className="form-input"
+                placeholder=" "
+                required
                 autoComplete="email"
                 value={guest.email}
                 onChange={(e) => set("email", e.target.value)}
-                error={errors["email"]}
               />
+              <label htmlFor="email" className="floating-label">Email Address *</label>
+              {errors.email ? <span className="field-error">{errors.email}</span> : null}
+            </div>
 
-              <PillGroup
-                legend="Are you a bride?"
-                options={["Yes", "No"]}
-                value={guest.isBride ? [guest.isBride] : []}
-                onChange={(v) => set("isBride", v[0] ?? "")}
-                error={errors["isBride"]}
-              />
-              <PillGroup
-                legend="Purpose of visit"
-                options={PURPOSE_OPTIONS}
-                value={guest.purpose}
-                multi
-                onChange={(v) => set("purpose", v)}
-                error={errors["purpose"]}
-              />
-              <PillGroup
-                legend="Who are you attending with?"
-                options={COMPANY_OPTIONS}
-                value={guest.attendingWith}
-                onChange={(v) => set("attendingWith", v)}
-                error={errors["attendingWith"]}
-              />
-              <PillGroup
-                legend="What are you most likely to buy?"
-                options={INTEREST_OPTIONS}
-                value={guest.interests}
-                multi
-                onChange={(v) => set("interests", v)}
-                error={errors["interests"]}
-              />
+            <div className="form-divider"><span>PREFERENCES</span></div>
 
-              {formError ? (
-                <p className="text-center text-xs text-destructive">{formError}</p>
-              ) : null}
-
-              <button
-                type="submit"
-                disabled={submitting}
-                className="shimmer-luxe inline-flex w-full items-center justify-center gap-2 rounded-sm bg-primary px-8 py-5 text-[0.72rem] uppercase tracking-[0.24em] text-primary-foreground transition-opacity hover:opacity-95 disabled:opacity-70"
-              >
-                {submitting ? (
-                  <Loader2 className="size-4 animate-spin" aria-hidden="true" />
-                ) : null}
-                Get My VIP QR Pass
-              </button>
-              <p className="text-center text-xs text-muted-foreground">
-                We'll send a verification code to both your mobile number and email address.
-              </p>
-            </form>
-          )}
-
-          {step === "otp" && (
-            <form
-              onSubmit={verifyOtp}
-              className="animate-rise rounded-lg surface-luxe p-8 text-center"
-            >
-              <MessageCircle className="mx-auto size-6 text-primary" aria-hidden="true" />
-              <h3 className="mt-4 font-display text-2xl">Verify Your Details</h3>
-              <p className="mx-auto mt-3 max-w-sm text-sm leading-relaxed text-muted-foreground">
-                {sentTo.length
-                  ? `Enter the 4-digit code we sent to your ${sentTo.join(" and ")}.`
-                  : "Enter the 4-digit verification code to confirm your mobile number and email."}
-                <br />
-                <span className="text-foreground">+91 {guest.phone}</span>
-                <br />
-                <span className="text-foreground">{guest.email}</span>
-              </p>
-
-              {previewCode ? (
-                <p className="mx-auto mt-4 max-w-sm rounded-sm border border-dashed border-border bg-secondary/60 px-4 py-3 text-xs text-muted-foreground">
-                  Delivery isn't connected yet, so here is your code for testing:{" "}
-                  <strong className="font-medium text-foreground">{previewCode}</strong>
-                </p>
-              ) : null}
-
-              <div className="mt-8 flex justify-center gap-3">
-                {otp.map((digit, i) => (
+            {/* 4. Are you a bride? */}
+            <div className={`form-group pill-group ${errors.isBride ? "has-error" : ""}`}>
+              <label className="group-legend">Are you a bride-to-be?</label>
+              <div className="pills-row" role="radiogroup" aria-label="Are you a bride?">
+                <label className="radio-pill">
                   <input
-                    key={i}
-                    ref={(el) => {
-                      otpRefs.current[i] = el;
-                    }}
-                    value={digit}
-                    inputMode="numeric"
-                    maxLength={1}
-                    aria-label={`Digit ${i + 1}`}
-                    onChange={(e) => handleOtpChange(i, e.target.value)}
-                    onKeyDown={(e) => {
-                      if (e.key === "Backspace" && !otp[i] && i > 0) otpRefs.current[i - 1]?.focus();
-                    }}
-                    className="size-14 rounded-sm border border-input bg-background text-center font-display text-2xl outline-none transition-colors focus:border-primary"
+                    type="radio"
+                    name="isBride"
+                    value="Yes"
+                    checked={guest.isBride === "Yes"}
+                    onChange={() => set("isBride", "Yes")}
                   />
+                  <span className="pill-btn"><span className="pill-icon">👰‍♀️</span> Yes, Bride-to-be</span>
+                </label>
+                <label className="radio-pill">
+                  <input
+                    type="radio"
+                    name="isBride"
+                    value="No"
+                    checked={guest.isBride === "No"}
+                    onChange={() => set("isBride", "No")}
+                  />
+                  <span className="pill-btn"><span className="pill-icon">✨</span> No, Attending Guest</span>
+                </label>
+              </div>
+              {errors.isBride ? <span className="field-error">{errors.isBride}</span> : null}
+            </div>
+
+            {/* 5. Purpose of Visit */}
+            <div className={`form-group pill-group ${errors.purpose ? "has-error" : ""}`}>
+              <label className="group-legend">Purpose of Visit</label>
+              <div className="pills-grid" role="radiogroup" aria-label="Purpose of Visit">
+                {["Wedding Shopping", "Trousseau", "Casual Shopping", "Workwear"].map((item) => (
+                  <label key={item} className="radio-pill">
+                    <input
+                      type="radio"
+                      name="purpose"
+                      value={item}
+                      checked={guest.purpose.includes(item)}
+                      onChange={() => set("purpose", [item])}
+                    />
+                    <span className="pill-btn">{item}</span>
+                  </label>
                 ))}
               </div>
-              {otpError ? <p className="mt-4 text-xs text-destructive">{otpError}</p> : null}
+              {errors.purpose ? <span className="field-error">{errors.purpose}</span> : null}
+            </div>
 
+            {/* 6. Who are you attending with? */}
+            <div className={`form-group pill-group ${errors.attendingWith ? "has-error" : ""}`}>
+              <label className="group-legend">Who are you attending with?</label>
+              <div className="pills-row" role="radiogroup" aria-label="Who are you attending with?">
+                {["Just me", "Friends", "Family"].map((party) => (
+                  <label key={party} className="radio-pill">
+                    <input
+                      type="radio"
+                      name="attendingWith"
+                      value={party}
+                      checked={guest.attendingWith.includes(party)}
+                      onChange={() => set("attendingWith", [party])}
+                    />
+                    <span className="pill-btn">{party}</span>
+                  </label>
+                ))}
+              </div>
+              {errors.attendingWith ? <span className="field-error">{errors.attendingWith}</span> : null}
+            </div>
+
+            {/* 7. What are you most likely to buy? */}
+            <div className={`form-group pill-group ${errors.interests ? "has-error" : ""}`}>
+              <label className="group-legend">
+                What are you most likely to buy? <span className="legend-hint">(Select all that apply)</span>
+              </label>
+              <div className="pills-row" role="group" aria-label="What are you most likely to buy?">
+                {["Jewellery", "Clothing", "Accessories"].map((cat) => {
+                  const isChecked = guest.interests.includes(cat);
+                  return (
+                    <label key={cat} className="check-pill">
+                      <input
+                        type="checkbox"
+                        name="interests"
+                        value={cat}
+                        checked={isChecked}
+                        onChange={(e) => {
+                          if (e.target.checked) {
+                            set("interests", [...guest.interests, cat]);
+                          } else {
+                            set("interests", guest.interests.filter((c) => c !== cat));
+                          }
+                        }}
+                      />
+                      <span className="pill-btn">
+                        <span className="check-box-indicator" /> {cat}
+                      </span>
+                    </label>
+                  );
+                })}
+              </div>
+              {errors.interests ? <span className="field-error">{errors.interests}</span> : null}
+            </div>
+
+            {formError ? <p className="text-center text-xs text-red-600 font-medium">{formError}</p> : null}
+
+            {/* Submit Button */}
+            <div className="form-submit-row">
               <button
                 type="submit"
+                id="btn-submit-rsvp"
                 disabled={submitting}
-                className="shimmer-luxe mt-8 inline-flex w-full items-center justify-center gap-2 rounded-sm bg-primary px-8 py-4 text-[0.72rem] uppercase tracking-[0.24em] text-primary-foreground transition-opacity hover:opacity-95 disabled:opacity-70"
+                className="btn-submit-luxury"
               >
-                {submitting ? (
-                  <Loader2 className="size-4 animate-spin" aria-hidden="true" />
-                ) : null}
-                Verify & Generate Pass
+                <span className="btn-submit-text">
+                  {submitting ? "Securing VIP Pass..." : "Get My VIP QR Pass"}
+                </span>
+                <span className="btn-sheen" />
+                <svg className="btn-icon-lock" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                  <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
+                  <path d="M7 11V7a5 5 0 0 1 10 0v4" />
+                </svg>
               </button>
-
-              <div className="mt-5 flex items-center justify-between text-xs text-muted-foreground">
-                <button
-                  type="button"
-                  onClick={() => setStep("form")}
-                  className="inline-flex items-center gap-1 transition-colors hover:text-primary"
-                >
-                  <ArrowLeft className="size-3.5" aria-hidden="true" /> Edit details
-                </button>
-                <button
-                  type="button"
-                  disabled={resendIn > 0}
-                  onClick={requestResend}
-                  className="transition-colors hover:text-primary disabled:opacity-60"
-                >
-                  {resendIn > 0 ? `Resend code in ${resendIn}s` : "Resend code"}
-                </button>
+              <div className="security-caption">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                  <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+                </svg>
+                <span>Instant verification via WhatsApp & Email • Strictly zero spam</span>
               </div>
-            </form>
-          )}
-
-          {step === "pass" && <VipPass guest={guest} passCode={passCode} delivery={delivery} />}
+            </div>
+          </form>
         </div>
       </div>
+
+      {/* Step 2: OTP Verification Modal */}
+      {step === "otp" && (
+        <div
+          id="otp-modal"
+          className="modal-backdrop"
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="otp-modal-title"
+          onClick={(e) => {
+            if (e.target === e.currentTarget) setStep("form");
+          }}
+        >
+          <div className="modal-card">
+            <button
+              type="button"
+              className="modal-close-btn"
+              id="btnCloseOtpModal"
+              aria-label="Close modal"
+              onClick={() => setStep("form")}
+            >
+              &times;
+            </button>
+
+            <div className="modal-header">
+              <div className="modal-brand-seal">FLAUNSICA</div>
+              <div className="modal-badge">MOBILE & EMAIL VERIFICATION</div>
+              <h3 id="otp-modal-title" className="modal-title">Verify Your Details</h3>
+              <p className="modal-desc">
+                We have sent a 4-digit verification code to your WhatsApp / Mobile <strong id="otpDisplayMobile">+91 {guest.phone}</strong> and <strong>{guest.email}</strong>
+              </p>
+            </div>
+
+            {/* Quick Demo Preview / Fallback Toast */}
+            {previewCode ? (
+              <div className="simulated-otp-banner" id="simulatedOtpBanner">
+                <div className="sim-icon">💬</div>
+                <div className="sim-text">
+                  <span className="sim-title">Verification Code Preview:</span>
+                  <span className="sim-code">
+                    "Your Flaunsica 10th Edition VIP pass verification code is <strong id="demoOtpCode">{previewCode}</strong>."
+                  </span>
+                </div>
+                <button
+                  type="button"
+                  className="btn-autofill-otp"
+                  id="btnAutoFillOtp"
+                  onClick={() => {
+                    const digits = previewCode.slice(0, 4).split("");
+                    setOtp(digits);
+                    setOtpError("");
+                    doVerify(digits.join(""));
+                  }}
+                >
+                  Auto Fill
+                </button>
+              </div>
+            ) : null}
+
+            {/* 4-digit input row */}
+            <div className="otp-inputs-row" id="otpInputsContainer">
+              {otp.map((digit, i) => (
+                <input
+                  key={i}
+                  ref={(el) => {
+                    otpRefs.current[i] = el;
+                  }}
+                  type="text"
+                  inputMode="numeric"
+                  pattern="[0-9]*"
+                  maxLength={1}
+                  className="otp-box"
+                  id={`otp-${i}`}
+                  autoComplete={i === 0 ? "one-time-code" : undefined}
+                  value={digit}
+                  onChange={(e) => handleOtpChange(i, e.target.value)}
+                  onKeyDown={(e) => {
+                    if (e.key === "Backspace" && !otp[i] && i > 0) {
+                      otpRefs.current[i - 1]?.focus();
+                    }
+                  }}
+                  onPaste={i === 0 ? handlePaste : undefined}
+                />
+              ))}
+            </div>
+
+            {otpError ? (
+              <div className="otp-error-msg" style={{ display: "block" }}>
+                {otpError}
+              </div>
+            ) : null}
+
+            {/* Modal Action Buttons */}
+            <div className="modal-actions">
+              <button
+                type="button"
+                id="btnVerifyOtp"
+                disabled={submitting}
+                onClick={() => doVerify(otp.join(""))}
+                className="btn-primary-luxury btn-modal-verify"
+              >
+                <span>{submitting ? "Verifying..." : "Verify & Generate VIP Pass"}</span>
+              </button>
+
+              <div className="resend-row">
+                <span>Didn't receive code?</span>
+                <button
+                  type="button"
+                  id="btnResendOtp"
+                  disabled={resendIn > 0}
+                  onClick={requestResend}
+                  className="btn-resend"
+                >
+                  {resendIn > 0 ? `Resend Code in ${resendIn}s` : "Resend Code"}
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </section>
   );
 }
