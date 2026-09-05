@@ -16,7 +16,7 @@ const guestSchema = z.object({
     .trim()
     .regex(/^[6-9]\d{9}$/, "Enter a valid 10-digit Indian mobile number"),
   email: z.string().trim().email("Enter a valid email address").max(255),
-  isBride: z.string().min(1, "Please select an option"),
+  isBride: z.string().optional().default("No"),
   purpose: z.array(z.string()).min(1, "Select at least one purpose"),
   attendingWith: z.array(z.string()).min(1, "Select who you're attending with"),
   interests: z.array(z.string()).min(1, "Select at least one category"),
@@ -416,7 +416,7 @@ export function RsvpFlow() {
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                       <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
                     </svg>
-                    <span>Takes only 30 seconds • 100% Confidential & Secure</span>
+                    <span>Takes only 15 seconds • 100% Confidential & Secure</span>
                   </div>
                 </div>
               </div>
@@ -454,35 +454,7 @@ export function RsvpFlow() {
                 </div>
 
                 <div className="flex flex-col gap-6">
-                  {/* 4. Are you a bride? */}
-                  <div className={`form-group pill-group ${errors.isBride ? "has-error" : ""}`}>
-                    <label className="group-legend">Are you a bride-to-be?</label>
-                    <div className="pills-row" role="radiogroup" aria-label="Are you a bride?">
-                      <label className="radio-pill">
-                        <input
-                          type="radio"
-                          name="isBride"
-                          value="Yes"
-                          checked={guest.isBride === "Yes"}
-                          onChange={() => set("isBride", "Yes")}
-                        />
-                        <span className="pill-btn"><span className="pill-icon">👰‍♀️</span> Yes, Bride-to-be</span>
-                      </label>
-                      <label className="radio-pill">
-                        <input
-                          type="radio"
-                          name="isBride"
-                          value="No"
-                          checked={guest.isBride === "No"}
-                          onChange={() => set("isBride", "No")}
-                        />
-                        <span className="pill-btn"><span className="pill-icon">✨</span> No, Attending Guest</span>
-                      </label>
-                    </div>
-                    {errors.isBride ? <span className="field-error">{errors.isBride}</span> : null}
-                  </div>
-
-                  {/* 5. Purpose of Visit */}
+                  {/* Purpose of Visit */}
                   <div className={`form-group pill-group ${errors.purpose ? "has-error" : ""}`}>
                     <label className="group-legend">Purpose of Visit</label>
                     <div className="pills-grid" role="radiogroup" aria-label="Purpose of Visit">

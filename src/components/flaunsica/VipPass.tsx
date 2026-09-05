@@ -3,7 +3,7 @@ import QRCode from "qrcode";
 import type { GuestDetails } from "./types";
 
 function getTier(guest: GuestDetails) {
-  return guest.isBride === "Yes"
+  return guest.purpose?.includes("Wedding Shopping") || guest.purpose?.includes("Trousseau")
     ? "VIP BRIDE & TROUSSEAU GUEST"
     : "VIP CONNOISSEUR GUEST";
 }
