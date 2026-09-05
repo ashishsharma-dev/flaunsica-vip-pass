@@ -358,8 +358,7 @@ input {
   letter-spacing: 0.05em;
   padding: 0.55rem 1.2rem;
   border-radius: var(--radius-pill);
-  transition: var(--transition-smooth);
-  box-shadow: 0 2px 10px rgba(154, 40, 40, 0.2);
+  box-shadow: none;
   border: 1px solid rgba(212, 175, 55, 0.35);
   display: inline-flex;
   align-items: center;
@@ -368,9 +367,9 @@ input {
 }
 
 .btn-nav-rsvp:hover {
-  background: #821f1f;
-  transform: translateY(-1px);
-  box-shadow: 0 6px 16px rgba(154, 40, 40, 0.3);
+  background: var(--color-burgundy);
+  transform: none;
+  box-shadow: none;
 }
 
 /* ==========================================================================
@@ -534,18 +533,17 @@ input {
   padding: 0.95rem 1.35rem;
   border-radius: var(--radius-pill);
   border: 1px solid rgba(212, 175, 55, 0.45);
-  box-shadow: 0 6px 20px rgba(154, 40, 40, 0.28);
+  box-shadow: none;
   text-decoration: none;
   cursor: pointer;
-  transition: var(--transition-smooth);
 }
 
 .drawer-nav-btn:hover,
 .drawer-nav-btn.active {
-  background: #821f1f;
-  border-color: var(--color-gold);
-  transform: translateY(-2px);
-  box-shadow: 0 10px 26px rgba(154, 40, 40, 0.4);
+  background: var(--color-burgundy);
+  border-color: rgba(212, 175, 55, 0.45);
+  transform: none;
+  box-shadow: none;
 }
 
 .drawer-btn-label {
@@ -556,11 +554,6 @@ input {
   color: var(--color-gold);
   font-size: 0.9375rem;
   font-style: normal;
-  transition: transform 0.25s ease;
-}
-
-.drawer-nav-btn:hover .drawer-btn-sparkle {
-  transform: scale(1.25) rotate(15deg);
 }
 
 /* Backward-compatible aliases */
@@ -580,19 +573,18 @@ input {
   padding: 0.95rem 1.35rem;
   border-radius: var(--radius-pill);
   border: 1px solid rgba(212, 175, 55, 0.45);
-  box-shadow: 0 6px 20px rgba(154, 40, 40, 0.28);
+  box-shadow: none;
   text-decoration: none;
   cursor: pointer;
-  transition: var(--transition-smooth);
 }
 
 .drawer-link-curation:hover,
 .drawer-link-curation.active,
 .drawer-btn-rsvp:hover {
-  background: #821f1f;
-  border-color: var(--color-gold);
-  transform: translateY(-2px);
-  box-shadow: 0 10px 26px rgba(154, 40, 40, 0.4);
+  background: var(--color-burgundy);
+  border-color: rgba(212, 175, 55, 0.45);
+  transform: none;
+  box-shadow: none;
 }
 
 .drawer-bottom-info {
@@ -818,41 +810,28 @@ input {
   align-items: center;
   gap: 0.85rem;
   border: 1px solid rgba(212, 175, 55, 0.4);
-  box-shadow: 0 10px 30px rgba(154, 40, 40, 0.35);
-  transition: var(--transition-smooth);
+  box-shadow: none;
   cursor: pointer;
 }
 
 .btn-primary-luxury:hover {
-  background: #821f1f;
-  transform: translateY(-2px) scale(1.01);
-  box-shadow: 0 16px 36px rgba(154, 40, 40, 0.45);
-  border-color: var(--color-gold);
+  background: var(--color-burgundy);
+  transform: none;
+  box-shadow: none;
+  border-color: rgba(212, 175, 55, 0.4);
 }
 
 .btn-arrow {
   width: 18px;
   height: 18px;
-  transition: transform 0.25s ease;
 }
 
 .btn-primary-luxury:hover .btn-arrow {
-  transform: translateX(4px);
+  transform: none;
 }
 
 .btn-sheen {
-  position: absolute;
-  top: 0;
-  left: -100%;
-  width: 50%;
-  height: 100%;
-  background: linear-gradient(90deg,
-      transparent,
-      rgba(255, 255, 255, 0.3),
-      rgba(212, 175, 55, 0.4),
-      transparent);
-  transform: skewX(-25deg);
-  animation: buttonSheen 4.5s infinite;
+  display: none !important;
 }
 
 @keyframes buttonSheen {
@@ -1547,7 +1526,7 @@ input {
   background: var(--color-burgundy);
   border-color: var(--color-burgundy);
   color: #ffffff;
-  box-shadow: 0 4px 12px rgba(123, 17, 19, 0.25);
+  box-shadow: none;
 }
 
 .check-box-indicator {
@@ -1558,13 +1537,19 @@ input {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  font-size: 0.625rem;
+  flex-shrink: 0;
+}
+
+.check-pill input:checked+.pill-btn .check-box-indicator {
+  background: #ffffff;
+  color: var(--color-burgundy);
 }
 
 .check-pill input:checked+.pill-btn .check-box-indicator::after {
   content: '✓';
-  color: #ffffff;
-  font-weight: 900;
+  font-size: 10px;
+  font-weight: 800;
+  line-height: 1;
 }
 
 /* Form Submit button */
@@ -1592,15 +1577,14 @@ input {
   align-items: center;
   justify-content: center;
   gap: 0.75rem;
-  box-shadow: 0 12px 30px rgba(154, 40, 40, 0.35);
+  box-shadow: none;
   cursor: pointer;
-  transition: var(--transition-smooth);
 }
 
 .btn-submit-luxury:hover {
-  background: #821f1f;
-  transform: translateY(-2px);
-  box-shadow: 0 16px 38px rgba(154, 40, 40, 0.45);
+  background: var(--color-burgundy);
+  transform: none;
+  box-shadow: none;
 }
 
 .btn-icon-lock {
@@ -1816,31 +1800,31 @@ input {
   font-size: 0.9375rem;
   font-weight: 600;
   padding: 1.15rem 1.5rem;
-  border-radius: var(--radius-pill);
   cursor: pointer;
-  transition: var(--transition-fast);
   flex-shrink: 0;
+  box-shadow: none;
 }
 
 .btn-back-luxury:hover {
-  border-color: var(--color-burgundy);
-  color: var(--color-burgundy);
-  background: var(--color-burgundy-tint);
+  border-color: var(--color-gray-border);
+  color: var(--color-text-body);
+  background: #ffffff;
+  transform: none;
+  box-shadow: none;
 }
 
 .btn-icon-back,
 .btn-icon-arrow {
   width: 16px;
   height: 16px;
-  transition: transform 0.2s ease;
 }
 
 .btn-submit-luxury:hover .btn-icon-arrow {
-  transform: translateX(4px);
+  transform: none;
 }
 
 .btn-back-luxury:hover .btn-icon-back {
-  transform: translateX(-3px);
+  transform: none;
 }
 
 .step-node.is-clickable {
@@ -2582,50 +2566,56 @@ input {
   background: var(--color-burgundy);
   color: #ffffff;
   border: 1px solid rgba(212, 175, 55, 0.4);
-  box-shadow: 0 6px 20px rgba(154, 40, 40, 0.25);
+  box-shadow: none;
 }
 
 .btn-gold-fill:hover {
-  background: #821f1f;
-  transform: translateY(-2px);
-  box-shadow: 0 10px 25px rgba(154, 40, 40, 0.35);
+  background: var(--color-burgundy);
+  transform: none;
+  box-shadow: none;
 }
 
 .btn-outline-luxury {
   background: #ffffff;
   border: 1.5px solid var(--color-gray-border);
   color: var(--color-text-dark);
+  box-shadow: none;
 }
 
 .btn-outline-luxury:hover {
-  border-color: var(--color-burgundy);
-  color: var(--color-burgundy);
-  background: var(--color-burgundy-tint);
+  border-color: var(--color-gray-border);
+  color: var(--color-text-dark);
+  background: #ffffff;
+  transform: none;
+  box-shadow: none;
 }
 
 .btn-whatsapp {
   background: #25d366;
   color: #ffffff;
   border: none;
-  box-shadow: 0 4px 15px rgba(37, 211, 102, 0.3);
+  box-shadow: none;
 }
 
 .btn-whatsapp:hover {
-  background: #20ba5a;
-  transform: translateY(-2px);
-  box-shadow: 0 8px 20px rgba(37, 211, 102, 0.4);
+  background: #25d366;
+  transform: none;
+  box-shadow: none;
 }
 
 .btn-subtle {
   background: transparent;
   border: 1px dashed var(--color-gray-border);
   color: var(--color-text-muted);
+  box-shadow: none;
 }
 
 .btn-subtle:hover {
-  border-color: var(--color-burgundy);
-  color: var(--color-burgundy);
-  background: #ffffff;
+  border-color: var(--color-gray-border);
+  color: var(--color-text-muted);
+  background: transparent;
+  transform: none;
+  box-shadow: none;
 }
 
 /* ==========================================================================
@@ -3239,8 +3229,7 @@ input {
   letter-spacing: 0.05em;
   padding: 0.55rem 1.2rem;
   border-radius: var(--radius-pill);
-  transition: var(--transition-smooth);
-  box-shadow: 0 2px 10px rgba(154, 40, 40, 0.2);
+  box-shadow: none;
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -3250,10 +3239,10 @@ input {
 
 .btn-nav-curation:hover,
 .btn-nav-curation.active {
-  background: #821f1f;
-  transform: translateY(-1px);
-  box-shadow: 0 4px 14px rgba(154, 40, 40, 0.35);
-  border-color: var(--color-gold);
+  background: var(--color-burgundy);
+  transform: none;
+  box-shadow: none;
+  border-color: rgba(212, 175, 55, 0.35);
 }
 
 /* SECTION 1: HERO */
@@ -3372,20 +3361,19 @@ input {
   letter-spacing: 0.04em;
   padding: 0.95rem 2.25rem;
   border-radius: var(--radius-pill);
-  box-shadow: 0 10px 25px rgba(123, 17, 19, 0.35);
+  box-shadow: none;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  transition: var(--transition-smooth);
   border: 1px solid rgba(212, 175, 55, 0.35);
   cursor: pointer;
   text-decoration: none;
 }
 
 .btn-get-vip-pass-pill:hover {
-  background: #821f1f;
-  transform: translateY(-2px);
-  box-shadow: 0 14px 30px rgba(154, 40, 40, 0.45);
+  background: var(--color-burgundy);
+  transform: none;
+  box-shadow: none;
 }
 
 .new-rsvp-right-col {
@@ -3930,4 +3918,71 @@ input {
   .curation-brand-logo-img {
     max-height: 44px;
   }
+}
+
+/* ==========================================================================
+   GLOBAL: NO HOVER EFFECTS & NO SHADOWS ON BUTTONS
+   ========================================================================== */
+button,
+a.btn-nav-rsvp,
+a.btn-nav-curation,
+a.btn-get-vip-pass-pill,
+a.curation-cta-btn,
+.btn-nav-rsvp,
+.btn-nav-curation,
+.btn-get-vip-pass-pill,
+.btn-submit-luxury,
+.btn-primary-luxury,
+.btn-back-luxury,
+.drawer-nav-btn,
+.drawer-link-curation,
+.drawer-btn-rsvp,
+.btn-action,
+.btn-gold-fill,
+.btn-outline-luxury,
+.btn-whatsapp,
+.btn-subtle,
+.curation-cta-btn,
+.pill-btn,
+.recap-edit-btn,
+.btn-autofill-otp,
+.btn-modal-verify {
+  box-shadow: none !important;
+  text-shadow: none !important;
+  transition: none !important;
+}
+
+button:hover,
+button:active,
+button:focus,
+a.btn-nav-rsvp:hover,
+a.btn-nav-curation:hover,
+a.btn-get-vip-pass-pill:hover,
+a.curation-cta-btn:hover,
+.btn-nav-rsvp:hover,
+.btn-nav-curation:hover,
+.btn-get-vip-pass-pill:hover,
+.btn-submit-luxury:hover,
+.btn-primary-luxury:hover,
+.btn-back-luxury:hover,
+.drawer-nav-btn:hover,
+.drawer-link-curation:hover,
+.drawer-btn-rsvp:hover,
+.btn-action:hover,
+.btn-gold-fill:hover,
+.btn-outline-luxury:hover,
+.btn-whatsapp:hover,
+.btn-subtle:hover,
+.curation-cta-btn:hover,
+.pill-btn:hover,
+.recap-edit-btn:hover,
+.btn-autofill-otp:hover,
+.btn-modal-verify:hover {
+  transform: none !important;
+  box-shadow: none !important;
+  filter: none !important;
+}
+
+.btn-sheen {
+  display: none !important;
 }
