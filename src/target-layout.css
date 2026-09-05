@@ -471,8 +471,20 @@ input {
   border-bottom: 1px solid rgba(154, 40, 40, 0.12);
 }
 
+.drawer-brand-header {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
 .drawer-edition-logo {
-  height: 32px;
+  height: 28px;
+  width: auto;
+  object-fit: contain;
+}
+
+.drawer-brand-logo {
+  height: 28px;
   width: auto;
   object-fit: contain;
 }
@@ -504,57 +516,81 @@ input {
   padding: 2.25rem 0;
 }
 
-.drawer-link-curation {
+/* Beautiful Matching Luxury Pill Buttons in Mobile Drawer */
+.drawer-nav-btn {
   display: flex;
   align-items: center;
-  gap: 0.75rem;
-  background: #ffffff;
-  border: 1px solid rgba(212, 175, 55, 0.35);
-  color: var(--color-burgundy);
+  justify-content: space-between;
+  width: 100%;
+  background: var(--color-burgundy);
+  color: #ffffff;
   font-family: var(--font-serif-display);
-  font-size: 1.25rem;
+  font-size: 1.125rem;
   font-style: italic;
-  padding: 1.05rem 1.35rem;
-  border-radius: var(--radius-md);
+  font-weight: 500;
+  letter-spacing: 0.03em;
+  padding: 1rem 1.4rem;
+  border-radius: var(--radius-pill);
+  border: 1px solid rgba(212, 175, 55, 0.45);
+  box-shadow: 0 6px 20px rgba(154, 40, 40, 0.28);
   text-decoration: none;
+  cursor: pointer;
   transition: var(--transition-smooth);
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.04);
 }
 
-.drawer-link-curation .drawer-sparkle {
+.drawer-nav-btn:hover,
+.drawer-nav-btn.active {
+  background: #821f1f;
+  border-color: var(--color-gold);
+  transform: translateY(-2px);
+  box-shadow: 0 10px 26px rgba(154, 40, 40, 0.4);
+}
+
+.drawer-btn-label {
+  display: inline-block;
+}
+
+.drawer-btn-sparkle {
   color: var(--color-gold);
-  font-size: 1.1rem;
+  font-size: 0.9375rem;
+  font-style: normal;
+  transition: transform 0.25s ease;
 }
 
-.drawer-link-curation:hover,
-.drawer-link-curation.active {
-  background: var(--color-burgundy-tint);
-  border-color: var(--color-burgundy);
-  color: var(--color-burgundy-dark);
+.drawer-nav-btn:hover .drawer-btn-sparkle {
+  transform: scale(1.25) rotate(15deg);
 }
 
+/* Backward-compatible aliases */
+.drawer-link-curation,
 .drawer-btn-rsvp {
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: space-between;
+  width: 100%;
   background: var(--color-burgundy);
   color: #ffffff;
-  font-size: 1.05rem;
-  font-weight: 600;
-  letter-spacing: 0.04em;
-  padding: 1.05rem 1.35rem;
+  font-family: var(--font-serif-display);
+  font-size: 1.125rem;
+  font-style: italic;
+  font-weight: 500;
+  letter-spacing: 0.03em;
+  padding: 1rem 1.4rem;
   border-radius: var(--radius-pill);
+  border: 1px solid rgba(212, 175, 55, 0.45);
+  box-shadow: 0 6px 20px rgba(154, 40, 40, 0.28);
   text-decoration: none;
-  border: 1px solid rgba(212, 175, 55, 0.4);
-  box-shadow: 0 8px 24px rgba(154, 40, 40, 0.3);
-  transition: var(--transition-smooth);
   cursor: pointer;
+  transition: var(--transition-smooth);
 }
 
+.drawer-link-curation:hover,
+.drawer-link-curation.active,
 .drawer-btn-rsvp:hover {
   background: #821f1f;
+  border-color: var(--color-gold);
   transform: translateY(-2px);
-  box-shadow: 0 12px 28px rgba(154, 40, 40, 0.4);
+  box-shadow: 0 10px 26px rgba(154, 40, 40, 0.4);
 }
 
 .drawer-bottom-info {

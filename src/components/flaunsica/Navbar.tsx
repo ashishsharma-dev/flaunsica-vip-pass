@@ -91,7 +91,7 @@ export function Navbar({ onGetVipPass }: { onGetVipPass?: () => void }) {
 
             {isCuratedPage ? (
               <a href="/#rsvp-section" className="btn-nav-rsvp">
-                Get VIP Pass
+                Get Invite
               </a>
             ) : (
               <a
@@ -99,7 +99,7 @@ export function Navbar({ onGetVipPass }: { onGetVipPass?: () => void }) {
                 onClick={handleVipPassClick}
                 className="btn-nav-rsvp"
               >
-                Get VIP Pass
+                Get Invite
               </a>
             )}
           </div>
@@ -130,13 +130,22 @@ export function Navbar({ onGetVipPass }: { onGetVipPass?: () => void }) {
         >
           <div className="mobile-nav-drawer" onClick={(e) => e.stopPropagation()}>
             <div className="drawer-top-bar">
-              <img
-                src="/assets/logos/10th-edition-logo-red.svg"
-                alt="10th Refined Edition"
-                className="drawer-edition-logo"
-                width={75}
-                height={32}
-              />
+              <div className="drawer-brand-header">
+                <img
+                  src="/assets/logos/10th-edition-logo-red.svg"
+                  alt="10th Refined Edition"
+                  className="drawer-edition-logo"
+                  width={68}
+                  height={28}
+                />
+                <img
+                  src="/assets/logos/flaunsica-logo-red.svg"
+                  alt="Flaunsica"
+                  className="drawer-brand-logo"
+                  width={110}
+                  height={30}
+                />
+              </div>
               <button
                 type="button"
                 className="drawer-close-btn"
@@ -150,31 +159,33 @@ export function Navbar({ onGetVipPass }: { onGetVipPass?: () => void }) {
             <nav className="drawer-menu-links">
               <Link
                 to="/curated"
-                className={`drawer-link-curation ${isCuratedPage ? "active" : ""}`}
+                className={`drawer-nav-btn ${isCuratedPage ? "active" : ""}`}
                 onClick={() => setMobileMenuOpen(false)}
               >
-                <span className="drawer-sparkle">✦</span>
-                <span>The Curation</span>
+                <span className="drawer-btn-label">The Curation</span>
+                <span className="drawer-btn-sparkle">✦</span>
               </Link>
 
               {isCuratedPage ? (
                 <a
                   href="/#rsvp-section"
-                  className="drawer-btn-rsvp"
+                  className="drawer-nav-btn"
                   onClick={() => setMobileMenuOpen(false)}
                 >
-                  Get VIP Pass
+                  <span className="drawer-btn-label">Get Invite</span>
+                  <span className="drawer-btn-sparkle">✦</span>
                 </a>
               ) : (
                 <a
                   href="#rsvp-section"
-                  className="drawer-btn-rsvp"
+                  className="drawer-nav-btn"
                   onClick={(e) => {
                     setMobileMenuOpen(false);
                     handleVipPassClick(e);
                   }}
                 >
-                  Get VIP Pass
+                  <span className="drawer-btn-label">Get Invite</span>
+                  <span className="drawer-btn-sparkle">✦</span>
                 </a>
               )}
             </nav>

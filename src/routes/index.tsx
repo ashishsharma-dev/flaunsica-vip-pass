@@ -94,7 +94,7 @@ function Index() {
                 }}
                 className="btn-get-vip-pass-pill"
               >
-                Get VIP Pass
+                Get Invite
               </a>
             </div>
 
