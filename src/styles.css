@@ -63,11 +63,11 @@
 :root {
   --radius: 0.25rem;
 
-  /* Off-white alabaster canvas */
-  --background: oklch(0.976 0.006 85);
+  /* Pure white canvas */
+  --background: #ffffff;
   --foreground: oklch(0.205 0.004 60);
 
-  --alabaster: oklch(0.976 0.006 85);
+  --alabaster: #ffffff;
   --ink: oklch(0.205 0.004 60);
 
   --card: oklch(1 0 0);

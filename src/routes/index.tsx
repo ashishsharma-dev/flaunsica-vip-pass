@@ -190,7 +190,7 @@ function Index() {
                       scrollToRsvp();
                     }}
                   >
-                    VIP Fast-Track RSVP
+                    Get Invite
                   </a>
                 </li>
               </ul>

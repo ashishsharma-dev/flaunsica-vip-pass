@@ -1,240 +1,249 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute } from "@tanstack/react-router";
 import { Navbar } from "@/components/flaunsica/Navbar";
-import { CuratedSlider, type SlideItem } from "@/components/flaunsica/CuratedSlider";
 
 export const Route = createFileRoute("/curated")({
   component: CuratedPage,
 });
 
-const FASHION_SLIDES: SlideItem[] = [
-  {
-    id: "f1",
-    image: "/assets/hero-couture.jpg",
-    title: "Couture Bridal & Royal Trousseau",
-    designer: "Prestha Curations",
-    tagline: "Hand-embellished zardozi, ethereal silks, and timeless silhouettes.",
-    category: "Couture Fashion",
-  },
-  {
-    id: "f2",
-    image: "/assets/ad1.jpg",
-    title: "Contemporary Pret & Resort Wear",
-    designer: "Leading Indian Ateliers",
-    tagline: "Modern luxury draping, handcrafted weaves, and festive elegance.",
-    category: "Designer Pret",
-  },
-  {
-    id: "f3",
-    image: "/assets/ad2.jpg",
-    title: "Heritage Weaves & Banarasi Masterpieces",
-    designer: "Master Artisans",
-    tagline: "Reviving authentic handlooms with regal gold & silver zari work.",
-    category: "Heritage Textiles",
-  },
+interface BrandPartner {
+  name: string;
+  logo: string;
+}
+
+const FASHION_COUTURE_BRANDS: BrandPartner[] = [
+  { name: "Afew Rahul Mishra", logo: "/assets/Fashion And Couture Designers/Afew Rahul Mishra.png" },
+  { name: "AK-OK", logo: "/assets/Fashion And Couture Designers/Ak OK.png" },
+  { name: "Amishi London", logo: "/assets/Fashion And Couture Designers/amishi london.png" },
+  { name: "Ankush Jain", logo: "/assets/Fashion And Couture Designers/ankush_jain_logo.png" },
+  { name: "Daatri", logo: "/assets/Fashion And Couture Designers/Daatri (1).png" },
+  { name: "Dhaaga", logo: "/assets/Fashion And Couture Designers/Dhaaga.png" },
+  { name: "Dusala", logo: "/assets/Fashion And Couture Designers/Dusala.png" },
+  { name: "Dusha", logo: "/assets/Fashion And Couture Designers/Dusha.png" },
+  { name: "Hirika D", logo: "/assets/Fashion And Couture Designers/Hirika D Logo.png" },
+  { name: "Ivory Rose", logo: "/assets/Fashion And Couture Designers/Ivory Rose.png" },
+  { name: "Jigya M", logo: "/assets/Fashion And Couture Designers/JIgya J.png" },
+  { name: "Kalighata", logo: "/assets/Fashion And Couture Designers/Kalighata.png" },
+  { name: "Kashmiraa", logo: "/assets/Fashion And Couture Designers/Kashmiraa.png" },
+  { name: "Kavita B", logo: "/assets/Fashion And Couture Designers/Kavita B.png" },
+  { name: "Khanijo", logo: "/assets/Fashion And Couture Designers/Khanijo.png" },
+  { name: "Kliitche", logo: "/assets/Fashion And Couture Designers/Kliitche.png" },
+  { name: "Kloset by K", logo: "/assets/Fashion And Couture Designers/Kloset by K logo.png" },
+  { name: "Label Vee", logo: "/assets/Fashion And Couture Designers/Label Vee.png" },
+  { name: "Main Atelier", logo: "/assets/Fashion And Couture Designers/main logo.png" },
+  { name: "Marabu", logo: "/assets/Fashion And Couture Designers/Marabu.png" },
+  { name: "Maya", logo: "/assets/Fashion And Couture Designers/Maya.png" },
+  { name: "Morphe", logo: "/assets/Fashion And Couture Designers/Morphe.png" },
+  { name: "Naki India", logo: "/assets/Fashion And Couture Designers/Naki India .png" },
+  { name: "Nandita Bist", logo: "/assets/Fashion And Couture Designers/Nandita_bist.png" },
+  { name: "Pallavi", logo: "/assets/Fashion And Couture Designers/Pallavi logo.png" },
+  { name: "Phases by Alisha", logo: "/assets/Fashion And Couture Designers/Phases by Alisha.png" },
+  { name: "RAH Tribe", logo: "/assets/Fashion And Couture Designers/RAH Tribe.png" },
+  { name: "Redifine", logo: "/assets/Fashion And Couture Designers/Redifine.png" },
+  { name: "Sainy Garg", logo: "/assets/Fashion And Couture Designers/Sainy Garg.png" },
+  { name: "Sameer Patel", logo: "/assets/Fashion And Couture Designers/Sameer Patel.png" },
+  { name: "Sanhi", logo: "/assets/Fashion And Couture Designers/Sanhi.png" },
+  { name: "Sav. Boond", logo: "/assets/Fashion And Couture Designers/Sav. boond.png" },
+  { name: "Sehar", logo: "/assets/Fashion And Couture Designers/Sehar.png" },
+  { name: "Sila", logo: "/assets/Fashion And Couture Designers/Sila.png" },
+  { name: "Siorai", logo: "/assets/Fashion And Couture Designers/Siorai.png" },
+  { name: "Smriti", logo: "/assets/Fashion And Couture Designers/Smriti.png" },
+  { name: "Store Ivory", logo: "/assets/Fashion And Couture Designers/Store Ivory.png" },
+  { name: "Stotram", logo: "/assets/Fashion And Couture Designers/Stotram.png" },
+  { name: "The Pink Mirror", logo: "/assets/Fashion And Couture Designers/The Pink MIrror.png" },
+  { name: "Trisara", logo: "/assets/Fashion And Couture Designers/Trisara.png" },
+  { name: "Vedangi", logo: "/assets/Fashion And Couture Designers/Vedangi logo.png" },
+  { name: "Vivek Karunakaran", logo: "/assets/Fashion And Couture Designers/vivek Karunakaran.png" },
+  { name: "Yashodhara", logo: "/assets/Fashion And Couture Designers/Yashodhara.png" },
+  { name: "Zephyr", logo: "/assets/Fashion And Couture Designers/Zephyr_logo.png" },
 ];
 
-const JEWELLERY_SLIDES: SlideItem[] = [
-  {
-    id: "j1",
-    image: "/assets/ad1.jpg",
-    title: "High Jewellery & Polki Heirlooms",
-    designer: "Heritage Master Jewellers",
-    tagline: "Uncut diamonds, syndicate polki, and Zambian emeralds crafted for royalty.",
-    category: "Fine Jewellery",
-  },
-  {
-    id: "j2",
-    image: "/assets/hero-couture.jpg",
-    title: "Solitaire Diamonds & Modern Elegance",
-    designer: "Connoisseur Vault",
-    tagline: "Certified high-grade solitaires set in delicate rose & platinum designs.",
-    category: "Diamond Couture",
-  },
-  {
-    id: "j3",
-    image: "/assets/ad2.jpg",
-    title: "Temple & Antique Gold Artistry",
-    designer: "Southern Heritage Goldsmiths",
-    tagline: "Detailed nakashi engraving and authentic South Indian heirloom necklaces.",
-    category: "Antique Gold",
-  },
+const JEWELLERY_BRANDS: BrandPartner[] = [
+  { name: "Deepa Gurnani", logo: "/assets/Jewellery/Deepa Gurnanai.png" },
+  { name: "Ennea Jewels", logo: "/assets/Jewellery/Ennea.png" },
+  { name: "MNSH", logo: "/assets/Jewellery/MNSH.png" },
+  { name: "Naar Jewels", logo: "/assets/Jewellery/Naar.png" },
+  { name: "Pichola", logo: "/assets/Jewellery/Pichola.png" },
+  { name: "Raas Jewellers", logo: "/assets/Jewellery/Raas Jewellers.png" },
+  { name: "Rah Jewels", logo: "/assets/Jewellery/Rah Jewels.png" },
+  { name: "Wavelength", logo: "/assets/Jewellery/Wavelength.png" },
 ];
 
-const ACCESSORIES_SLIDES: SlideItem[] = [
-  {
-    id: "a1",
-    image: "/assets/ad2.jpg",
-    title: "Artisanal Clutches & Minaudières",
-    designer: "Bespoke Luxury Ateliers",
-    tagline: "Hand-embroidered box clutches, mother-of-pearl inlays, and jeweled handles.",
-    category: "Luxury Bags",
-  },
-  {
-    id: "a2",
-    image: "/assets/hero-couture.jpg",
-    title: "Handcrafted Bridal Footwear & Juttis",
-    designer: "Couture Cordwainers",
-    tagline: "Plush leather insoles embellished with dabka, gota, and fine crystals.",
-    category: "Couture Footwear",
-  },
+const ACCESSORIES_BRANDS: BrandPartner[] = [
+  { name: "Mesh", logo: "/assets/Accessories/Mesh.png" },
+  { name: "Midorii", logo: "/assets/Accessories/midorii.png" },
+  { name: "Saree Sneakers", logo: "/assets/Accessories/Saree Sneaakers.png" },
+  { name: "Wrap Game", logo: "/assets/Accessories/Wrapgame.png" },
 ];
 
-const LIFESTYLE_SLIDES: SlideItem[] = [
-  {
-    id: "l1",
-    image: "/assets/ad1.jpg",
-    title: "Haute Parfumerie & Pure Oudhs",
-    designer: "Ajmal & Master Noses",
-    tagline: "Intoxicating amber, rare Damask rose, and ceremonial incense creations.",
-    category: "Fragrance & Scents",
-  },
-  {
-    id: "l2",
-    image: "/assets/ad2.jpg",
-    title: "Heirloom Living & Artisanal Tableware",
-    designer: "Luxury Decor Collectives",
-    tagline: "Hand-blown glassware, gold leaf servers, and bespoke porcelain sets.",
-    category: "Home & Living",
-  },
+const LIFESTYLE_BRANDS: BrandPartner[] = [
+  { name: "Diva Riche", logo: "/assets/Home & Lifestyle/Diva Riche.png" },
 ];
 
-// Brand Partners
-const FASHION_BRANDS = [
-  "Aadyam Handwoven",
-  "Ahujasons",
-  "Ajmal Dubai",
-  "Dyson",
-  "Indian Heirloom Co.",
-  "Merci",
-  "Momentz",
-  "Moroccanoil",
-  "Nebula by Titan",
-  "Nespresso",
-  "Rivvaz",
-  "Shynora",
-  "Shakkar",
-];
-
-const JEWELLERY_BRANDS = [
-  "Bishan Since 1933",
-  "Charu Jewels",
-  "De Beers Group",
-  "Diva Jewels",
-  "Gajraj Jewellers",
-  "Forevermark",
-];
-
-const ACCESSORIES_BRANDS = [
-  "Rivvaz Luxury",
-  "Shynora Handcrafted",
-  "Indian Heirloom Co.",
-  "Merci Accessories",
-  "Ahujasons Shawls",
-];
-
-const LIFESTYLE_BRANDS = [
-  "Ajmal Dubai Fragrances",
-  "Dyson Luxury Living",
-  "Momentz Silver & Decor",
-  "Nespresso Coffee Connoisseur",
-  "Nebula Fine Timepieces",
-];
-
-function BrandStrip({ brands }: { brands: string[] }) {
+function BrandGrid({ brands }: { brands: BrandPartner[] }) {
   return (
-    <div className="curated-brand-strip">
-      <div className="curated-brand-grid">
-        {brands.map((brand, i) => (
-          <div key={i} className="curated-brand-badge">
-            <span className="brand-badge-name">{brand}</span>
+    <div className="curation-brand-grid">
+      {brands.map((brand, i) => (
+        <div key={i} className="curation-brand-card">
+          <div className="curation-brand-logo-frame">
+            <img
+              src={brand.logo}
+              alt={brand.name}
+              className="curation-brand-logo-img"
+              loading="lazy"
+            />
           </div>
-        ))}
-      </div>
+          <span className="curation-brand-title">{brand.name}</span>
+        </div>
+      ))}
     </div>
   );
 }
 
 function CuratedPage() {
   return (
-    <div className="min-h-screen bg-[#faf8f5] text-[#1a1a1a]">
-      {/* Universal Navbar */}
+    <div className="min-h-screen bg-white text-[#1a1a1a]">
+      {/* Universal Header */}
       <Navbar />
 
       <main className="curated-main-wrapper">
-        {/* Full-width Crimson Sub-Banner */}
+        {/* Full-width Crimson Ribbon Bar */}
         <div className="curation-ribbon-bar">
           <div className="curation-ribbon-content">
-            <span className="ribbon-sparkle">✦</span>
             <h1 className="curation-ribbon-title">The Curation</h1>
-            <span className="ribbon-sparkle">✦</span>
           </div>
         </div>
 
-        {/* Section 1: Fashion And Couture Designers */}
+        {/* Vogue-style Category Sub-Navigation Bar */}
+        <nav className="curation-subnav-bar" aria-label="Category Navigation">
+          <div className="curation-subnav-links">
+            <a href="#fashion-couture" className="curation-subnav-link">
+              Fashion &amp; Couture ({FASHION_COUTURE_BRANDS.length})
+            </a>
+            <a href="#jewellery" className="curation-subnav-link">
+              Jewellery ({JEWELLERY_BRANDS.length})
+            </a>
+            <a href="#accessories" className="curation-subnav-link">
+              Accessories ({ACCESSORIES_BRANDS.length})
+            </a>
+            <a href="#home-lifestyle" className="curation-subnav-link">
+              Home &amp; Lifestyle ({LIFESTYLE_BRANDS.length})
+            </a>
+          </div>
+        </nav>
+
+        {/* SECTION 1: FASHION AND COUTURE DESIGNERS */}
         <section className="curation-category-section" id="fashion-couture">
-          <div className="curation-container">
-            <div className="curation-section-header">
-              <h2 className="curation-category-title">Fashion And Couture Designers</h2>
+          {/* Edge-to-Edge Single Banner Image */}
+          <div className="curation-edge-banner">
+            <img
+              src="/assets/hero-couture.jpg"
+              alt="Fashion And Couture Designers"
+              className="curation-edge-banner-img"
+              loading="eager"
+            />
+            <div className="curation-edge-banner-overlay">
+              {/* <span className="curation-edge-banner-badge">CATEGORY 01 • ATELIER SHOWCASE</span> */}
+              {/* <h2 className="curation-edge-banner-title">Fashion And Couture Designers</h2> */}
+            </div>
+          </div>
+
+          <div className="curation-brand-partners-wrap">
+            <div className="curation-category-intro">
+              {/* <span className="curation-category-count">{FASHION_COUTURE_BRANDS.length} Brand Partners</span> */}
+              <h3 className="curation-category-headline">Fashion And Couture Designers</h3>
               <div className="curation-title-divider" />
             </div>
 
-            {/* Interactive Touch Slider */}
-            <CuratedSlider items={FASHION_SLIDES} autoplayInterval={4500} />
-
-            {/* Brand Logos Strip */}
-            <BrandStrip brands={FASHION_BRANDS} />
+            {/* Brand Logos Grid */}
+            <BrandGrid brands={FASHION_COUTURE_BRANDS} />
           </div>
         </section>
 
-        {/* Section 2: Jewellery Designers */}
+        {/* SECTION 2: JEWELLERY DESIGNERS */}
         <section className="curation-category-section" id="jewellery">
-          <div className="curation-container">
-            <div className="curation-section-header">
-              <h2 className="curation-category-title">Jewellery Designers</h2>
+          {/* Edge-to-Edge Single Banner Image */}
+          <div className="curation-edge-banner">
+            <img
+              src="/assets/ad1.jpg"
+              alt="Jewellery Designers"
+              className="curation-edge-banner-img"
+              loading="lazy"
+            />
+            <div className="curation-edge-banner-overlay">
+              {/* <span className="curation-edge-banner-badge">CATEGORY 02 • HIGH JEWELLERY</span> */}
+              {/* <h2 className="curation-edge-banner-title">Jewellery Designers</h2> */}
+            </div>
+          </div>
+
+          <div className="curation-brand-partners-wrap">
+            <div className="curation-category-intro">
+              {/* <span className="curation-category-count">{JEWELLERY_BRANDS.length} Brand Partners</span> */}
+              <h3 className="curation-category-headline">Jewellery Designers</h3>
               <div className="curation-title-divider" />
             </div>
 
-            {/* Interactive Touch Slider */}
-            <CuratedSlider items={JEWELLERY_SLIDES} autoplayInterval={5000} />
-
-            {/* Brand Logos Strip */}
-            <BrandStrip brands={JEWELLERY_BRANDS} />
+            {/* Brand Logos Grid */}
+            <BrandGrid brands={JEWELLERY_BRANDS} />
           </div>
         </section>
 
-        {/* Section 3: Accessories */}
+        {/* SECTION 3: ACCESSORIES */}
         <section className="curation-category-section" id="accessories">
-          <div className="curation-container">
-            <div className="curation-section-header">
-              <h2 className="curation-category-title">Accessories</h2>
+          {/* Edge-to-Edge Single Banner Image */}
+          <div className="curation-edge-banner">
+            <img
+              src="/assets/ad2.jpg"
+              alt="Artisanal Accessories"
+              className="curation-edge-banner-img"
+              loading="lazy"
+            />
+            <div className="curation-edge-banner-overlay">
+              {/* <span className="curation-edge-banner-badge">CATEGORY 03 • ARTISANAL ACCESSORIES</span> */}
+              {/* <h2 className="curation-edge-banner-title">Accessories</h2> */}
+            </div>
+          </div>
+
+          <div className="curation-brand-partners-wrap">
+            <div className="curation-category-intro">
+              {/* <span className="curation-category-count">{ACCESSORIES_BRANDS.length} Brand Partners</span> */}
+              <h3 className="curation-category-headline">Accessories</h3>
               <div className="curation-title-divider" />
             </div>
 
-            {/* Interactive Touch Slider */}
-            <CuratedSlider items={ACCESSORIES_SLIDES} autoplayInterval={4800} />
-
-            {/* Brand Logos Strip */}
-            <BrandStrip brands={ACCESSORIES_BRANDS} />
+            {/* Brand Logos Grid */}
+            <BrandGrid brands={ACCESSORIES_BRANDS} />
           </div>
         </section>
 
-        {/* Section 4: Home & Lifestyle */}
+        {/* SECTION 4: HOME & LIFESTYLE */}
         <section className="curation-category-section" id="home-lifestyle">
-          <div className="curation-container">
-            <div className="curation-section-header">
-              <h2 className="curation-category-title">Home & Lifestyle</h2>
+          {/* Edge-to-Edge Single Banner Image */}
+          <div className="curation-edge-banner">
+            <img
+              src="/assets/hero-couture.jpg"
+              alt="Home & Lifestyle"
+              className="curation-edge-banner-img"
+              loading="lazy"
+            />
+            <div className="curation-edge-banner-overlay">
+              {/* <span className="curation-edge-banner-badge">CATEGORY 04 • CURATED LIVING</span> */}
+              {/* <h2 className="curation-edge-banner-title">Home &amp; Lifestyle</h2> */}
+            </div>
+          </div>
+
+          <div className="curation-brand-partners-wrap">
+            <div className="curation-category-intro">
+              {/* <span className="curation-category-count">{LIFESTYLE_BRANDS.length} Brand Partner</span> */}
+              <h3 className="curation-category-headline">Home &amp; Lifestyle</h3>
               <div className="curation-title-divider" />
             </div>
 
-            {/* Interactive Touch Slider */}
-            <CuratedSlider items={LIFESTYLE_SLIDES} autoplayInterval={5200} />
-
-            {/* Brand Logos Strip */}
-            <BrandStrip brands={LIFESTYLE_BRANDS} />
+            {/* Brand Logos Grid */}
+            <BrandGrid brands={LIFESTYLE_BRANDS} />
           </div>
         </section>
 
-        {/* Bottom VIP Pass Call to Action */}
+        {/* Bottom VIP Invitation Call to Action */}
         <section className="curation-cta-section">
           <div className="curation-cta-card">
             <span className="curation-cta-badge">10TH REFINED EDITION • 23 SEPT 2026</span>
@@ -243,7 +252,7 @@ function CuratedPage() {
               Join Hyderabad’s most discerning tastemakers and collectors at Park Hyatt, Banjara Hills. Complimentary VIP passes are strictly limited.
             </p>
             <a href="/#rsvp-section" className="btn-submit-luxury curation-cta-btn">
-              <span>Request Your VIP Invitation</span>
+              <span>Get Invite</span>
               <span className="btn-sheen" />
               <svg className="btn-icon-lock" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                 <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
@@ -258,40 +267,61 @@ function CuratedPage() {
       <footer className="site-footer">
         <div className="footer-container">
           <div className="footer-grid">
-            <div className="brand-col">
-              <img
-                src="/assets/logos/flaunsica-logo-white.svg"
-                alt="Flaunsica Hyderabad"
-                className="footer-brand-logo"
-                width={175}
-                height={40}
-              />
+            <div className="footer-col brand-col">
+              <div className="footer-logo-wrap">
+                <img
+                  src="/assets/logos/flaunsica-logo-white.svg"
+                  alt="Flaunsica Hyderabad"
+                  className="footer-brand-logo"
+                  width={175}
+                  height={49}
+                />
+              </div>
               <p className="f-tagline">
-                The 10th Refined Edition. Hyderabad’s premier exhibition of bespoke luxury, couture fashion, and fine jewellery.
+                The premier sanctuary for luxury couture, haute jewellery, and refined pret trunk shows in Hyderabad.
               </p>
               <div className="f-curated">
-                <span>Curated By</span>
+                <span>Curated by</span>
                 <strong>Prestha</strong>
               </div>
             </div>
 
             <div className="footer-col">
-              <h3 className="f-heading">Exhibition Venue</h3>
-              <p className="f-detail-line"><strong>Park Hyatt Hyderabad</strong></p>
-              <p className="f-detail-line">Road No. 2, Banjara Hills</p>
-              <p className="f-detail-line">Hyderabad, Telangana 500034</p>
+              <h4 className="f-heading">10TH REFINED EDITION</h4>
+              <ul className="f-links">
+                <li><span>Wednesday, 23 September 2026</span></li>
+                <li><span>10:00 AM to 8:30 PM</span></li>
+                <li><span>The Ballroom, Park Hyatt, Banjara Hills</span></li>
+                <li>
+                  <a href="/#rsvp-section">
+                    Get Invite
+                  </a>
+                </li>
+              </ul>
             </div>
 
             <div className="footer-col">
-              <h3 className="f-heading">Date & Concierge</h3>
-              <p className="f-detail-line"><strong>Wednesday, 23 September 2026</strong></p>
-              <p className="f-detail-line">10:00 AM – 8:30 PM IST</p>
-              <p className="f-detail-line">concierge@flaunsica.com</p>
+              <h4 className="f-heading">EXHIBITION SECTIONS</h4>
+              <ul className="f-links">
+                <li><a href="/curated#fashion-couture">Fashion &amp; Couture Designers</a></li>
+                <li><a href="/curated#jewellery">Fine Jewellery Designers</a></li>
+                <li><a href="/curated#accessories">Luxury Accessories</a></li>
+                <li><a href="/curated#home-lifestyle">Home &amp; Lifestyle</a></li>
+              </ul>
+            </div>
+
+            <div className="footer-col">
+              <h4 className="f-heading">VIP DESK &amp; INQUIRIES</h4>
+              <ul className="f-links">
+                <li><a href="mailto:concierge@flaunsica.com">concierge@flaunsica.com</a></li>
+                <li><span>Park Hyatt, Banjara Hills, Hyderabad</span></li>
+                <li><span>Official Instagram: @flaunsica</span></li>
+              </ul>
             </div>
           </div>
 
           <div className="footer-bottom">
-            <p className="copy-text">© 2026 Flaunsica. All Rights Reserved. Curated by Prestha.</p>
+            <p>&copy; 2026 Flaunsica Hyderabad. Curated by Prestha. All rights reserved.</p>
             <div className="footer-legal">
               <a href="#">Privacy Policy</a>
               <a href="#">Terms of Admission</a>
