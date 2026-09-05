@@ -1007,10 +1007,17 @@ button, input {
 
 /* Telephone group */
 .tel-group {
+  position: relative;
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
+}
+
+.tel-input-wrap {
+  position: relative;
+  display: flex;
   align-items: flex-end;
   gap: 0.5rem;
+  width: 100%;
 }
 
 .tel-prefix-box {
@@ -1023,14 +1030,26 @@ button, input {
   font-weight: 600;
   color: var(--color-text-dark);
   height: 48px;
+  flex-shrink: 0;
 }
 
 .tel-input {
   flex: 1;
+  width: 100%;
 }
 
 .tel-label {
   left: 3.5rem;
+}
+
+.form-input:focus ~ .tel-label,
+.form-input:not(:placeholder-shown) ~ .tel-label {
+  top: 0;
+  left: 0;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  color: var(--color-burgundy);
 }
 
 .field-error {
@@ -1038,6 +1057,7 @@ button, input {
   font-size: 0.75rem;
   color: #dc2626;
   margin-top: 0.35rem;
+  width: 100%;
 }
 
 .form-group.has-error .form-input {
@@ -1049,9 +1069,12 @@ button, input {
 }
 
 .field-hint {
+  display: block;
   font-size: 0.75rem;
   color: var(--color-text-muted);
   margin-top: 0.35rem;
+  width: 100%;
+  clear: both;
 }
 
 .form-divider {

@@ -245,23 +245,25 @@ export function RsvpFlow() {
 
             {/* 2. WhatsApp / Mobile Number */}
             <div className={`form-group floating-group tel-group ${errors.phone ? "has-error" : ""}`}>
-              <div className="tel-prefix-box">
-                <span className="tel-flag">🇮🇳</span>
-                <span className="tel-code">+91</span>
+              <div className="tel-input-wrap">
+                <div className="tel-prefix-box">
+                  <span className="tel-flag">🇮🇳</span>
+                  <span className="tel-code">+91</span>
+                </div>
+                <input
+                  type="tel"
+                  id="mobile"
+                  name="mobile"
+                  className="form-input tel-input"
+                  placeholder=" "
+                  maxLength={10}
+                  required
+                  autoComplete="tel-national"
+                  value={guest.phone}
+                  onChange={(e) => set("phone", e.target.value.replace(/\D/g, "").slice(0, 10))}
+                />
+                <label htmlFor="mobile" className="floating-label tel-label">WhatsApp / Mobile Number *</label>
               </div>
-              <input
-                type="tel"
-                id="mobile"
-                name="mobile"
-                className="form-input tel-input"
-                placeholder=" "
-                maxLength={10}
-                required
-                autoComplete="tel-national"
-                value={guest.phone}
-                onChange={(e) => set("phone", e.target.value.replace(/\D/g, "").slice(0, 10))}
-              />
-              <label htmlFor="mobile" className="floating-label tel-label">WhatsApp / Mobile Number *</label>
               {errors.phone ? <span className="field-error">{errors.phone}</span> : null}
               <span className="field-hint">Your QR pass will be sent to this WhatsApp number & email</span>
             </div>
