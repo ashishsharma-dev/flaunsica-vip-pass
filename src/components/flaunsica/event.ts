@@ -4,7 +4,7 @@ export const EVENT = {
   dateLabel: "23 September 2026",
   venue: "Park Hyatt, Banjara Hills, Hyderabad",
   access: "Exclusive VIP Entry by RSVP",
-  curators: "Curated by Aishwarya & Prestha",
+  curators: "Curated by Prestha",
   icsStart: "20260923T053000Z",
   icsEnd: "20260923T133000Z",
 } as const;

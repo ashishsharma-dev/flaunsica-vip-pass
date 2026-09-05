@@ -1,7 +1,7 @@
 Act as an elite UI/UX designer and full-stack landing page developer. Build a luxury, mobile-first guest registration and VIP pass landing page for "Flaunsica Hyderabad – 10th Refined Edition".
 
 ### 1. Brand Identity & Aesthetic
-- Brand: Flaunsica Hyderabad (curated by Aishwarya & Prestha)
+- Brand: Flaunsica Hyderabad (curated by Prestha)
 - Tone: High-fashion, exclusive, editorial, luxurious, clean.
 - Color Palette: Deep Crimson/Burgundy (#7B1113 / #8B1E22), Off-White/Alabaster (#FAF8F5), Crisp White (#FFFFFF), Warm Charcoal/Black (#1A1A1A), subtle Champagne/Gold accents.
 - Typography: High-contrast Editorial Serif for headlines (Playfair Display / Cormorant Garamond / Bodoni) paired with clean geometric Sans-serif for body & form fields (Inter / Montserrat).

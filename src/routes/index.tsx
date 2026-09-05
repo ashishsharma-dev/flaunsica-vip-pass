@@ -43,16 +43,37 @@ function Index() {
 
   return (
     <div className="landing-page-root">
-      {/* Top Announcement Bar */}
+      {/* Top Announcement Bar - Seamless Infinite Marquee */}
       <aside className="announcement-bar" role="complementary" aria-label="Event Details">
-        <div className="announcement-container">
-          <span className="announcement-pill">LIMITED VIP SLOTS</span>
-          <span className="announcement-text">
-            10th Refined Edition • 23 September 2026 • Park Hyatt, Banjara Hills, Hyderabad • Curated by Aishwarya &amp; Prestha
-          </span>
-          <a href="#rsvp-section" onClick={(e) => { e.preventDefault(); scrollToRsvp(); }} className="announcement-link">
-            Claim Free VIP Pass &rarr;
-          </a>
+        <div className="announcement-marquee-track">
+          <div className="announcement-marquee-group">
+            <span className="announcement-marquee-item">
+              <span className="announcement-sparkle">✦</span>
+              10th Refined Edition • 23 September 2026 • Park Hyatt, Banjara Hills, Hyderabad • Curated by Prestha
+            </span>
+            <span className="announcement-marquee-item">
+              <span className="announcement-sparkle">✦</span>
+              10th Refined Edition • 23 September 2026 • Park Hyatt, Banjara Hills, Hyderabad • Curated by Prestha
+            </span>
+            <span className="announcement-marquee-item">
+              <span className="announcement-sparkle">✦</span>
+              10th Refined Edition • 23 September 2026 • Park Hyatt, Banjara Hills, Hyderabad • Curated by Prestha
+            </span>
+          </div>
+          <div className="announcement-marquee-group" aria-hidden="true">
+            <span className="announcement-marquee-item">
+              <span className="announcement-sparkle">✦</span>
+              10th Refined Edition • 23 September 2026 • Park Hyatt, Banjara Hills, Hyderabad • Curated by Prestha
+            </span>
+            <span className="announcement-marquee-item">
+              <span className="announcement-sparkle">✦</span>
+              10th Refined Edition • 23 September 2026 • Park Hyatt, Banjara Hills, Hyderabad • Curated by Prestha
+            </span>
+            <span className="announcement-marquee-item">
+              <span className="announcement-sparkle">✦</span>
+              10th Refined Edition • 23 September 2026 • Park Hyatt, Banjara Hills, Hyderabad • Curated by Prestha
+            </span>
+          </div>
         </div>
       </aside>
 
@@ -172,7 +193,7 @@ function Index() {
 
                 <div className="curator-seal">
                   <span className="seal-caption">CURATED BY</span>
-                  <span className="seal-names">Aishwarya &amp; Prestha</span>
+                  <span className="seal-names">Prestha</span>
                 </div>
               </div>
 
@@ -427,7 +448,7 @@ function Index() {
               </p>
               <div className="f-curated">
                 <span>Curated by</span>
-                <strong>Aishwarya &amp; Prestha</strong>
+                <strong>Prestha</strong>
               </div>
             </div>
 
@@ -475,7 +496,7 @@ function Index() {
           </div>
 
           <div className="footer-bottom">
-            <p>&copy; 2026 Flaunsica Hyderabad. Curated by Aishwarya &amp; Prestha. All rights reserved.</p>
+            <p>&copy; 2026 Flaunsica Hyderabad. Curated by Prestha. All rights reserved.</p>
             <p className="footer-legal">Designed for High-Fashion Connoisseurs &amp; Brides-to-be.</p>
           </div>
         </div>

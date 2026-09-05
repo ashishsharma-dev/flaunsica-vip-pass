@@ -143,7 +143,7 @@ export function VipPass({
       ctx.font = '13px "Plus Jakarta Sans", sans-serif';
       ctx.textAlign = "center";
       ctx.fillText(
-        "Curated by Aishwarya & Prestha • 55+ Premier Luxury Designer Brands",
+        "Curated by Prestha • 55+ Premier Luxury Designer Brands",
         600,
         680
       );
@@ -195,7 +195,7 @@ export function VipPass({
       "DTSTART:20260923T043000Z", // 10:00 AM IST is 04:30 UTC
       "DTEND:20260923T150000Z", // 08:30 PM IST is 15:00 UTC
       "SUMMARY:Flaunsica Hyderabad – 10th Refined Edition (VIP Pass)",
-      `DESCRIPTION:VIP Fast-Track Entry Pass ID: ${passCode}\\nGuest Name: ${guest.name}\\nCurated by Aishwarya & Prestha.\\n55+ luxury brands in couture, bridal trousseau, fine jewelry, and pret.`,
+      `DESCRIPTION:VIP Fast-Track Entry Pass ID: ${passCode}\\nGuest Name: ${guest.name}\\nCurated by Prestha.\\n55+ luxury brands in couture, bridal trousseau, fine jewelry, and pret.`,
       "LOCATION:The Ballroom, Park Hyatt, Road No. 2, Banjara Hills, Hyderabad, Telangana 500034",
       "STATUS:CONFIRMED",
       "BEGIN:VALARM",
@@ -217,7 +217,7 @@ export function VipPass({
   };
 
   const shareWhatsApp = () => {
-    const shareText = `Hey! I just got my VIP Pass for *Flaunsica Hyderabad – 10th Refined Edition* (23 Sept 2026 at Park Hyatt). 55+ luxury designer brands under one roof! Curated by Aishwarya & Prestha. Get your complimentary VIP pass here: https://flaunsica.com`;
+    const shareText = `Hey! I just got my VIP Pass for *Flaunsica Hyderabad – 10th Refined Edition* (23 Sept 2026 at Park Hyatt). 55+ luxury designer brands under one roof! Curated by Prestha. Get your complimentary VIP pass here: https://flaunsica.com`;
     const shareUrl = `https://api.whatsapp.com/send?text=${encodeURIComponent(shareText)}`;
     window.open(shareUrl, "_blank");
   };
@@ -359,7 +359,7 @@ export function VipPass({
             </div>
 
             <div className="ticket-curator-seal">
-              Curated by Aishwarya & Prestha • Official 10th Edition Fast-Track Pass
+              Curated by Prestha • Official 10th Edition Fast-Track Pass
             </div>
           </div>
         </div>
