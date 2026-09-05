@@ -10,11 +10,23 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as CuratedRouteImport } from './routes/curated'
+import { Route as TheCurationRouteImport } from './routes/the-curation'
 import { Route as PassPassCodeRouteImport } from './routes/pass.$passCode'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CuratedRoute = CuratedRouteImport.update({
+  id: '/curated',
+  path: '/curated',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const TheCurationRoute = TheCurationRouteImport.update({
+  id: '/the-curation',
+  path: '/the-curation',
   getParentRoute: () => rootRouteImport,
 } as any)
 const PassPassCodeRoute = PassPassCodeRouteImport.update({
@@ -25,27 +37,35 @@ const PassPassCodeRoute = PassPassCodeRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/curated': typeof CuratedRoute
+  '/the-curation': typeof TheCurationRoute
   '/pass/$passCode': typeof PassPassCodeRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/curated': typeof CuratedRoute
+  '/the-curation': typeof TheCurationRoute
   '/pass/$passCode': typeof PassPassCodeRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/curated': typeof CuratedRoute
+  '/the-curation': typeof TheCurationRoute
   '/pass/$passCode': typeof PassPassCodeRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/pass/$passCode'
+  fullPaths: '/' | '/curated' | '/the-curation' | '/pass/$passCode'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/pass/$passCode'
-  id: '__root__' | '/' | '/pass/$passCode'
+  to: '/' | '/curated' | '/the-curation' | '/pass/$passCode'
+  id: '__root__' | '/' | '/curated' | '/the-curation' | '/pass/$passCode'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  CuratedRoute: typeof CuratedRoute
+  TheCurationRoute: typeof TheCurationRoute
   PassPassCodeRoute: typeof PassPassCodeRoute
 }
 
@@ -56,6 +76,20 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/curated': {
+      id: '/curated'
+      path: '/curated'
+      fullPath: '/curated'
+      preLoaderRoute: typeof CuratedRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/the-curation': {
+      id: '/the-curation'
+      path: '/the-curation'
+      fullPath: '/the-curation'
+      preLoaderRoute: typeof TheCurationRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/pass/$passCode': {
@@ -70,6 +104,8 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  CuratedRoute: CuratedRoute,
+  TheCurationRoute: TheCurationRoute,
   PassPassCodeRoute: PassPassCodeRoute,
 }
 export const routeTree = rootRouteImport
