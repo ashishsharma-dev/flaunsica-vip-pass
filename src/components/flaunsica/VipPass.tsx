@@ -64,20 +64,20 @@ export function VipPass({
 
     // 3. Brand Header
     ctx.fillStyle = "#f3e5ab";
-    ctx.font = "bold 44px Georgia, serif";
+    ctx.font = 'bold 44px "New Baskerville", Georgia, serif';
     ctx.fillText("FLAUNSICA", 70, 95);
 
     ctx.fillStyle = "#c5a880";
-    ctx.font = '600 16px "Plus Jakarta Sans", sans-serif';
+    ctx.font = '600 16px "Coco Gothic", sans-serif';
     ctx.fillText("HYDERABAD", 72, 125);
 
     // Edition Badge on Right
     ctx.fillStyle = "#d4af37";
-    ctx.font = "bold 36px Georgia, serif";
+    ctx.font = 'bold 36px "New Baskerville", Georgia, serif';
     ctx.fillText("10TH REFINED EDITION", 750, 95);
 
     ctx.fillStyle = "#ffffff";
-    ctx.font = '15px "Plus Jakarta Sans", sans-serif';
+    ctx.font = '15px "Coco Gothic", sans-serif';
     ctx.fillText("PARK HYATT • BANJARA HILLS", 750, 125);
 
     // Divider line
@@ -93,14 +93,14 @@ export function VipPass({
     ctx.fillStyle = "rgba(212, 175, 55, 0.15)";
     ctx.fillRect(60, 175, 1080, 48);
     ctx.fillStyle = "#f3e5ab";
-    ctx.font = 'bold 18px "Plus Jakarta Sans", sans-serif';
+    ctx.font = 'bold 18px "Coco Gothic", sans-serif';
     ctx.textAlign = "center";
     ctx.fillText(`✦   ${tierText}   ✦`, canvas.width / 2, 206);
     ctx.textAlign = "left";
 
     // 5. Guest Information Columns
     ctx.fillStyle = "#c5a880";
-    ctx.font = 'bold 13px "Plus Jakarta Sans", sans-serif';
+    ctx.font = 'bold 13px "Coco Gothic", sans-serif';
     ctx.fillText("GUEST NAME", 70, 270);
     ctx.fillText("MOBILE NUMBER", 70, 370);
     ctx.fillText("PURPOSE OF VISIT", 70, 460);
@@ -109,10 +109,10 @@ export function VipPass({
 
     // Values
     ctx.fillStyle = "#ffffff";
-    ctx.font = "bold 38px Georgia, serif";
+    ctx.font = 'bold 38px "New Baskerville", Georgia, serif';
     ctx.fillText(guest.name || "VIP Guest", 70, 318);
 
-    ctx.font = 'bold 22px "Plus Jakarta Sans", sans-serif';
+    ctx.font = 'bold 22px "Coco Gothic", sans-serif';
     ctx.fillText(`+91 ${guest.phone}`, 70, 405);
     ctx.fillText(guest.purpose?.join(", ") || "Wedding Shopping", 70, 495);
     ctx.fillText(guest.attendingWith?.join(", ") || "Just me", 440, 405);
@@ -134,7 +134,7 @@ export function VipPass({
 
       // Footer
       ctx.fillStyle = "#c5a880";
-      ctx.font = 'bold 14px "Plus Jakarta Sans", sans-serif';
+      ctx.font = 'bold 14px "Coco Gothic", sans-serif';
       ctx.fillText("📅 WEDNESDAY, 23 SEPT 2026", 70, 615);
       ctx.fillText("📍 PARK HYATT, HYDERABAD", 460, 615);
       ctx.fillText("⏱ 10:00 AM – 8:30 PM", 860, 615);
@@ -248,19 +248,23 @@ export function VipPass({
             {/* Metallic Ticket Border & Header */}
             <div className="ticket-header">
               <div className="ticket-brand">
-                <div className="ticket-logo-text">FLAUNSICA</div>
-                <div className="ticket-subbrand">HYDERABAD</div>
+                <img
+                  src="/assets/logos/flaunsica-logo-white.svg"
+                  alt="Flaunsica Hyderabad"
+                  className="ticket-brand-logo-img"
+                  width={165}
+                  height={46}
+                />
               </div>
 
               <div className="ticket-edition-badge">
-                <span className="tk-roman">
-                  10<sup>TH</sup>
-                </span>
-                <span className="tk-text">
-                  REFINED
-                  <br />
-                  EDITION
-                </span>
+                <img
+                  src="/assets/logos/10th-edition-logo-white.svg"
+                  alt="10th Refined Edition"
+                  className="ticket-edition-logo-img"
+                  width={96}
+                  height={42}
+                />
               </div>
             </div>
 

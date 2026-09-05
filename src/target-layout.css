@@ -1,9 +1,81 @@
 /* ==========================================================================
    FLAUNSICA HYDERABAD – 10TH REFINED EDITION
-   Luxury Editorial Design System & Styling
-   Palette: Deep Crimson/Burgundy (#7B1113, #8B1E22), Off-White (#FAF8F5),
-            Warm Charcoal (#141414), Champagne Gold (#D4AF37, #E5C07B)
+   Official Brand Typography & Luxury Editorial Design System
    ========================================================================== */
+
+/* Brand Fonts: Coco Gothic (Geometric Luxury Sans) */
+@font-face {
+  font-family: 'Coco Gothic';
+  src: url('/fonts/CocoGothic-Regular.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Coco Gothic';
+  src: url('/fonts/CocoGothic-Light.ttf') format('truetype');
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Coco Gothic';
+  src: url('/fonts/CocoGothic-Bold.ttf') format('truetype');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Coco Gothic';
+  src: url('/fonts/CocoGothic-Heavy.ttf') format('truetype');
+  font-weight: 800;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Coco Gothic';
+  src: url('/fonts/CocoGothic-Italic.ttf') format('truetype');
+  font-weight: 400;
+  font-style: italic;
+  font-display: swap;
+}
+
+/* Brand Fonts: New Baskerville (Editorial Transitional Serif) */
+@font-face {
+  font-family: 'New Baskerville';
+  src: url('/fonts/NewBaskervilleStd-Roman.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'New Baskerville';
+  src: url('/fonts/NewBaskervilleStd-Italic.ttf') format('truetype');
+  font-weight: 400;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'New Baskerville';
+  src: url('/fonts/NewBaskervilleStd-Bold.ttf') format('truetype');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'New Baskerville';
+  src: url('/fonts/NewBaskervilleStd-BoldIt.ttf') format('truetype');
+  font-weight: 700;
+  font-style: italic;
+  font-display: swap;
+}
 
 :root {
   /* Color Tokens */
@@ -30,11 +102,11 @@
   --color-text-muted: #736b63;
   --color-text-dark: #201e1c;
 
-  /* Typography */
-  --font-serif-display: 'Cormorant Garamond', 'Playfair Display', Georgia, serif;
-  --font-serif-headline: 'Playfair Display', 'Cormorant Garamond', serif;
-  --font-serif-royal: 'Cinzel', serif;
-  --font-sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+  /* Typography: Official Brand Hierarchy */
+  --font-serif-display: 'New Baskerville', 'Cormorant Garamond', 'Playfair Display', Georgia, serif;
+  --font-serif-headline: 'New Baskerville', 'Playfair Display', 'Cormorant Garamond', serif;
+  --font-serif-royal: 'Coco Gothic', 'Cinzel', serif;
+  --font-sans: 'Coco Gothic', 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
 
   /* Elevations & Shadows */
   --shadow-subtle: 0 4px 20px rgba(0, 0, 0, 0.05);
@@ -171,8 +243,16 @@ button, input {
 
 .brand-group {
   display: flex;
-  flex-direction: column;
+  align-items: center;
   line-height: 1;
+}
+
+.brand-logo-img {
+  height: 38px;
+  width: auto;
+  max-width: 175px;
+  object-fit: contain;
+  display: block;
 }
 
 .brand-title {
@@ -205,6 +285,13 @@ button, input {
   border-left: 1px solid var(--color-gray-border);
   border-right: 1px solid var(--color-gray-border);
   padding: 0 1.25rem;
+}
+
+.edition-logo-badge {
+  height: 38px;
+  width: auto;
+  object-fit: contain;
+  display: block;
 }
 
 .edition-roman {
@@ -1326,6 +1413,15 @@ button, input {
   color: var(--color-burgundy);
 }
 
+.modal-brand-logo {
+  height: 28px;
+  width: auto;
+  max-width: 145px;
+  margin: 0 auto 0.4rem;
+  object-fit: contain;
+  display: block;
+}
+
 .modal-badge {
   font-family: var(--font-serif-royal);
   font-size: 0.625rem;
@@ -1603,6 +1699,23 @@ button, input {
   border-bottom: 1px solid rgba(212, 175, 55, 0.3);
   position: relative;
   z-index: 2;
+}
+
+.ticket-brand-logo-img {
+  height: 38px;
+  width: auto;
+  max-width: 175px;
+  object-fit: contain;
+  filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.4));
+  display: block;
+}
+
+.ticket-edition-logo-img {
+  height: 46px;
+  width: auto;
+  object-fit: contain;
+  filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.4));
+  display: block;
 }
 
 .ticket-brand .ticket-logo-text {
@@ -2182,6 +2295,18 @@ button, input {
   grid-template-columns: 1.4fr repeat(3, 1fr);
   gap: 2.5rem;
   margin-bottom: 3.5rem;
+}
+
+.footer-logo-wrap {
+  margin-bottom: 0.85rem;
+}
+
+.footer-brand-logo {
+  height: 38px;
+  width: auto;
+  max-width: 175px;
+  object-fit: contain;
+  display: block;
 }
 
 .brand-col .f-logo {

@@ -81,13 +81,23 @@ function Index() {
       <header className="site-header">
         <div className="nav-container">
           <a href="#" className="brand-group" aria-label="Flaunsica Hyderabad">
-            <span className="brand-title">F<span>L</span>AUNSICA</span>
-            <span className="brand-location">HYDERABAD</span>
+            <img
+              src="/assets/logos/flaunsica-logo-red.svg"
+              alt="Flaunsica Hyderabad"
+              className="brand-logo-img"
+              width={175}
+              height={49}
+            />
           </a>
 
           <div className="header-edition-badge">
-            <span className="edition-roman">10<sup>TH</sup></span>
-            <span className="edition-label">REFINED<br />EDITION</span>
+            <img
+              src="/assets/logos/10th-edition-logo-red.svg"
+              alt="10th Refined Edition"
+              className="edition-logo-badge"
+              width={90}
+              height={40}
+            />
           </div>
 
           <div className="header-actions">
@@ -441,8 +451,15 @@ function Index() {
           <div className="footer-grid">
             {/* Col 1 */}
             <div className="footer-col brand-col">
-              <div className="f-logo">FLAUNSICA</div>
-              <div className="f-loc">HYDERABAD</div>
+              <div className="footer-logo-wrap">
+                <img
+                  src="/assets/logos/flaunsica-logo-white.svg"
+                  alt="Flaunsica Hyderabad"
+                  className="footer-brand-logo"
+                  width={175}
+                  height={49}
+                />
+              </div>
               <p className="f-tagline">
                 The premier sanctuary for luxury couture, haute jewellery, and refined pret trunk shows.
               </p>

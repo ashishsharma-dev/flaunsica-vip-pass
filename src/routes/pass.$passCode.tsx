@@ -63,8 +63,14 @@ function PassDetails() {
       <div className="mx-auto max-w-xl">
         <article className="overflow-hidden rounded-lg surface-luxe">
           <header className="gradient-crimson px-6 py-8 text-center text-primary-foreground">
-            <h1 className="font-display text-3xl tracking-[0.18em]">FLAUNSICA</h1>
-            <p className="mt-2 text-[0.6rem] uppercase tracking-luxe opacity-90">
+            <img
+              src="/assets/logos/flaunsica-logo-white.svg"
+              alt="Flaunsica"
+              className="mx-auto h-9 w-auto object-contain"
+              width={160}
+              height={45}
+            />
+            <p className="mt-3 text-[0.6rem] uppercase tracking-luxe opacity-90">
               {EVENT.edition} · Guest Verification
             </p>
             <div className="mx-auto mt-4 h-px w-20 bg-champagne" />

@@ -442,7 +442,15 @@ export function RsvpFlow() {
             </button>
 
             <div className="modal-header">
-              <div className="modal-brand-seal">FLAUNSICA</div>
+              <div className="modal-brand-seal">
+                <img
+                  src="/assets/logos/flaunsica-logo-red.svg"
+                  alt="Flaunsica"
+                  className="modal-brand-logo"
+                  width={140}
+                  height={39}
+                />
+              </div>
               <div className="modal-badge">MOBILE & EMAIL VERIFICATION</div>
               <h3 id="otp-modal-title" className="modal-title">Verify Your Details</h3>
               <p className="modal-desc">
