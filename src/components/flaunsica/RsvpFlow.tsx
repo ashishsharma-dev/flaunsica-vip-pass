@@ -22,6 +22,19 @@ const guestSchema = z.object({
   interests: z.array(z.string()).min(1, "Select at least one category"),
 });
 
+const contactSchema = z.object({
+  name: z
+    .string()
+    .trim()
+    .min(2, "Please enter your full name")
+    .max(100, "Name must be under 100 characters"),
+  phone: z
+    .string()
+    .trim()
+    .regex(/^[6-9]\d{9}$/, "Enter a valid 10-digit Indian mobile number"),
+  email: z.string().trim().email("Enter a valid email address").max(255),
+});
+
 const DEFAULT_GUEST: GuestDetails = {
   name: "",
   phone: "",
@@ -33,10 +46,12 @@ const DEFAULT_GUEST: GuestDetails = {
 };
 
 type Step = "form" | "otp" | "pass";
+type FormScreen = "contact" | "preferences";
 type Delivery = { email: boolean; sms: boolean };
 
 export function RsvpFlow() {
   const [step, setStep] = useState<Step>("form");
+  const [formScreen, setFormScreen] = useState<FormScreen>("contact");
   const [guest, setGuest] = useState<GuestDetails>(DEFAULT_GUEST);
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [submitting, setSubmitting] = useState(false);
@@ -65,8 +80,27 @@ export function RsvpFlow() {
     setErrors((e) => ({ ...e, [key]: "" }));
   };
 
-  const submitForm = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const handleContinueToPreferences = () => {
+    setFormError("");
+    const res = contactSchema.safeParse({
+      name: guest.name,
+      phone: guest.phone,
+      email: guest.email,
+    });
+    if (!res.success) {
+      const next: Record<string, string> = {};
+      for (const issue of res.error.issues) {
+        const key = String(issue.path[0]);
+        if (!next[key]) next[key] = issue.message;
+      }
+      setErrors((prev) => ({ ...prev, ...next }));
+      return;
+    }
+    setFormScreen("preferences");
+    document.getElementById("rsvp-section")?.scrollIntoView({ behavior: "smooth" });
+  };
+
+  const submitForm = async () => {
     setFormError("");
     const result = guestSchema.safeParse(guest);
     if (!result.success) {
@@ -76,6 +110,9 @@ export function RsvpFlow() {
         if (!next[key]) next[key] = issue.message;
       }
       setErrors(next);
+      if (next.name || next.phone || next.email) {
+        setFormScreen("contact");
+      }
       return;
     }
     setSubmitting(true);
@@ -105,6 +142,15 @@ export function RsvpFlow() {
       setFormError("Something went wrong. Please try again in a moment.");
     } finally {
       setSubmitting(false);
+    }
+  };
+
+  const handleFormSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (formScreen === "contact") {
+      handleContinueToPreferences();
+    } else {
+      submitForm();
     }
   };
 
@@ -186,6 +232,7 @@ export function RsvpFlow() {
         delivery={delivery}
         onReset={() => {
           setStep("form");
+          setFormScreen("contact");
           setGuest(DEFAULT_GUEST);
           setErrors({});
           setFormError("");
@@ -200,220 +247,356 @@ export function RsvpFlow() {
         <div className="luxury-form-card" id="form-card-container">
           {/* Progress Tracker Header */}
           <div className="form-progress-bar">
-            <div className={`step-node ${step === "form" ? "active" : "completed"}`} id="step-node-1">
-              <span className="step-num">{step === "form" ? "1" : "✓"}</span>
-              <span className="step-label">Guest Details</span>
+            <div
+              className={`step-node ${step === "form" && formScreen === "contact" ? "active" : "completed"} ${formScreen === "preferences" && step === "form" ? "is-clickable" : ""}`}
+              id="step-node-1"
+              onClick={() => {
+                if (formScreen === "preferences" && step === "form") {
+                  setFormScreen("contact");
+                }
+              }}
+              title={formScreen === "preferences" && step === "form" ? "Click to edit contact details" : undefined}
+            >
+              <span className="step-num">{step === "form" && formScreen === "contact" ? "1" : "✓"}</span>
+              <span className="step-label">Contact</span>
             </div>
-            <div className={`step-line ${step !== "form" ? "completed" : ""}`} id="step-line-1" />
-            <div className={`step-node ${step === "otp" ? "active" : ""}`} id="step-node-2">
-              <span className="step-num">2</span>
-              <span className="step-label">OTP Verification</span>
+            <div
+              className={`step-line ${formScreen === "preferences" || step !== "form" ? "completed" : ""}`}
+              id="step-line-1"
+            />
+            <div
+              className={`step-node ${step === "form" && formScreen === "preferences" ? "active" : step !== "form" ? "completed" : ""}`}
+              id="step-node-2"
+            >
+              <span className="step-num">{step !== "form" ? "✓" : "2"}</span>
+              <span className="step-label">Preferences</span>
             </div>
-            <div className="step-line" id="step-line-2" />
-            <div className="step-node" id="step-node-3">
-              <span className="step-num">3</span>
-              <span className="step-label">VIP QR Pass</span>
+            <div
+              className={`step-line ${step === "otp" || step === "pass" ? "completed" : ""}`}
+              id="step-line-2"
+            />
+            <div
+              className={`step-node ${step === "otp" ? "active" : step === "pass" ? "completed" : ""}`}
+              id="step-node-3"
+            >
+              <span className="step-num">{step === "pass" ? "✓" : "3"}</span>
+              <span className="step-label">Verification</span>
             </div>
-          </div>
-
-          <div className="form-header">
-            <span className="form-badge">INVITATION DESK</span>
-            <h2 className="form-title">Request Your VIP Invitation</h2>
-            <p className="form-subtitle">
-              Fill in your information below to generate your personalized entry QR pass.
-            </p>
+            <div
+              className={`step-line ${step === "pass" ? "completed" : ""}`}
+              id="step-line-3"
+            />
+            <div
+              className={`step-node ${step === "pass" ? "active" : ""}`}
+              id="step-node-4"
+            >
+              <span className="step-num">4</span>
+              <span className="step-label">VIP Pass</span>
+            </div>
           </div>
 
           {/* The Registration Form */}
-          <form id="guest-form" className="luxury-form" noValidate onSubmit={submitForm}>
-            {/* 1. Full Name */}
-            <div className={`form-group floating-group ${errors.name ? "has-error" : ""}`}>
-              <input
-                type="text"
-                id="fullName"
-                name="fullName"
-                className="form-input"
-                placeholder=" "
-                required
-                autoComplete="name"
-                value={guest.name}
-                onChange={(e) => set("name", e.target.value)}
-              />
-              <label htmlFor="fullName" className="floating-label">Full Name *</label>
-              {errors.name ? <span className="field-error">{errors.name}</span> : null}
-            </div>
-
-            {/* 2. WhatsApp / Mobile Number */}
-            <div className={`form-group floating-group tel-group ${errors.phone ? "has-error" : ""}`}>
-              <div className="tel-input-wrap">
-                <div className="tel-prefix-box">
-                  <span className="tel-flag">🇮🇳</span>
-                  <span className="tel-code">+91</span>
+          <form id="guest-form" className="luxury-form" noValidate onSubmit={handleFormSubmit}>
+            {/* SCREEN 1: CONTACT DETAILS */}
+            {formScreen === "contact" && (
+              <div className="form-screen-slide">
+                <div className="form-header">
+                  <div className="form-stage-pill">
+                    <span className="stage-pill-dot" />
+                    <span>STEP 1 OF 2 • GUEST CONTACT</span>
+                  </div>
+                  <h2 className="form-title">Request Your VIP Invitation</h2>
+                  <p className="form-subtitle">
+                    Enter your contact details to receive your personal entry pass & schedule via WhatsApp & Email.
+                  </p>
                 </div>
-                <input
-                  type="tel"
-                  id="mobile"
-                  name="mobile"
-                  className="form-input tel-input"
-                  placeholder=" "
-                  maxLength={10}
-                  required
-                  autoComplete="tel-national"
-                  value={guest.phone}
-                  onChange={(e) => set("phone", e.target.value.replace(/\D/g, "").slice(0, 10))}
-                />
-                <label htmlFor="mobile" className="floating-label tel-label">WhatsApp / Mobile Number *</label>
-              </div>
-              {errors.phone ? <span className="field-error">{errors.phone}</span> : null}
-              <span className="field-hint">Your QR pass will be sent to this WhatsApp number & email</span>
-            </div>
 
-            {/* 3. Email Address */}
-            <div className={`form-group floating-group ${errors.email ? "has-error" : ""}`}>
-              <input
-                type="email"
-                id="email"
-                name="email"
-                className="form-input"
-                placeholder=" "
-                required
-                autoComplete="email"
-                value={guest.email}
-                onChange={(e) => set("email", e.target.value)}
-              />
-              <label htmlFor="email" className="floating-label">Email Address *</label>
-              {errors.email ? <span className="field-error">{errors.email}</span> : null}
-            </div>
-
-            <div className="form-divider"><span>PREFERENCES</span></div>
-
-            {/* 4. Are you a bride? */}
-            <div className={`form-group pill-group ${errors.isBride ? "has-error" : ""}`}>
-              <label className="group-legend">Are you a bride-to-be?</label>
-              <div className="pills-row" role="radiogroup" aria-label="Are you a bride?">
-                <label className="radio-pill">
-                  <input
-                    type="radio"
-                    name="isBride"
-                    value="Yes"
-                    checked={guest.isBride === "Yes"}
-                    onChange={() => set("isBride", "Yes")}
-                  />
-                  <span className="pill-btn"><span className="pill-icon">👰‍♀️</span> Yes, Bride-to-be</span>
-                </label>
-                <label className="radio-pill">
-                  <input
-                    type="radio"
-                    name="isBride"
-                    value="No"
-                    checked={guest.isBride === "No"}
-                    onChange={() => set("isBride", "No")}
-                  />
-                  <span className="pill-btn"><span className="pill-icon">✨</span> No, Attending Guest</span>
-                </label>
-              </div>
-              {errors.isBride ? <span className="field-error">{errors.isBride}</span> : null}
-            </div>
-
-            {/* 5. Purpose of Visit */}
-            <div className={`form-group pill-group ${errors.purpose ? "has-error" : ""}`}>
-              <label className="group-legend">Purpose of Visit</label>
-              <div className="pills-grid" role="radiogroup" aria-label="Purpose of Visit">
-                {["Wedding Shopping", "Trousseau", "Casual Shopping", "Workwear"].map((item) => (
-                  <label key={item} className="radio-pill">
+                <div className="flex flex-col gap-5">
+                  {/* 1. Full Name */}
+                  <div className={`form-group floating-group ${errors.name ? "has-error" : ""}`}>
                     <input
-                      type="radio"
-                      name="purpose"
-                      value={item}
-                      checked={guest.purpose.includes(item)}
-                      onChange={() => set("purpose", [item])}
+                      type="text"
+                      id="fullName"
+                      name="fullName"
+                      className="form-input"
+                      placeholder=" "
+                      required
+                      autoComplete="name"
+                      value={guest.name}
+                      onChange={(e) => set("name", e.target.value)}
                     />
-                    <span className="pill-btn">{item}</span>
-                  </label>
-                ))}
-              </div>
-              {errors.purpose ? <span className="field-error">{errors.purpose}</span> : null}
-            </div>
+                    <label htmlFor="fullName" className="floating-label">Full Name *</label>
+                    {errors.name ? <span className="field-error">{errors.name}</span> : null}
+                  </div>
 
-            {/* 6. Who are you attending with? */}
-            <div className={`form-group pill-group ${errors.attendingWith ? "has-error" : ""}`}>
-              <label className="group-legend">Who are you attending with?</label>
-              <div className="pills-row" role="radiogroup" aria-label="Who are you attending with?">
-                {["Just me", "Friends", "Family"].map((party) => (
-                  <label key={party} className="radio-pill">
-                    <input
-                      type="radio"
-                      name="attendingWith"
-                      value={party}
-                      checked={guest.attendingWith.includes(party)}
-                      onChange={() => set("attendingWith", [party])}
-                    />
-                    <span className="pill-btn">{party}</span>
-                  </label>
-                ))}
-              </div>
-              {errors.attendingWith ? <span className="field-error">{errors.attendingWith}</span> : null}
-            </div>
-
-            {/* 7. What are you most likely to buy? */}
-            <div className={`form-group pill-group ${errors.interests ? "has-error" : ""}`}>
-              <label className="group-legend">
-                What are you most likely to buy? <span className="legend-hint">(Select all that apply)</span>
-              </label>
-              <div className="pills-row" role="group" aria-label="What are you most likely to buy?">
-                {["Jewellery", "Clothing", "Accessories"].map((cat) => {
-                  const isChecked = guest.interests.includes(cat);
-                  return (
-                    <label key={cat} className="check-pill">
+                  {/* 2. WhatsApp / Mobile Number */}
+                  <div className={`form-group floating-group tel-group ${errors.phone ? "has-error" : ""}`}>
+                    <div className="tel-input-wrap">
+                      <div className="tel-prefix-box">
+                        <span className="tel-flag">🇮🇳</span>
+                        <span className="tel-code">+91</span>
+                      </div>
                       <input
-                        type="checkbox"
-                        name="interests"
-                        value={cat}
-                        checked={isChecked}
-                        onChange={(e) => {
-                          if (e.target.checked) {
-                            set("interests", [...guest.interests, cat]);
-                          } else {
-                            set("interests", guest.interests.filter((c) => c !== cat));
-                          }
-                        }}
+                        type="tel"
+                        id="mobile"
+                        name="mobile"
+                        className="form-input tel-input"
+                        placeholder=" "
+                        maxLength={10}
+                        required
+                        autoComplete="tel-national"
+                        value={guest.phone}
+                        onChange={(e) => set("phone", e.target.value.replace(/\D/g, "").slice(0, 10))}
                       />
-                      <span className="pill-btn">
-                        <span className="check-box-indicator" /> {cat}
-                      </span>
+                      <label htmlFor="mobile" className="floating-label tel-label">WhatsApp / Mobile Number *</label>
+                    </div>
+                    {errors.phone ? <span className="field-error">{errors.phone}</span> : null}
+                    <span className="field-hint">Your QR pass will be sent to this WhatsApp number & email</span>
+                  </div>
+
+                  {/* 3. Email Address */}
+                  <div className={`form-group floating-group ${errors.email ? "has-error" : ""}`}>
+                    <input
+                      type="email"
+                      id="email"
+                      name="email"
+                      className="form-input"
+                      placeholder=" "
+                      required
+                      autoComplete="email"
+                      value={guest.email}
+                      onChange={(e) => set("email", e.target.value)}
+                    />
+                    <label htmlFor="email" className="floating-label">Email Address *</label>
+                    {errors.email ? <span className="field-error">{errors.email}</span> : null}
+                  </div>
+                </div>
+
+                {/* VIP Perks Trust Banner */}
+                <div className="form-perks-banner">
+                  <div className="perk-item">
+                    <span className="perk-icon">🎟️</span>
+                    <div className="perk-text">
+                      <strong>Complimentary VIP Pass</strong>
+                      <span>Direct QR gate admission</span>
+                    </div>
+                  </div>
+                  <div className="perk-divider" />
+                  <div className="perk-item">
+                    <span className="perk-icon">⚡</span>
+                    <div className="perk-text">
+                      <strong>Instant Delivery</strong>
+                      <span>Pass sent via WhatsApp & Email</span>
+                    </div>
+                  </div>
+                  <div className="perk-divider" />
+                  <div className="perk-item">
+                    <span className="perk-icon">🥂</span>
+                    <div className="perk-text">
+                      <strong>Exclusive Access</strong>
+                      <span>Private lounge & showcase access</span>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Continue Button */}
+                <div className="form-submit-row">
+                  <button
+                    type="submit"
+                    id="btn-next-preferences"
+                    className="btn-submit-luxury"
+                  >
+                    <span className="btn-submit-text">Continue to Preferences</span>
+                    <span className="btn-sheen" />
+                    <svg className="btn-icon-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+                      <path d="M5 12h14M12 5l7 7-7 7" />
+                    </svg>
+                  </button>
+                  <div className="security-caption">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                      <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+                    </svg>
+                    <span>Takes only 30 seconds • 100% Confidential & Secure</span>
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {/* SCREEN 2: EVENT PREFERENCES */}
+            {formScreen === "preferences" && (
+              <div className="form-screen-slide">
+                <div className="form-header">
+                  <div className="form-stage-pill">
+                    <span className="stage-pill-dot" />
+                    <span>STEP 2 OF 2 • EVENT PREFERENCES</span>
+                  </div>
+                  <h2 className="form-title">Customize Your Experience</h2>
+                  <p className="form-subtitle">
+                    Tell us your shopping focus so our hospitality team can tailor your previews and private lounge access.
+                  </p>
+                </div>
+
+                {/* Guest Contact Mini Recap */}
+                <div className="guest-recap-bar">
+                  <div className="guest-recap-info">
+                    <span className="recap-label">Reserving for:</span>
+                    <span className="recap-name">{guest.name || "Guest"}</span>
+                    <span className="recap-meta">• +91 {guest.phone} • {guest.email}</span>
+                  </div>
+                  <button
+                    type="button"
+                    className="recap-edit-btn"
+                    onClick={() => setFormScreen("contact")}
+                    title="Edit contact details"
+                  >
+                    Edit
+                  </button>
+                </div>
+
+                <div className="flex flex-col gap-6">
+                  {/* 4. Are you a bride? */}
+                  <div className={`form-group pill-group ${errors.isBride ? "has-error" : ""}`}>
+                    <label className="group-legend">Are you a bride-to-be?</label>
+                    <div className="pills-row" role="radiogroup" aria-label="Are you a bride?">
+                      <label className="radio-pill">
+                        <input
+                          type="radio"
+                          name="isBride"
+                          value="Yes"
+                          checked={guest.isBride === "Yes"}
+                          onChange={() => set("isBride", "Yes")}
+                        />
+                        <span className="pill-btn"><span className="pill-icon">👰‍♀️</span> Yes, Bride-to-be</span>
+                      </label>
+                      <label className="radio-pill">
+                        <input
+                          type="radio"
+                          name="isBride"
+                          value="No"
+                          checked={guest.isBride === "No"}
+                          onChange={() => set("isBride", "No")}
+                        />
+                        <span className="pill-btn"><span className="pill-icon">✨</span> No, Attending Guest</span>
+                      </label>
+                    </div>
+                    {errors.isBride ? <span className="field-error">{errors.isBride}</span> : null}
+                  </div>
+
+                  {/* 5. Purpose of Visit */}
+                  <div className={`form-group pill-group ${errors.purpose ? "has-error" : ""}`}>
+                    <label className="group-legend">Purpose of Visit</label>
+                    <div className="pills-grid" role="radiogroup" aria-label="Purpose of Visit">
+                      {["Wedding Shopping", "Trousseau", "Casual Shopping", "Workwear"].map((item) => (
+                        <label key={item} className="radio-pill">
+                          <input
+                            type="radio"
+                            name="purpose"
+                            value={item}
+                            checked={guest.purpose.includes(item)}
+                            onChange={() => set("purpose", [item])}
+                          />
+                          <span className="pill-btn">{item}</span>
+                        </label>
+                      ))}
+                    </div>
+                    {errors.purpose ? <span className="field-error">{errors.purpose}</span> : null}
+                  </div>
+
+                  {/* 6. Who are you attending with? */}
+                  <div className={`form-group pill-group ${errors.attendingWith ? "has-error" : ""}`}>
+                    <label className="group-legend">Who are you attending with?</label>
+                    <div className="pills-row" role="radiogroup" aria-label="Who are you attending with?">
+                      {["Just me", "Friends", "Family"].map((party) => (
+                        <label key={party} className="radio-pill">
+                          <input
+                            type="radio"
+                            name="attendingWith"
+                            value={party}
+                            checked={guest.attendingWith.includes(party)}
+                            onChange={() => set("attendingWith", [party])}
+                          />
+                          <span className="pill-btn">{party}</span>
+                        </label>
+                      ))}
+                    </div>
+                    {errors.attendingWith ? <span className="field-error">{errors.attendingWith}</span> : null}
+                  </div>
+
+                  {/* 7. What are you most likely to buy? */}
+                  <div className={`form-group pill-group ${errors.interests ? "has-error" : ""}`}>
+                    <label className="group-legend">
+                      What are you most likely to buy? <span className="legend-hint">(Select all that apply)</span>
                     </label>
-                  );
-                })}
-              </div>
-              {errors.interests ? <span className="field-error">{errors.interests}</span> : null}
-            </div>
+                    <div className="pills-row" role="group" aria-label="What are you most likely to buy?">
+                      {["Jewellery", "Clothing", "Accessories"].map((cat) => {
+                        const isChecked = guest.interests.includes(cat);
+                        return (
+                          <label key={cat} className="check-pill">
+                            <input
+                              type="checkbox"
+                              name="interests"
+                              value={cat}
+                              checked={isChecked}
+                              onChange={(e) => {
+                                if (e.target.checked) {
+                                  set("interests", [...guest.interests, cat]);
+                                } else {
+                                  set("interests", guest.interests.filter((c) => c !== cat));
+                                }
+                              }}
+                            />
+                            <span className="pill-btn">
+                              <span className="check-box-indicator" /> {cat}
+                            </span>
+                          </label>
+                        );
+                      })}
+                    </div>
+                    {errors.interests ? <span className="field-error">{errors.interests}</span> : null}
+                  </div>
+                </div>
 
-            {formError ? <p className="text-center text-xs text-red-600 font-medium">{formError}</p> : null}
+                {formError ? <p className="text-center text-xs text-red-600 font-medium">{formError}</p> : null}
 
-            {/* Submit Button */}
-            <div className="form-submit-row">
-              <button
-                type="submit"
-                id="btn-submit-rsvp"
-                disabled={submitting}
-                className="btn-submit-luxury"
-              >
-                <span className="btn-submit-text">
-                  {submitting ? "Securing VIP Pass..." : "Get My VIP QR Pass"}
-                </span>
-                <span className="btn-sheen" />
-                <svg className="btn-icon-lock" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                  <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
-                  <path d="M7 11V7a5 5 0 0 1 10 0v4" />
-                </svg>
-              </button>
-              <div className="security-caption">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                  <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
-                </svg>
-                <span>Instant verification via WhatsApp & Email • Strictly zero spam</span>
+                {/* Multi-action Buttons for Screen 2 */}
+                <div className="form-actions-split">
+                  <button
+                    type="button"
+                    className="btn-back-luxury"
+                    onClick={() => setFormScreen("contact")}
+                    disabled={submitting}
+                  >
+                    <svg className="btn-icon-back" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+                      <path d="M19 12H5M12 19l-7-7 7-7" />
+                    </svg>
+                    <span>Back</span>
+                  </button>
+
+                  <button
+                    type="submit"
+                    id="btn-submit-rsvp"
+                    disabled={submitting}
+                    className="btn-submit-luxury"
+                  >
+                    <span className="btn-submit-text">
+                      {submitting ? "Securing VIP Pass..." : "Get My VIP QR Pass"}
+                    </span>
+                    <span className="btn-sheen" />
+                    <svg className="btn-icon-lock" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                      <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
+                      <path d="M7 11V7a5 5 0 0 1 10 0v4" />
+                    </svg>
+                  </button>
+                </div>
+
+                <div className="security-caption" style={{ justifyContent: "center", marginTop: "0.85rem" }}>
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+                  </svg>
+                  <span>Instant verification via WhatsApp & Email • Strictly zero spam</span>
+                </div>
               </div>
-            </div>
+            )}
           </form>
         </div>
       </div>

@@ -1334,6 +1334,224 @@ button, input {
 }
 
 /* ==========================================================================
+   MULTI-STEP FORM SCREENS (Contact & Preferences)
+   ========================================================================== */
+@keyframes formScreenFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.form-screen-slide {
+  animation: formScreenFadeIn 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.form-stage-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.35rem 0.85rem;
+  border-radius: var(--radius-pill);
+  background: var(--color-burgundy-tint);
+  border: 1px solid rgba(123, 17, 19, 0.18);
+  font-family: var(--font-serif-royal);
+  font-size: 0.6875rem;
+  letter-spacing: 0.14em;
+  font-weight: 700;
+  color: var(--color-burgundy);
+  text-transform: uppercase;
+  margin-bottom: 0.85rem;
+}
+
+.stage-pill-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--color-burgundy);
+  box-shadow: 0 0 0 3px rgba(123, 17, 19, 0.2);
+  display: inline-block;
+  animation: pulseDot 2s infinite ease-in-out;
+}
+
+@keyframes pulseDot {
+  0%, 100% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.25); opacity: 0.75; }
+}
+
+/* Screen 1: Perks Banner */
+.form-perks-banner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: linear-gradient(135deg, rgba(200, 162, 86, 0.07), rgba(123, 17, 19, 0.03));
+  border: 1px solid rgba(200, 162, 86, 0.28);
+  border-radius: var(--radius-md);
+  padding: 1rem 1.25rem;
+  margin-top: 0.35rem;
+  margin-bottom: 0.35rem;
+  gap: 0.75rem;
+}
+
+.perk-item {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  flex: 1;
+}
+
+.perk-icon {
+  font-size: 1.25rem;
+  line-height: 1;
+  flex-shrink: 0;
+}
+
+.perk-text {
+  display: flex;
+  flex-direction: column;
+}
+
+.perk-text strong {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--color-charcoal);
+  letter-spacing: 0.02em;
+}
+
+.perk-text span {
+  font-size: 0.6875rem;
+  color: var(--color-text-muted);
+}
+
+.perk-divider {
+  width: 1px;
+  height: 28px;
+  background: rgba(200, 162, 86, 0.3);
+}
+
+/* Screen 2: Guest Recap Bar */
+.guest-recap-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #fdfbf7;
+  border: 1px solid rgba(200, 162, 86, 0.35);
+  border-radius: var(--radius-md);
+  padding: 0.75rem 1.15rem;
+  margin-bottom: 1.5rem;
+  gap: 0.75rem;
+}
+
+.guest-recap-info {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  flex-wrap: wrap;
+  font-size: 0.8125rem;
+}
+
+.recap-label {
+  color: var(--color-text-muted);
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-weight: 600;
+}
+
+.recap-name {
+  font-weight: 700;
+  color: var(--color-burgundy);
+}
+
+.recap-meta {
+  color: var(--color-text-muted);
+  font-size: 0.75rem;
+}
+
+.recap-edit-btn {
+  background: transparent;
+  border: 1px solid rgba(123, 17, 19, 0.25);
+  color: var(--color-burgundy);
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 0.3rem 0.75rem;
+  border-radius: var(--radius-pill);
+  cursor: pointer;
+  transition: var(--transition-fast);
+  flex-shrink: 0;
+}
+
+.recap-edit-btn:hover {
+  background: var(--color-burgundy);
+  color: #ffffff;
+  border-color: var(--color-burgundy);
+}
+
+/* Multi-button Action Row for Step 2 */
+.form-actions-split {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  width: 100%;
+  margin-top: 0.5rem;
+}
+
+.form-actions-split .btn-submit-luxury {
+  flex: 1;
+}
+
+.btn-back-luxury {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  background: #ffffff;
+  border: 1px solid var(--color-gray-border);
+  color: var(--color-text-body);
+  font-size: 0.9375rem;
+  font-weight: 600;
+  padding: 1.15rem 1.5rem;
+  border-radius: var(--radius-pill);
+  cursor: pointer;
+  transition: var(--transition-fast);
+  flex-shrink: 0;
+}
+
+.btn-back-luxury:hover {
+  border-color: var(--color-burgundy);
+  color: var(--color-burgundy);
+  background: var(--color-burgundy-tint);
+}
+
+.btn-icon-back,
+.btn-icon-arrow {
+  width: 16px;
+  height: 16px;
+  transition: transform 0.2s ease;
+}
+
+.btn-submit-luxury:hover .btn-icon-arrow {
+  transform: translateX(4px);
+}
+
+.btn-back-luxury:hover .btn-icon-back {
+  transform: translateX(-3px);
+}
+
+.step-node.is-clickable {
+  cursor: pointer;
+}
+
+.step-node.is-clickable:hover .step-num {
+  transform: scale(1.1);
+  box-shadow: 0 0 0 4px var(--color-burgundy-tint);
+}
+
+/* ==========================================================================
    STEP 2: OTP VERIFICATION MODAL
    ========================================================================== */
 .modal-backdrop {
@@ -2525,6 +2743,45 @@ button, input {
   }
   .luxury-form-card {
     padding: 2rem 1.25rem;
+  }
+  .form-progress-bar {
+    gap: 0.25rem;
+    margin-bottom: 1.75rem;
+    padding-bottom: 1.25rem;
+  }
+  .step-node {
+    flex-direction: column;
+    gap: 0.25rem;
+    text-align: center;
+  }
+  .step-num {
+    width: 26px;
+    height: 26px;
+    font-size: 0.7rem;
+  }
+  .step-label {
+    font-size: 0.625rem;
+    letter-spacing: 0.02em;
+  }
+  .step-line {
+    margin: 0 0.25rem 0.75rem;
+  }
+  .form-perks-banner {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.75rem;
+    padding: 0.85rem 1rem;
+  }
+  .perk-divider {
+    display: none;
+  }
+  .form-actions-split {
+    flex-direction: column-reverse;
+    gap: 0.75rem;
+  }
+  .btn-back-luxury {
+    width: 100%;
+    padding: 0.95rem;
   }
   .form-title {
     font-size: 1.85rem;
