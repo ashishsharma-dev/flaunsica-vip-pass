@@ -80,16 +80,6 @@ function Index() {
       {/* Luxury Navigation Header */}
       <header className="site-header">
         <div className="nav-container">
-          <a href="#" className="brand-group" aria-label="Flaunsica Hyderabad">
-            <img
-              src="/assets/logos/flaunsica-logo-red.svg"
-              alt="Flaunsica Hyderabad"
-              className="brand-logo-img"
-              width={175}
-              height={49}
-            />
-          </a>
-
           <div className="header-edition-badge">
             <img
               src="/assets/logos/10th-edition-logo-red.svg"
@@ -99,6 +89,16 @@ function Index() {
               height={40}
             />
           </div>
+
+          <a href="#" className="brand-group" aria-label="Flaunsica Hyderabad">
+            <img
+              src="/assets/logos/flaunsica-logo-red.svg"
+              alt="Flaunsica Hyderabad"
+              className="brand-logo-img"
+              width={175}
+              height={49}
+            />
+          </a>
 
           <div className="header-actions">
             <div className="event-quick-date">
