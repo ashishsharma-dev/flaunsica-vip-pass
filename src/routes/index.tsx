@@ -180,10 +180,10 @@ function Index() {
 
             {/* Right Column: Location & Directions */}
             <div className="map-location-right-col">
-              <div className="location-meta-tag">
+              {/* <div className="location-meta-tag">
                 <span className="location-tag-dot" />
                 VENUE &amp; DIRECTIONS
-              </div>
+              </div> */}
 
               <h2 className="location-main-heading">Location &amp; Directions</h2>
 
@@ -301,6 +301,7 @@ function Index() {
                 <li><a href="mailto:concierge@flaunsica.com">concierge@flaunsica.com</a></li>
                 <li><span>Park Hyatt, Banjara Hills, Hyderabad</span></li>
                 <li><span>Official Instagram: @flaunsica</span></li>
+                <li><a href="#location-section" className="btn-get-directions">Get Directions</a></li>
               </ul>
             </div>
           </div>

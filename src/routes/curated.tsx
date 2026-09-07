@@ -316,6 +316,7 @@ function CuratedPage() {
                 <li><a href="mailto:concierge@flaunsica.com">concierge@flaunsica.com</a></li>
                 <li><span>Park Hyatt, Banjara Hills, Hyderabad</span></li>
                 <li><span>Official Instagram: @flaunsica</span></li>
+                <li><a href="/#location-section" className="btn-get-directions">Get Directions</a></li>
               </ul>
             </div>
           </div>
