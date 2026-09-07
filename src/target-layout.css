@@ -3642,6 +3642,39 @@ input {
   box-shadow: none;
 }
 
+/* ==========================================================================
+   SECTION: ABOVE-FOOTER LANDSCAPE BANNER
+   ========================================================================== */
+.above-footer-banner-section {
+  width: 100%;
+  background: #ffffff;
+  padding: 3.5rem 1.5rem 4.5rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  border-top: 1px solid #f0eee9;
+}
+
+.above-footer-banner-container {
+  width: 100%;
+  max-width: 1280px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.above-footer-banner-img {
+  width: 100%;
+  height: auto;
+  max-width: 1280px;
+  display: block;
+  object-fit: contain;
+  border-radius: var(--radius-md, 12px);
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.06);
+}
+
 
 /* ==========================================================================
    THE CURATION PAGE STYLES
@@ -4044,6 +4077,14 @@ input {
   .btn-open-maps-pill {
     width: 100%;
     justify-content: center;
+  }
+
+  .above-footer-banner-section {
+    padding: 2rem 1rem 3rem;
+  }
+
+  .above-footer-banner-img {
+    border-radius: var(--radius-sm, 8px);
   }
 
   .curation-ribbon-title {

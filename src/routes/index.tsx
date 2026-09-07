@@ -209,7 +209,7 @@ function Index() {
                 <div className="location-detail-item">
                   <span className="location-detail-label">CONTACT &amp; INQUIRIES</span>
                   <p className="location-detail-val">
-                    Email: <a href="mailto:concierge@flaunsica.com" className="location-link">concierge@flaunsica.com</a> · Instagram: <a href="https://instagram.com/flaunsica" target="_blank" rel="noopener noreferrer" className="location-link">@flaunsica</a>
+                    Email: <a href="mailto:concierge@flaunsica.com" className="location-link">concierge@flaunsica.com</a> · Instagram: <a href="https://instagram.com/flaunsica_hyderabad" target="_blank" rel="noopener noreferrer" className="location-link">@flaunsica_hyderabad</a>
                   </p>
                 </div>
               </div>
@@ -238,6 +238,22 @@ function Index() {
                 </svg>
               </a>
             </div>
+          </div>
+        </section>
+
+        {/* =================================================================
+            HOMEPAGE SECTION 5: ABOVE-FOOTER LANDSCAPE BANNER
+            ================================================================= */}
+        <section className="above-footer-banner-section">
+          <div className="above-footer-banner-container">
+            <img
+              src="/assets/above-the-footer.png"
+              alt="Flaunsica Hyderabad 10th Refined Edition - VIP Entry Details"
+              className="above-footer-banner-img"
+              loading="lazy"
+              width={2431}
+              height={837}
+            />
           </div>
         </section>
       </main>
@@ -300,7 +316,7 @@ function Index() {
               <ul className="f-links">
                 <li><a href="mailto:concierge@flaunsica.com">concierge@flaunsica.com</a></li>
                 <li><span>Park Hyatt, Banjara Hills, Hyderabad</span></li>
-                <li><span>Official Instagram: @flaunsica</span></li>
+                <li><a href="https://instagram.com/flaunsica_hyderabad" target="_blank" rel="noopener noreferrer">Official Instagram: @flaunsica_hyderabad</a></li>
                 <li><a href="#location-section" className="btn-get-directions">Get Directions</a></li>
               </ul>
             </div>
