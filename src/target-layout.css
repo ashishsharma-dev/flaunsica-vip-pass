@@ -3486,6 +3486,162 @@ input {
 }
 
 /* ==========================================================================
+   SECTION 4: LOCATION & DIRECTIONS
+   ========================================================================== */
+.map-location-section {
+  padding: 6rem 1.5rem;
+  background: #ffffff;
+  border-top: 1px solid #eeebe6;
+}
+
+.map-location-container {
+  max-width: 1280px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1.15fr 1fr;
+  gap: 4.5rem;
+  align-items: center;
+}
+
+.map-location-left-col {
+  width: 100%;
+}
+
+.map-embed-frame {
+  width: 100%;
+  height: 480px;
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  box-shadow: var(--shadow-luxury);
+  position: relative;
+  background: #f4f2ee;
+}
+
+.map-embed-frame iframe {
+  width: 100%;
+  height: 100%;
+  border: 0;
+  display: block;
+}
+
+.map-location-right-col {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.location-meta-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: var(--font-serif-royal);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  color: var(--color-burgundy);
+  text-transform: uppercase;
+}
+
+.location-tag-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--color-burgundy);
+}
+
+.location-main-heading {
+  font-family: var(--font-serif-display);
+  font-size: 3.25rem;
+  font-style: italic;
+  font-weight: 500;
+  color: #1a1a1a;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+  margin: 0;
+}
+
+.location-info-p {
+  font-size: 1.0625rem;
+  line-height: 1.8;
+  color: #333333;
+  font-weight: 400;
+  margin: 0;
+}
+
+.location-info-p strong {
+  color: #1a1a1a;
+  font-weight: 600;
+}
+
+.location-contact-details {
+  display: flex;
+  flex-direction: column;
+  gap: 1.15rem;
+  padding: 1.5rem 0;
+  border-top: 1px solid #eeebe6;
+  border-bottom: 1px solid #eeebe6;
+}
+
+.location-detail-item {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.location-detail-label {
+  font-family: var(--font-serif-royal);
+  font-size: 0.6875rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  color: var(--color-burgundy);
+  text-transform: uppercase;
+}
+
+.location-detail-val {
+  font-size: 0.9375rem;
+  line-height: 1.55;
+  color: #2c2c2c;
+  margin: 0;
+}
+
+.location-link {
+  color: var(--color-burgundy);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.location-link:hover {
+  color: #781517;
+}
+
+.btn-open-maps-pill {
+  background: var(--color-burgundy);
+  color: #ffffff;
+  font-size: 1rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  padding: 0.95rem 2.25rem;
+  border-radius: var(--radius-pill);
+  box-shadow: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  border: 1px solid rgba(212, 175, 55, 0.35);
+  cursor: pointer;
+  text-decoration: none;
+  align-self: flex-start;
+}
+
+.btn-open-maps-pill:hover {
+  background: var(--color-burgundy);
+  transform: none;
+  box-shadow: none;
+}
+
+
+/* ==========================================================================
    THE CURATION PAGE STYLES
    ========================================================================== */
 .curated-main-wrapper {
@@ -3866,6 +4022,28 @@ input {
     max-width: 100%;
   }
 
+  .map-location-section {
+    padding: 4rem 1.25rem;
+  }
+
+  .map-location-container {
+    grid-template-columns: 1fr;
+    gap: 2.5rem;
+  }
+
+  .map-embed-frame {
+    height: 320px;
+  }
+
+  .location-main-heading {
+    font-size: 2.25rem;
+  }
+
+  .btn-open-maps-pill {
+    width: 100%;
+    justify-content: center;
+  }
+
   .curation-ribbon-title {
     font-size: 1.75rem;
   }
@@ -3932,10 +4110,12 @@ button,
 a.btn-nav-rsvp,
 a.btn-nav-curation,
 a.btn-get-vip-pass-pill,
+a.btn-open-maps-pill,
 a.curation-cta-btn,
 .btn-nav-rsvp,
 .btn-nav-curation,
 .btn-get-vip-pass-pill,
+.btn-open-maps-pill,
 .btn-submit-luxury,
 .btn-primary-luxury,
 .btn-back-luxury,
@@ -3963,10 +4143,12 @@ button:focus,
 a.btn-nav-rsvp:hover,
 a.btn-nav-curation:hover,
 a.btn-get-vip-pass-pill:hover,
+a.btn-open-maps-pill:hover,
 a.curation-cta-btn:hover,
 .btn-nav-rsvp:hover,
 .btn-nav-curation:hover,
 .btn-get-vip-pass-pill:hover,
+.btn-open-maps-pill:hover,
 .btn-submit-luxury:hover,
 .btn-primary-luxury:hover,
 .btn-back-luxury:hover,
