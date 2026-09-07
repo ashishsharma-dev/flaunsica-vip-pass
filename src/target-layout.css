@@ -85,9 +85,9 @@
   --color-burgundy-tint: rgba(154, 40, 40, 0.08);
   --color-burgundy-subtle: rgba(154, 40, 40, 0.04);
 
-  --color-gold: #d4af37;
-  --color-gold-light: #f3e5ab;
-  --color-gold-soft: #c5a880;
+  --color-gold: #fff;
+  --color-gold-light: #fff;
+  --color-gold-soft: #dedede;
   --color-gold-glow: rgba(212, 175, 55, 0.35);
 
   --color-obsidian: #121212;
@@ -1204,7 +1204,7 @@ input {
   left: 0;
   right: 0;
   height: 4px;
-  background: linear-gradient(90deg, var(--color-gold), var(--color-burgundy), var(--color-gold));
+  background: var(--color-burgundy);
 }
 
 /* Progress tracker */
@@ -3449,6 +3449,7 @@ input {
   font-style: italic;
   color: var(--color-burgundy);
   font-weight: 600;
+  line-height: 1;
 }
 
 .note-role {
@@ -3727,6 +3728,7 @@ input {
   color: #2b2b2b;
   text-align: center;
   line-height: 1.25;
+  display: none;
 }
 
 /* Bottom Curation CTA */
@@ -4006,7 +4008,7 @@ a.curation-cta-btn:hover,
   position: absolute;
   inset: 0;
   background: radial-gradient(circle at 50% 30%, rgba(154, 40, 40, 0.03) 0%, rgba(255, 255, 255, 0) 70%),
-              radial-gradient(circle at 80% 80%, rgba(212, 175, 55, 0.04) 0%, rgba(255, 255, 255, 0) 60%);
+    radial-gradient(circle at 80% 80%, rgba(212, 175, 55, 0.04) 0%, rgba(255, 255, 255, 0) 60%);
   pointer-events: none;
 }
 
@@ -4123,9 +4125,21 @@ a.curation-cta-btn:hover,
 }
 
 @keyframes lockShake {
-  0%, 100% { transform: translateX(0); }
-  20%, 60% { transform: translateX(-6px); }
-  40%, 80% { transform: translateX(6px); }
+
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+
+  20%,
+  60% {
+    transform: translateX(-6px);
+  }
+
+  40%,
+  80% {
+    transform: translateX(6px);
+  }
 }
 
 .site-lock-eye-btn {

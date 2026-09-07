@@ -26,7 +26,7 @@ export const startRegistration = createServerFn({ method: "POST" })
   .validator((input: unknown) => guestSchema.parse(input))
   .handler(async ({ data }) => {
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
-    const { sendEmailCode, sendSmsCode } = await import("./otp-delivery.server");
+    const { sendEmailCode, sendSmsCode, sendWhatsAppCode } = await import("./otp-delivery.server");
 
     const passCode = makePassCode();
     const { data: registration, error } = await supabaseAdmin
@@ -60,18 +60,18 @@ export const startRegistration = createServerFn({ method: "POST" })
       throw new Error("We could not send your verification code. Please try again.");
     }
 
-    const [email, sms] = await Promise.all([
+    const [email, sms, whatsapp] = await Promise.all([
       sendEmailCode(data.email, data.name, code),
       sendSmsCode(data.phone, code),
+      sendWhatsAppCode(data.phone, data.name, code),
     ]);
 
     return {
       registrationId: registration.id,
       passCode: registration.pass_code,
-      delivery: { email, sms },
-      // Only exposed while neither delivery channel is configured, so the flow
-      // remains testable before email domain / SMS provider setup.
-      previewCode: !email && !sms ? code : null,
+      delivery: { email, sms, whatsapp },
+      // Only exposed while neither delivery channel is configured
+      previewCode: !email && !sms && !whatsapp ? code : null,
     };
   });
 
@@ -79,7 +79,7 @@ export const resendCode = createServerFn({ method: "POST" })
   .validator((input: unknown) => z.object({ registrationId: z.string().uuid() }).parse(input))
   .handler(async ({ data }) => {
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
-    const { sendEmailCode, sendSmsCode } = await import("./otp-delivery.server");
+    const { sendEmailCode, sendSmsCode, sendWhatsAppCode } = await import("./otp-delivery.server");
 
     const { data: registration } = await supabaseAdmin
       .from("registrations")
@@ -95,12 +95,16 @@ export const resendCode = createServerFn({ method: "POST" })
       expires_at: new Date(Date.now() + 10 * 60 * 1000).toISOString(),
     });
 
-    const [email, sms] = await Promise.all([
+    const [email, sms, whatsapp] = await Promise.all([
       sendEmailCode(registration.email, registration.name, code),
       sendSmsCode(registration.phone, code),
+      sendWhatsAppCode(registration.phone, registration.name, code),
     ]);
 
-    return { delivery: { email, sms }, previewCode: !email && !sms ? code : null };
+    return {
+      delivery: { email, sms, whatsapp },
+      previewCode: !email && !sms && !whatsapp ? code : null,
+    };
   });
 
 export const verifyCode = createServerFn({ method: "POST" })
@@ -146,8 +150,21 @@ export const verifyCode = createServerFn({ method: "POST" })
       .from("registrations")
       .update({ phone_verified: true, email_verified: true })
       .eq("id", data.registrationId)
-      .select("pass_code")
+      .select("pass_code, name, phone")
       .single();
+
+    if (registration?.phone && registration?.pass_code) {
+      try {
+        const { sendWhatsAppVipPass } = await import("./whatsapp.server");
+        await sendWhatsAppVipPass(
+          registration.phone,
+          registration.name,
+          registration.pass_code,
+        );
+      } catch (err) {
+        console.error("Failed to send WhatsApp VIP pass confirmation:", err);
+      }
+    }
 
     return { ok: true as const, passCode: registration?.pass_code ?? "" };
   });
@@ -169,4 +186,19 @@ export const getPass = createServerFn({ method: "GET" })
 
     if (!registration) return null;
     return registration;
+  });
+
+export const sendWhatsAppDirect = createServerFn({ method: "POST" })
+  .validator((input: unknown) =>
+    z
+      .object({
+        to: z.string().min(5),
+        text: z.string().min(1),
+        deviceId: z.string().optional(),
+      })
+      .parse(input),
+  )
+  .handler(async ({ data }) => {
+    const { sendWhatsAppMessage } = await import("./whatsapp.server");
+    return await sendWhatsAppMessage(data);
   });

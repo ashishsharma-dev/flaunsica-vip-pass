@@ -11,6 +11,21 @@
 export interface DeliveryResult {
   email: boolean;
   sms: boolean;
+  whatsapp: boolean;
+}
+
+export async function sendWhatsAppCode(
+  phone: string,
+  name: string,
+  code: string,
+): Promise<boolean> {
+  try {
+    const { sendWhatsAppOtp } = await import("./whatsapp.server");
+    return await sendWhatsAppOtp(phone, name, code);
+  } catch (error) {
+    console.error("whatsapp code send failed", error);
+    return false;
+  }
 }
 
 export async function sendEmailCode(

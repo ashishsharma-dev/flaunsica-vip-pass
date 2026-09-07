@@ -12,8 +12,8 @@
   --color-burgundy-light: #8b1e22;
   --color-burgundy-tint: rgba(123, 17, 19, 0.08);
   --color-burgundy-subtle: rgba(123, 17, 19, 0.04);
-  
-  --color-gold: #d4af37;
+
+  --color-gold: #fff;
   --color-gold-light: #f3e5ab;
   --color-gold-soft: #c5a880;
   --color-gold-glow: rgba(212, 175, 55, 0.35);
@@ -54,7 +54,9 @@
 }
 
 /* Reset & Base Setup */
-*, *::before, *::after {
+*,
+*::before,
+*::after {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
@@ -86,7 +88,8 @@ a {
   text-decoration: none;
 }
 
-button, input {
+button,
+input {
   font-family: inherit;
 }
 
@@ -482,21 +485,27 @@ button, input {
   left: -100%;
   width: 50%;
   height: 100%;
-  background: linear-gradient(
-    90deg,
-    transparent,
-    rgba(255, 255, 255, 0.3),
-    rgba(212, 175, 55, 0.4),
-    transparent
-  );
+  background: linear-gradient(90deg,
+      transparent,
+      rgba(255, 255, 255, 0.3),
+      rgba(212, 175, 55, 0.4),
+      transparent);
   transform: skewX(-25deg);
   animation: buttonSheen 4.5s infinite;
 }
 
 @keyframes buttonSheen {
-  0% { left: -100%; }
-  25% { left: 150%; }
-  100% { left: 150%; }
+  0% {
+    left: -100%;
+  }
+
+  25% {
+    left: 150%;
+  }
+
+  100% {
+    left: 150%;
+  }
 }
 
 .curator-seal {
@@ -539,9 +548,17 @@ button, input {
 }
 
 @keyframes pulseGreen {
-  0% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7); }
-  70% { box-shadow: 0 0 0 8px rgba(16, 185, 129, 0); }
-  100% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
+  0% {
+    box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7);
+  }
+
+  70% {
+    box-shadow: 0 0 0 8px rgba(16, 185, 129, 0);
+  }
+
+  100% {
+    box-shadow: 0 0 0 0 rgba(16, 185, 129, 0);
+  }
 }
 
 /* Hero Visual Lookbook Stack */
@@ -995,8 +1012,8 @@ button, input {
 }
 
 /* When input is focused or not empty */
-.form-input:focus ~ .floating-label,
-.form-input:not(:placeholder-shown) ~ .floating-label {
+.form-input:focus~.floating-label,
+.form-input:not(:placeholder-shown)~.floating-label {
   top: 0;
   font-size: 0.75rem;
   font-weight: 600;
@@ -1140,8 +1157,8 @@ button, input {
   background: #ffffff;
 }
 
-.radio-pill input:checked + .pill-btn,
-.check-pill input:checked + .pill-btn {
+.radio-pill input:checked+.pill-btn,
+.check-pill input:checked+.pill-btn {
   background: var(--color-burgundy);
   border-color: var(--color-burgundy);
   color: #ffffff;
@@ -1159,7 +1176,7 @@ button, input {
   font-size: 0.625rem;
 }
 
-.check-pill input:checked + .pill-btn .check-box-indicator::after {
+.check-pill input:checked+.pill-btn .check-box-indicator::after {
   content: '✓';
   color: #ffffff;
   font-weight: 900;
@@ -1259,8 +1276,15 @@ button, input {
 }
 
 @keyframes modalPopIn {
-  from { opacity: 0; transform: scale(0.95) translateY(15px); }
-  to { opacity: 1; transform: scale(1) translateY(0); }
+  from {
+    opacity: 0;
+    transform: scale(0.95) translateY(15px);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
 }
 
 .modal-close-btn {
@@ -1553,20 +1577,26 @@ button, input {
   left: -50%;
   width: 200%;
   height: 200%;
-  background: linear-gradient(
-    45deg,
-    transparent 45%,
-    rgba(212, 175, 55, 0.12) 50%,
-    transparent 55%
-  );
+  background: linear-gradient(45deg,
+      transparent 45%,
+      rgba(212, 175, 55, 0.12) 50%,
+      transparent 55%);
   pointer-events: none;
   animation: goldShimmer 6s infinite;
 }
 
 @keyframes goldShimmer {
-  0% { transform: translateY(-30%) translateX(-30%); }
-  50% { transform: translateY(30%) translateX(30%); }
-  100% { transform: translateY(-30%) translateX(-30%); }
+  0% {
+    transform: translateY(-30%) translateX(-30%);
+  }
+
+  50% {
+    transform: translateY(30%) translateX(30%);
+  }
+
+  100% {
+    transform: translateY(-30%) translateX(-30%);
+  }
 }
 
 .ticket-header {
@@ -2308,19 +2338,24 @@ button, input {
   .hero-headline {
     font-size: 3.5rem;
   }
+
   .hero-container {
     grid-template-columns: 1fr;
     gap: 3rem;
   }
+
   .hero-visual-col {
     order: -1;
   }
+
   .visual-editorial-stack {
     height: 440px;
   }
+
   .benefits-grid {
     grid-template-columns: 1fr;
   }
+
   .footer-grid {
     grid-template-columns: 1fr 1fr;
   }
@@ -2330,48 +2365,62 @@ button, input {
   .announcement-text {
     font-size: 0.75rem;
   }
+
   .header-edition-badge,
   .event-quick-date {
     display: none;
   }
+
   .brand-title {
     font-size: 1.65rem;
   }
+
   .hero-section {
     padding: 2.5rem 1.25rem 3.5rem;
   }
+
   .hero-headline {
     font-size: 2.85rem;
   }
+
   .visual-editorial-stack {
     height: 380px;
   }
+
   .luxury-form-card {
     padding: 2rem 1.25rem;
   }
+
   .form-title {
     font-size: 1.85rem;
   }
+
   .ticket-main-grid {
     grid-template-columns: 1fr;
     gap: 1.25rem;
   }
+
   .qr-code-block {
     order: -1;
   }
+
   .pass-actions-grid {
     grid-template-columns: 1fr;
   }
+
   .ticket-footer-meta {
     grid-template-columns: 1fr;
     gap: 0.5rem;
   }
+
   .venue-box {
     padding: 2.25rem 1.5rem;
   }
+
   .venue-title {
     font-size: 2.25rem;
   }
+
   .footer-grid {
     grid-template-columns: 1fr;
     gap: 2rem;
