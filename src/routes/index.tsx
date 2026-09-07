@@ -116,25 +116,28 @@ function Index() {
 
               <div className="note-letter-body">
                 <p className="note-letter-p">
-                  I Started Flaunsica Because I Believed There Was A Better Way To Bring Fashion To The Women Of Hyderabad — Not More Options, But The Right Ones. Every Edition, I Go Looking. For Collections That Haven't Been Seen Before, For Designers Who Are Doing Something That Genuinely Stops Me, For Work That I Know My Audience Isn't Just Ready For — But Waiting For, Without Knowing It Yet.
+                  I started Flaunsica because I believed there was a better way to bring fashion to the women of Hyderabad. Not more options — the right ones.
                 </p>
                 <p className="note-letter-p">
-                  That Search Is How I Found You.
+                  Every edition, I go looking. For collections that haven't been seen before. For designers doing something that genuinely stops me. For work that I know our audience isn't just ready for — but waiting for, without knowing it yet.
                 </p>
                 <p className="note-letter-p">
-                  The 10th Edition Of Flaunsica Is Not Just A Milestone For Me; It Is A Declaration. Of What This Platform Stands For, Of The Kind Of Fashion Conversation Hyderabad Deserves To Be Part Of, And Of The Designers I Believe Are Shaping What Indian Luxury Looks And Feels Like Right Now.
+                  That search is what Flaunsica is built on.
                 </p>
                 <p className="note-letter-p">
-                  This Invitation Doesn't Go Out Broadly. Every Designer Who Walks Into A Flaunsica Is Here Because Their Work Said Something — Something I Couldn't Look Away From, And Something I Knew Our Community Of Hyderabad Needed To See.
+                  Ten editions later, the belief hasn't changed. What has changed is the depth of it. The 10th Edition of Flaunsica — X, The Refined Edition — is not just a milestone. It is a declaration of what this platform stands for, of the kind of fashion conversation Hyderabad deserves to be part of, and of the designers I believe are shaping what Indian luxury looks and feels like right now.
                 </p>
                 <p className="note-letter-p">
-                  I Hope You'll Be Part Of This.
+                  Flaunsica has always been about curation over volume, intention over noise, and the quiet confidence of a room that knows exactly what it is. Edition X, on September 23 at Park Hyatt Hyderabad, is that room at its most considered.
+                </p>
+                <p className="note-letter-p">
+                  I hope you'll be part of it.
                 </p>
               </div>
 
               <div className="note-signature">
-                <span className="note-author">- Prestha Agarwal</span>
-                <span className="note-role">FOUNDER &amp; CURATOR</span>
+                <span className="note-author">Prestha Agarwal</span>
+                <span className="note-role">Founder, Flaunsica · Est. 2014</span>
               </div>
             </div>
 
@@ -142,10 +145,12 @@ function Index() {
             <div className="the-note-right-col">
               <div className="note-visual-frame">
                 <img
-                  src="/assets/ad2.jpg"
-                  alt="Prestha Agarwal - Founder & Curator, Flaunsica"
+                  src="/assets/founder-flaunsica.jpg"
+                  alt="Prestha Agarwal - Founder, Flaunsica"
                   className="note-curator-img"
                   loading="lazy"
+                  width={1920}
+                  height={1280}
                 />
               </div>
             </div>

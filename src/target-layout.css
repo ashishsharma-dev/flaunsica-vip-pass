@@ -3435,30 +3435,30 @@ input {
 }
 
 .note-signature {
-  margin-top: 1.25rem;
+  margin-top: 1.75rem;
   display: flex;
   flex-direction: column;
-  align-items: flex-end;
-  text-align: right;
-  gap: 0.2rem;
+  align-items: flex-start;
+  text-align: left;
+  gap: 0.35rem;
 }
 
 .note-author {
   font-family: var(--font-serif-display);
-  font-size: 1.65rem;
+  font-size: 1.85rem;
   font-style: italic;
   color: var(--color-burgundy);
   font-weight: 600;
-  line-height: 1;
+  line-height: 1.1;
 }
 
 .note-role {
-  font-family: var(--font-serif-royal);
-  font-size: 0.75rem;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  color: #1a1a1a;
-  font-weight: 700;
+  font-family: var(--font-sans);
+  font-size: 0.8125rem;
+  letter-spacing: 0.05em;
+  color: #444444;
+  font-weight: 600;
+  text-transform: none;
 }
 
 .the-note-right-col {
@@ -3468,8 +3468,9 @@ input {
 
 .note-visual-frame {
   width: 100%;
-  max-width: 500px;
-  height: 580px;
+  max-width: 560px;
+  aspect-ratio: 3 / 2;
+  height: auto;
   background: #e8e8e8;
   border-radius: var(--radius-sm);
   overflow: hidden;
@@ -3860,7 +3861,9 @@ input {
   }
 
   .note-visual-frame {
-    height: 420px;
+    height: auto;
+    aspect-ratio: 3 / 2;
+    max-width: 100%;
   }
 
   .curation-ribbon-title {
