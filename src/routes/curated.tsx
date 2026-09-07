@@ -86,7 +86,7 @@ function BrandGrid({ brands }: { brands: BrandPartner[] }) {
         <div key={i} className="curation-brand-card">
           <div className="curation-brand-logo-frame">
             <img
-              src={brand.logo}
+              src={encodeURI(brand.logo)}
               alt={brand.name}
               className="curation-brand-logo-img"
               loading="lazy"
