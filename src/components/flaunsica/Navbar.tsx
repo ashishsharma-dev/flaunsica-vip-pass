@@ -38,19 +38,19 @@ export function Navbar({ onGetVipPass }: { onGetVipPass?: () => void }) {
           <div className="announcement-marquee-content">
             <span className="announcement-marquee-item">
               <span className="announcement-sparkle">✦</span>
-              Park Hyatt Hyderabad 23.09.2026 • Park Hyatt Hyderabad 23.09.2026 • Park Hyatt Hyderabad 23.09.2026 • Curated by Prestha
+              Park Hyatt Hyderabad 23.09.2026 • Park Hyatt Hyderabad 23.09.2026 • Park Hyatt Hyderabad 23.09.2026 • curated by Prestha Agarwal
             </span>
             <span className="announcement-marquee-item">
               <span className="announcement-sparkle">✦</span>
-              Park Hyatt Hyderabad 23.09.2026 • Park Hyatt Hyderabad 23.09.2026 • Park Hyatt Hyderabad 23.09.2026 • Curated by Prestha
+              Park Hyatt Hyderabad 23.09.2026 • Park Hyatt Hyderabad 23.09.2026 • Park Hyatt Hyderabad 23.09.2026 • curated by Prestha Agarwal
             </span>
             <span className="announcement-marquee-item">
               <span className="announcement-sparkle">✦</span>
-              Park Hyatt Hyderabad 23.09.2026 • Park Hyatt Hyderabad 23.09.2026 • Park Hyatt Hyderabad 23.09.2026 • Curated by Prestha
+              Park Hyatt Hyderabad 23.09.2026 • Park Hyatt Hyderabad 23.09.2026 • Park Hyatt Hyderabad 23.09.2026 • curated by Prestha Agarwal
             </span>
             <span className="announcement-marquee-item">
               <span className="announcement-sparkle">✦</span>
-              Park Hyatt Hyderabad 23.09.2026 • Park Hyatt Hyderabad 23.09.2026 • Park Hyatt Hyderabad 23.09.2026 • Curated by Prestha
+              Park Hyatt Hyderabad 23.09.2026 • Park Hyatt Hyderabad 23.09.2026 • Park Hyatt Hyderabad 23.09.2026 • curated by Prestha Agarwal
             </span>
           </div>
         </div>
@@ -195,7 +195,7 @@ export function Navbar({ onGetVipPass }: { onGetVipPass?: () => void }) {
                 <span className="meta-date">Wednesday, 23 September 2026</span>
                 <span className="meta-venue">Park Hyatt, Banjara Hills, Hyderabad</span>
               </div>
-              <p className="drawer-curator-tag">Curated by Prestha</p>
+              <p className="drawer-curator-tag">curated by Prestha Agarwal</p>
             </div>
           </div>
         </div>

@@ -98,7 +98,7 @@ export function CuratedSlider({ items, autoplayInterval = 5000 }: CuratedSliderP
                   )}
                   <h3 className="curated-slide-title">{item.title}</h3>
                   {item.designer && (
-                    <p className="curated-slide-designer">Curated by {item.designer}</p>
+                    <p className="curated-slide-designer">Curated by {item.designer} Agarwal</p>
                   )}
                   {item.tagline && (
                     <p className="curated-slide-tagline">{item.tagline}</p>

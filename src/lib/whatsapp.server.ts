@@ -130,7 +130,7 @@ export async function sendWhatsAppOtp(
     `• Venue: The Ballroom, Park Hyatt, Banjara Hills`,
     `• Date: Wednesday, 23 September 2026`,
     ``,
-    `_Curated by Prestha_`,
+    `_curated by Prestha Agarwal_`,
   ].join("\n");
 
   const result = await sendWhatsAppMessage({
@@ -154,22 +154,22 @@ export async function sendWhatsAppVipPass(
   const passUrl = `${origin || "https://flaunsica.com"}/pass/${passCode}`;
 
   const message = [
-    `🎟️ *Flaunsica VIP Invitation Confirmed*`,
+    `🎟️ *Flaunsica Exclusive Invitation Confirmed*`,
     ``,
     `Dear ${patronName},`,
-    `Your exclusive VIP entry pass for *Flaunsica Hyderabad (10th Refined Edition)* has been officially confirmed!`,
+    `Your Exclusive Invite for *Flaunsica Hyderabad (10th Refined Edition)* has been officially confirmed!`,
     ``,
-    `• *Pass Code:* ${passCode}`,
+    `• *Invite Code:* ${passCode}`,
     `• *Date:* Wednesday, 23 September 2026`,
-    `• *Time:* 10:00 AM – 8:30 PM IST`,
+    `• *Time:* 11:00 AM – 7:00 PM IST`,
     `• *Venue:* The Ballroom, Park Hyatt, Banjara Hills, Hyderabad`,
     ``,
-    `📲 *View & Download Your Digital VIP Pass & QR Code:*`,
+    `📲 *View & Download Your Digital Exclusive Invite & QR Code:*`,
     passUrl,
     ``,
-    `Please present your digital pass QR code at the VIP desk for fast-track entry.`,
+    `Please present your digital invite QR code at the reception desk for fast-track entry.`,
     ``,
-    `_Curated by Prestha. We look forward to welcoming you!_`,
+    `_curated by Prestha Agarwal. We look forward to welcoming you!_`,
   ].join("\n");
 
   const result = await sendWhatsAppMessage({

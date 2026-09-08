@@ -143,7 +143,7 @@ export function VipPass({
       ctx.font = '13px "Plus Jakarta Sans", sans-serif';
       ctx.textAlign = "center";
       ctx.fillText(
-        "Curated by Prestha • 55+ Premier Luxury Designer Brands",
+        "curated by Prestha Agarwal • 55+ Premier Luxury Designer Brands",
         600,
         680
       );
@@ -194,8 +194,8 @@ export function VipPass({
       "DTSTAMP:20260903T100000Z",
       "DTSTART:20260923T043000Z", // 10:00 AM IST is 04:30 UTC
       "DTEND:20260923T150000Z", // 08:30 PM IST is 15:00 UTC
-      "SUMMARY:Flaunsica Hyderabad – 10th Refined Edition (VIP Pass)",
-      `DESCRIPTION:VIP Fast-Track Entry Pass ID: ${passCode}\\nGuest Name: ${guest.name}\\nCurated by Prestha.\\n55+ luxury brands in couture, bridal trousseau, fine jewelry, and pret.`,
+      "SUMMARY:Flaunsica Hyderabad – 10th Refined Edition (Exclusive Invite)",
+      `DESCRIPTION:Exclusive Invite ID: ${passCode}\\nGuest Name: ${guest.name}\\ncurated by Prestha Agarwal.\\n55+ luxury brands in couture, bridal trousseau, fine jewelry, and pret.`,
       "LOCATION:The Ballroom, Park Hyatt, Road No. 2, Banjara Hills, Hyderabad, Telangana 500034",
       "STATUS:CONFIRMED",
       "BEGIN:VALARM",
@@ -217,7 +217,7 @@ export function VipPass({
   };
 
   const shareWhatsApp = () => {
-    const shareText = `Hey! I just got my VIP Pass for *Flaunsica Hyderabad – 10th Refined Edition* (23 Sept 2026 at Park Hyatt). 55+ luxury designer brands under one roof! Curated by Prestha. Get your complimentary VIP pass here: https://flaunsica.com`;
+    const shareText = `Hey! I just got my Exclusive Invite for *Flaunsica Hyderabad – 10th Refined Edition* (23 Sept 2026 at Park Hyatt). 55+ luxury designer brands under one roof! curated by Prestha Agarwal. Get your complimentary Exclusive Invite here: https://flaunsica.com`;
     const shareUrl = `https://api.whatsapp.com/send?text=${encodeURIComponent(shareText)}`;
     window.open(shareUrl, "_blank");
   };
@@ -233,11 +233,11 @@ export function VipPass({
         <div className="confirmation-banner">
           <div className="conf-badge">
             <span className="conf-icon">✓</span>
-            <span>VIP INVITATION CONFIRMED</span>
+            <span>EXCLUSIVE INVITATION CONFIRMED</span>
           </div>
           <h2 className="conf-title">You're on the Guest List!</h2>
           <p className="conf-desc">
-            Present your digital pass barcode or QR at the Park Hyatt VIP reception for fast-track
+            Present your digital invite barcode or QR at the Park Hyatt VIP reception for fast-track
             entry.
           </p>
         </div>
@@ -301,7 +301,7 @@ export function VipPass({
                     <span className="tk-val">{focus}</span>
                   </div>
                   <div className="tk-field">
-                    <span className="tk-label">PASS ID</span>
+                    <span className="tk-label">INVITE ID</span>
                     <span className="tk-val tk-pass-id">{passCode}</span>
                   </div>
                 </div>
@@ -314,7 +314,7 @@ export function VipPass({
                     {qrUrl ? (
                       <img
                         src={qrUrl}
-                        alt={`VIP Pass QR for ${passCode}`}
+                        alt={`Exclusive Invite QR for ${passCode}`}
                         className="size-full rounded object-contain"
                       />
                     ) : (
@@ -357,13 +357,13 @@ export function VipPass({
                 <span className="tf-icon">⏱</span>
                 <div className="tf-col">
                   <span className="tf-label">HOURS</span>
-                  <span className="tf-val">10:00 AM – 8:30 PM</span>
+                  <span className="tf-val">11:00 AM – 7:00 PM</span>
                 </div>
               </div>
             </div>
 
             <div className="ticket-curator-seal">
-              Curated by Prestha • Official 10th Edition Fast-Track Pass
+              curated by Prestha Agarwal • Official 10th Edition Exclusive Invite
             </div>
           </div>
         </div>
@@ -378,7 +378,7 @@ export function VipPass({
           <div className="dispatch-text">
             <strong>Instant WhatsApp & Email Copy Dispatched</strong>
             <p>
-              A digital copy of your VIP entry QR pass has been dispatched via WhatsApp to{" "}
+              A digital copy of your Exclusive Invite QR code has been dispatched via WhatsApp to{" "}
               <span>+91 {guest.phone}</span> and emailed to <span>{guest.email}</span>.
             </p>
           </div>
@@ -396,7 +396,7 @@ export function VipPass({
               <polyline points="7 10 12 15 17 10"></polyline>
               <line x1="12" y1="15" x2="12" y2="3"></line>
             </svg>
-            <span>Download Pass (PNG)</span>
+            <span>Download Exclusive Invite (PNG)</span>
           </button>
 
           <button

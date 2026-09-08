@@ -1837,6 +1837,149 @@ input {
 }
 
 /* ==========================================================================
+   FORM SUBMISSION LOADING ANIMATION & OVERLAY
+   ========================================================================== */
+.form-submitting-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  z-index: 60;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem 1.5rem;
+  border-radius: var(--radius-lg);
+  animation: overlayFadeIn 0.25s ease-out forwards;
+}
+
+@keyframes overlayFadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.submitting-overlay-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  max-width: 380px;
+  width: 100%;
+  gap: 1rem;
+}
+
+.luxury-spinner-ring {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  border: 3px solid rgba(154, 40, 40, 0.15);
+  border-top-color: var(--color-burgundy);
+  border-right-color: var(--color-gold);
+  animation: luxurySpin 0.9s cubic-bezier(0.6, 0.2, 0.4, 0.9) infinite;
+  margin-bottom: 0.25rem;
+}
+
+@keyframes luxurySpin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.submitting-brand-logo {
+  display: flex;
+  justify-content: center;
+}
+
+.submitting-logo-img {
+  height: 32px;
+  width: auto;
+  object-fit: contain;
+}
+
+.submitting-title {
+  font-family: var(--font-serif-display);
+  font-size: 1.45rem;
+  font-style: italic;
+  font-weight: 600;
+  color: #1a1a1a;
+  margin: 0;
+  line-height: 1.25;
+}
+
+.submitting-subtitle {
+  font-size: 0.875rem;
+  color: #555555;
+  line-height: 1.55;
+  margin: 0;
+}
+
+.submitting-progress-track {
+  width: 100%;
+  height: 4px;
+  background: #f0eee9;
+  border-radius: 9999px;
+  overflow: hidden;
+  position: relative;
+  margin-top: 0.5rem;
+}
+
+.submitting-progress-bar {
+  width: 45%;
+  height: 100%;
+  background: linear-gradient(90deg, var(--color-burgundy), var(--color-gold));
+  border-radius: 9999px;
+  animation: progressBarSweep 1.6s ease-in-out infinite;
+}
+
+@keyframes progressBarSweep {
+  0% {
+    transform: translateX(-100%);
+  }
+  50% {
+    transform: translateX(120%);
+  }
+  100% {
+    transform: translateX(260%);
+  }
+}
+
+/* In-Button Loading Spinner */
+.btn-loading-flex {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.65rem;
+}
+
+.btn-spinner-icon {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  border: 2.5px solid rgba(255, 255, 255, 0.35);
+  border-top-color: #ffffff;
+  animation: luxurySpin 0.75s linear infinite;
+  flex-shrink: 0;
+  display: inline-block;
+}
+
+.btn-submit-luxury.is-submitting,
+.btn-primary-luxury.is-submitting {
+  opacity: 0.92;
+  cursor: wait !important;
+}
+
+/* ==========================================================================
    STEP 2: OTP VERIFICATION MODAL
    ========================================================================== */
 .modal-backdrop {
@@ -3274,6 +3417,7 @@ input {
   color: #1a1a1a;
   line-height: 1.35;
   letter-spacing: -0.01em;
+  font-family: 'New Baskerville';
 }
 
 .hero-10th-logo-wrap {
@@ -3672,7 +3816,7 @@ input {
   display: block;
   object-fit: contain;
   border-radius: var(--radius-md, 12px);
-  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.06);
+  /* box-shadow: 0 4px 24px rgba(0, 0, 0, 0.06); */
 }
 
 
@@ -3869,7 +4013,7 @@ input {
 
 .curation-brand-card {
   background: #ffffff;
-  border: 1px solid #e8e2d9;
+  /* border: 1px solid #e8e2d9; */
   border-radius: var(--radius-sm);
   display: flex;
   flex-direction: column;
@@ -3879,7 +4023,7 @@ input {
   min-height: 140px;
   transition: var(--transition-smooth);
   position: relative;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.02);
+  /* box-shadow: 0 2px 8px rgba(0, 0, 0, 0.02); */
 }
 
 .curation-brand-card:hover {
@@ -3898,8 +4042,8 @@ input {
 }
 
 .curation-brand-logo-img {
-  max-height: 52px;
-  max-width: 85%;
+  max-height: 90px;
+  max-width: 100%;
   width: auto;
   height: auto;
   object-fit: contain;
@@ -4142,7 +4286,7 @@ input {
   }
 
   .curation-brand-logo-img {
-    max-height: 44px;
+    max-height: 60px;
   }
 }
 

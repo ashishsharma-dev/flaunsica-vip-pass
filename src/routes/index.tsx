@@ -2,9 +2,9 @@ import { createFileRoute } from "@tanstack/react-router";
 import { Navbar } from "@/components/flaunsica/Navbar";
 import { RsvpFlow } from "@/components/flaunsica/RsvpFlow";
 
-const TITLE = "Flaunsica Hyderabad – 10th Refined Edition | Official VIP Pass & RSVP";
+const TITLE = "Flaunsica Hyderabad – 10th Refined Edition | Official Exclusive Invite & RSVP";
 const DESCRIPTION =
-  "Hyderabad's most coveted luxury designer trunk show returns to Park Hyatt on 23 September 2026. 55+ Brands. One Curated Edit. Request your exclusive VIP entry pass.";
+  "Hyderabad's most coveted luxury designer trunk show returns to Park Hyatt on 23 September 2026. 55+ Brands. One Curated Edit. Request your exclusive invitation.";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -56,7 +56,7 @@ function Index() {
               </div>
 
               <p className="hero-editorial-desc">
-                55+ Brands. One Curated Edit. Hyderabad’s most coveted luxury designer trunk show returns to <strong>Park Hyatt, Banjara Hills</strong> on <strong>23 September 2026</strong>. Experience hand-picked couture, bridal trousseau, fine jewelry, and contemporary pret curated by Prestha.
+                55+ Brands. One Curated Edit. Hyderabad’s most coveted luxury designer trunk show returns to <strong>Park Hyatt, Banjara Hills</strong> on <strong><br />23 September 2026</strong>. Experience hand-picked couture, bridal trousseau, fine jewelry, and contemporary pret curated by Prestha Agarwal.
               </p>
             </div>
 
@@ -64,7 +64,7 @@ function Index() {
             <div className="new-hero-visual-col">
               <div className="hero-visual-frame">
                 <img
-                  src="/assets/hero-couture.jpg"
+                  src="/assets/banner-image.jpg"
                   alt="Flaunsica 10th Refined Edition Couture"
                   className="hero-visual-img"
                   loading="eager"
@@ -82,7 +82,7 @@ function Index() {
             {/* Left Column */}
             <div className="new-rsvp-left-col">
               <h2 className="section-invite-heading">
-                Register for your exclusive invite to attend the
+                Register for your exclusive invite to attend the show
               </h2>
 
               <a
@@ -202,14 +202,14 @@ function Index() {
                 <div className="location-detail-item">
                   <span className="location-detail-label">DATE &amp; HOURS</span>
                   <p className="location-detail-val">
-                    Wednesday, 23 September 2026 · 10:00 AM to 8:30 PM
+                    Wednesday, 23 September 2026 · 11:00 AM to 7:00 PM
                   </p>
                 </div>
 
                 <div className="location-detail-item">
                   <span className="location-detail-label">CONTACT &amp; INQUIRIES</span>
                   <p className="location-detail-val">
-                    Email: <a href="mailto:concierge@flaunsica.com" className="location-link">concierge@flaunsica.com</a> · Instagram: <a href="https://instagram.com/flaunsica_hyderabad" target="_blank" rel="noopener noreferrer" className="location-link">@flaunsica_hyderabad</a>
+                    Email: <a href="mailto:flaunsica.hyderabad@gmail.com" className="location-link">flaunsica.hyderabad@gmail.com</a> · Instagram: <a href="https://instagram.com/flaunsica_hyderabad" target="_blank" rel="noopener noreferrer" className="location-link">@flaunsica_hyderabad</a>
                   </p>
                 </div>
               </div>
@@ -277,7 +277,7 @@ function Index() {
               </p>
               <div className="f-curated">
                 <span>Curated by</span>
-                <strong>Prestha</strong>
+                <strong>Prestha Agarwal</strong>
               </div>
             </div>
 
@@ -285,7 +285,7 @@ function Index() {
               <h4 className="f-heading">10TH REFINED EDITION</h4>
               <ul className="f-links">
                 <li><span>Wednesday, 23 September 2026</span></li>
-                <li><span>10:00 AM to 8:30 PM</span></li>
+                <li><span>11:00 AM to 7:00 PM</span></li>
                 <li><span>The Ballroom, Park Hyatt, Banjara Hills</span></li>
                 <li>
                   <a
@@ -314,7 +314,7 @@ function Index() {
             <div className="footer-col">
               <h4 className="f-heading">VIP DESK &amp; INQUIRIES</h4>
               <ul className="f-links">
-                <li><a href="mailto:concierge@flaunsica.com">concierge@flaunsica.com</a></li>
+                <li><a href="mailto:flaunsica.hyderabad@gmail.com">flaunsica.hyderabad@gmail.com</a></li>
                 <li><span>Park Hyatt, Banjara Hills, Hyderabad</span></li>
                 <li><a href="https://instagram.com/flaunsica_hyderabad" target="_blank" rel="noopener noreferrer">Official Instagram: @flaunsica_hyderabad</a></li>
                 <li><a href="#location-section" className="btn-get-directions">Get Directions</a></li>
@@ -323,7 +323,7 @@ function Index() {
           </div>
 
           <div className="footer-bottom">
-            <p>&copy; 2026 Flaunsica Hyderabad. Curated by Prestha. All rights reserved.</p>
+            <p>&copy; 2026 Flaunsica Hyderabad. curated by Prestha Agarwal. All rights reserved.</p>
             <div className="footer-legal">
               <a href="#">Privacy Policy</a>
               <a href="#">Terms of Admission</a>

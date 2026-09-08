@@ -4,7 +4,7 @@ Act as an elite UI/UX designer and full-stack landing page developer. Build a lu
 
 ### 1. Brand Identity & Aesthetic
 
-- Brand: Flaunsica Hyderabad (curated by Prestha)
+- Brand: Flaunsica Hyderabad (curated by Prestha Agarwal)
 
 - Tone: High-fashion, exclusive, editorial, luxurious, clean.
 

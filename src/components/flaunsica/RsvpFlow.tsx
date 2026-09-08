@@ -245,6 +245,33 @@ export function RsvpFlow() {
     <section id="rsvp-section" className="registration-section">
       <div className="reg-container">
         <div className="luxury-form-card" id="form-card-container">
+          {/* Submission Loading Animation Overlay */}
+          {submitting && step === "form" && (
+            <div className="form-submitting-overlay" aria-live="assertive" role="status">
+              <div className="submitting-overlay-card">
+                <div className="luxury-spinner-ring">
+                  <div className="spinner-inner-circle" />
+                </div>
+                <div className="submitting-brand-logo">
+                  <img
+                    src="/assets/logos/flaunsica-logo-red.svg"
+                    alt="Flaunsica"
+                    className="submitting-logo-img"
+                    width={140}
+                    height={39}
+                  />
+                </div>
+                <h4 className="submitting-title">Securing Your Exclusive Invite</h4>
+                <p className="submitting-subtitle">
+                  Confirming your guest reservation &amp; dispatching verification code...
+                </p>
+                <div className="submitting-progress-track">
+                  <div className="submitting-progress-bar" />
+                </div>
+              </div>
+            </div>
+          )}
+
           {/* Progress Tracker Header */}
           <div className="form-progress-bar">
             <div
@@ -291,7 +318,7 @@ export function RsvpFlow() {
               id="step-node-4"
             >
               <span className="step-num">4</span>
-              <span className="step-label">VIP Pass</span>
+              <span className="step-label">Exclusive Invite</span>
             </div>
           </div>
 
@@ -305,7 +332,7 @@ export function RsvpFlow() {
                     <span className="stage-pill-dot" />
                     <span>STEP 1 OF 2 • GUEST CONTACT</span>
                   </div>
-                  <h2 className="form-title">Request Your VIP Invitation</h2>
+                  <h2 className="form-title">Request Your Exclusive Invitation</h2>
                   <p className="form-subtitle">
                     Enter your contact details to receive your personal entry pass & schedule via WhatsApp & Email.
                   </p>
@@ -351,7 +378,7 @@ export function RsvpFlow() {
                       <label htmlFor="mobile" className="floating-label tel-label">WhatsApp / Mobile Number *</label>
                     </div>
                     {errors.phone ? <span className="field-error">{errors.phone}</span> : null}
-                    <span className="field-hint">Your QR pass will be sent to this WhatsApp number & email</span>
+                    <span className="field-hint">Your QR invite will be sent to this WhatsApp number & email</span>
                   </div>
 
                   {/* 3. Email Address */}
@@ -377,7 +404,7 @@ export function RsvpFlow() {
                   <div className="perk-item">
                     <span className="perk-icon">🎟️</span>
                     <div className="perk-text">
-                      <strong>Complimentary VIP Pass</strong>
+                      <strong>Complimentary Exclusive Invite</strong>
                       <span>Direct QR gate admission</span>
                     </div>
                   </div>
@@ -548,16 +575,23 @@ export function RsvpFlow() {
                     type="submit"
                     id="btn-submit-rsvp"
                     disabled={submitting}
-                    className="btn-submit-luxury"
+                    className={`btn-submit-luxury ${submitting ? "is-submitting" : ""}`}
                   >
-                    <span className="btn-submit-text">
-                      {submitting ? "Securing VIP Pass..." : "Get My VIP QR Pass"}
-                    </span>
-                    <span className="btn-sheen" />
-                    <svg className="btn-icon-lock" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                      <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
-                      <path d="M7 11V7a5 5 0 0 1 10 0v4" />
-                    </svg>
+                    {submitting ? (
+                      <span className="btn-loading-flex">
+                        <span className="btn-spinner-icon" aria-hidden="true" />
+                        <span className="btn-submit-text">Securing Exclusive Invite...</span>
+                      </span>
+                    ) : (
+                      <>
+                        <span className="btn-submit-text">Get Exclusive Invite</span>
+                        <span className="btn-sheen" />
+                        <svg className="btn-icon-lock" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                          <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
+                          <path d="M7 11V7a5 5 0 0 1 10 0v4" />
+                        </svg>
+                      </>
+                    )}
                   </button>
                 </div>
 
@@ -620,7 +654,7 @@ export function RsvpFlow() {
                 <div className="sim-text">
                   <span className="sim-title">Verification Code Preview:</span>
                   <span className="sim-code">
-                    "Your Flaunsica 10th Edition VIP pass verification code is <strong id="demoOtpCode">{previewCode}</strong>."
+                    "Your Flaunsica 10th Edition exclusive invite verification code is <strong id="demoOtpCode">{previewCode}</strong>."
                   </span>
                 </div>
                 <button
@@ -679,9 +713,16 @@ export function RsvpFlow() {
                 id="btnVerifyOtp"
                 disabled={submitting}
                 onClick={() => doVerify(otp.join(""))}
-                className="btn-primary-luxury btn-modal-verify"
+                className={`btn-primary-luxury btn-modal-verify ${submitting ? "is-submitting" : ""}`}
               >
-                <span>{submitting ? "Verifying..." : "Verify & Generate VIP Pass"}</span>
+                {submitting ? (
+                  <span className="btn-loading-flex">
+                    <span className="btn-spinner-icon" aria-hidden="true" />
+                    <span>Verifying Exclusive Invite...</span>
+                  </span>
+                ) : (
+                  <span>Verify &amp; Generate Exclusive Invite</span>
+                )}
               </button>
 
               <div className="resend-row">

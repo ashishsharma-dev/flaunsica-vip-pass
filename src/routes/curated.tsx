@@ -249,7 +249,7 @@ function CuratedPage() {
             <span className="curation-cta-badge">10TH REFINED EDITION • 23 SEPT 2026</span>
             <h2 className="curation-cta-title">Experience The Curation in Person</h2>
             <p className="curation-cta-subtitle">
-              Join Hyderabad’s most discerning tastemakers and collectors at Park Hyatt, Banjara Hills. Complimentary VIP passes are strictly limited.
+              Join Hyderabad’s most discerning tastemakers and collectors at Park Hyatt, Banjara Hills. Complimentary exclusive invites are strictly limited.
             </p>
             <a href="/#rsvp-section" className="btn-submit-luxury curation-cta-btn">
               <span>Get Invite</span>
@@ -296,7 +296,7 @@ function CuratedPage() {
               </p>
               <div className="f-curated">
                 <span>Curated by</span>
-                <strong>Prestha</strong>
+                <strong>Prestha Agarwal</strong>
               </div>
             </div>
 
@@ -304,7 +304,7 @@ function CuratedPage() {
               <h4 className="f-heading">10TH REFINED EDITION</h4>
               <ul className="f-links">
                 <li><span>Wednesday, 23 September 2026</span></li>
-                <li><span>10:00 AM to 8:30 PM</span></li>
+                <li><span>11:00 AM to 7:00 PM</span></li>
                 <li><span>The Ballroom, Park Hyatt, Banjara Hills</span></li>
                 <li>
                   <a href="/#rsvp-section">
@@ -327,7 +327,7 @@ function CuratedPage() {
             <div className="footer-col">
               <h4 className="f-heading">VIP DESK &amp; INQUIRIES</h4>
               <ul className="f-links">
-                <li><a href="mailto:concierge@flaunsica.com">concierge@flaunsica.com</a></li>
+                <li><a href="mailto:flaunsica.hyderabad@gmail.com">flaunsica.hyderabad@gmail.com</a></li>
                 <li><span>Park Hyatt, Banjara Hills, Hyderabad</span></li>
                 <li><a href="https://instagram.com/flaunsica_hyderabad" target="_blank" rel="noopener noreferrer">Official Instagram: @flaunsica_hyderabad</a></li>
                 <li><a href="/#location-section" className="btn-get-directions">Get Directions</a></li>
@@ -336,7 +336,7 @@ function CuratedPage() {
           </div>
 
           <div className="footer-bottom">
-            <p>&copy; 2026 Flaunsica Hyderabad. Curated by Prestha. All rights reserved.</p>
+            <p>&copy; 2026 Flaunsica Hyderabad. curated by Prestha Agarwal. All rights reserved.</p>
             <div className="footer-legal">
               <a href="#">Privacy Policy</a>
               <a href="#">Terms of Admission</a>

@@ -168,11 +168,11 @@ export function SiteLock({ children }: SiteLockProps) {
         <div className="site-lock-footer">
           <p className="site-lock-concierge">
             Need invitation assistance?{" "}
-            <a href="mailto:concierge@flaunsica.com">concierge@flaunsica.com</a>
+            <a href="mailto:flaunsica.hyderabad@gmail.com">flaunsica.hyderabad@gmail.com</a>
           </p>
           <div className="site-lock-curator">
             <span>Curated by</span>
-            <strong>Prestha</strong>
+            <strong>Prestha Agarwal</strong>
           </div>
         </div>
       </div>
