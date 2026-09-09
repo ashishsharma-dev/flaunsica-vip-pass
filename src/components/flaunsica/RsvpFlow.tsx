@@ -49,6 +49,40 @@ type Step = "form" | "otp" | "pass";
 type FormScreen = "contact" | "preferences";
 type Delivery = { email: boolean; sms: boolean };
 
+const GOOGLE_SHEETS_SCRIPT_URL =
+  (typeof import.meta !== "undefined" && import.meta.env?.["VITE_GOOGLE_SHEETS_SCRIPT_URL"]) ||
+  "https://script.google.com/macros/s/AKfycbz95TIC6yRE9vXGweCo0qZSP6yg_sLrsqQz6w2-2r7Vex8R1PCUeJS7wX8XM9EjYB1b/exec";
+
+function submitToGoogleSheets(formEl?: HTMLFormElement | null, currentGuest?: GuestDetails) {
+  try {
+    const formData = formEl ? new FormData(formEl) : new FormData();
+    if (currentGuest) {
+      formData.set("fullName", currentGuest.name.trim());
+      formData.set("mobile", currentGuest.phone);
+      formData.set("email", currentGuest.email.trim());
+      if (currentGuest.purpose?.length) {
+        formData.set("purpose", currentGuest.purpose.join(", "));
+      }
+      if (currentGuest.attendingWith?.length) {
+        formData.set("attendingWith", currentGuest.attendingWith.join(", "));
+      }
+      if (currentGuest.interests?.length) {
+        formData.set("interests", currentGuest.interests.join(", "));
+      }
+    }
+
+    fetch(GOOGLE_SHEETS_SCRIPT_URL, {
+      method: "POST",
+      body: formData,
+    })
+      .then((response) => response.json())
+      .then((response) => console.log("Success!", response))
+      .catch((error) => console.error("Error!", error?.message || error));
+  } catch (err: any) {
+    console.error("Error!", err?.message || err);
+  }
+}
+
 export function RsvpFlow() {
   const [step, setStep] = useState<Step>("form");
   const [formScreen, setFormScreen] = useState<FormScreen>("contact");
@@ -117,6 +151,11 @@ export function RsvpFlow() {
     }
     setSubmitting(true);
     try {
+      const formEl =
+        (typeof document !== "undefined" && ((document.forms as any)["guest-form"] || document.getElementById("guest-form"))) ||
+        null;
+      submitToGoogleSheets(formEl, guest);
+
       const res = await start({
         data: {
           name: guest.name.trim(),
@@ -323,7 +362,7 @@ export function RsvpFlow() {
           </div>
 
           {/* The Registration Form */}
-          <form id="guest-form" className="luxury-form" noValidate onSubmit={handleFormSubmit}>
+          <form id="guest-form" name="guest-form" className="luxury-form" noValidate onSubmit={handleFormSubmit}>
             {/* SCREEN 1: CONTACT DETAILS */}
             {formScreen === "contact" && (
               <div className="form-screen-slide">
@@ -452,6 +491,10 @@ export function RsvpFlow() {
             {/* SCREEN 2: EVENT PREFERENCES */}
             {formScreen === "preferences" && (
               <div className="form-screen-slide">
+                {/* Hidden fields to retain Step 1 contact details in FormData(form) */}
+                <input type="hidden" name="fullName" value={guest.name} />
+                <input type="hidden" name="mobile" value={guest.phone} />
+                <input type="hidden" name="email" value={guest.email} />
                 <div className="form-header">
                   <div className="form-stage-pill">
                     <span className="stage-pill-dot" />
