@@ -64,7 +64,7 @@ function Index() {
             <div className="new-hero-visual-col">
               <div className="hero-visual-frame">
                 <img
-                  src="/assets/banner-image.jpg"
+                  src="/assets/mam-image.jpg"
                   alt="Flaunsica 10th Refined Edition Couture"
                   className="hero-visual-img"
                   loading="eager"

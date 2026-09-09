@@ -3,11 +3,36 @@ import React, { useState, useEffect, type FormEvent } from "react";
 const SITE_PASSWORD = import.meta.env.VITE_SITE_PASSWORD || "11223344";
 const STORAGE_KEY = "flaunsica_site_unlocked";
 
+// Check if lock screen is enabled (defaults to true if unset)
+const isLockEnabled = (() => {
+  const envVal =
+    import.meta.env.VITE_SHOW_LOCK_SCREEN ??
+    import.meta.env.VITE_ENABLE_LOCK_SCREEN ??
+    (typeof process !== "undefined"
+      ? (process.env?.SHOW_LOCK_SCREEN ?? process.env?.ENABLE_LOCK_SCREEN)
+      : undefined);
+
+  if (envVal === undefined || envVal === "") {
+    return true;
+  }
+
+  const normalized = String(envVal).trim().toLowerCase();
+  return normalized === "true" || normalized === "1" || normalized === "yes";
+})();
+
 interface SiteLockProps {
   children: React.ReactNode;
 }
 
 export function SiteLock({ children }: SiteLockProps) {
+  if (!isLockEnabled) {
+    return <>{children}</>;
+  }
+
+  return <SiteLockActive>{children}</SiteLockActive>;
+}
+
+function SiteLockActive({ children }: SiteLockProps) {
   const [isUnlocked, setIsUnlocked] = useState(false);
   const [isMounted, setIsMounted] = useState(false);
   const [password, setPassword] = useState("");
