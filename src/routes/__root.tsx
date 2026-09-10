@@ -7,7 +7,7 @@ import {
   HeadContent,
   Scripts,
 } from "@tanstack/react-router";
-import { useEffect, type ReactNode } from "react";
+import { useEffect, useRef, type ReactNode } from "react";
 import { SiteLock } from "../components/flaunsica/SiteLock";
 
 import appCss from "../styles.css?url";
@@ -125,6 +125,18 @@ fbq('track', 'PageView');`,
           }}
         />
         {/* End Facebook Pixel Code */}
+
+        {/* Google tag (gtag.js) */}
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-1ZETJQ92GQ" />
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'G-1ZETJQ92GQ');`,
+          }}
+        />
+        {/* End Google tag */}
       </head>
       <body>
         {children}
@@ -136,6 +148,27 @@ fbq('track', 'PageView');`,
 
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
+  const router = useRouter();
+  const isFirstRender = useRef(true);
+
+  useEffect(() => {
+    return router.subscribe("onResolved", () => {
+      if (isFirstRender.current) {
+        isFirstRender.current = false;
+        return;
+      }
+      if (typeof window !== "undefined") {
+        if ((window as any).fbq) {
+          (window as any).fbq("track", "PageView");
+        }
+        if ((window as any).gtag) {
+          (window as any).gtag("config", "G-1ZETJQ92GQ", {
+            page_path: window.location.pathname + window.location.search,
+          });
+        }
+      }
+    });
+  }, [router]);
 
   return (
     <QueryClientProvider client={queryClient}>

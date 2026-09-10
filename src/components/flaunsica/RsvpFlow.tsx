@@ -1,8 +1,15 @@
 import { useEffect, useRef, useState } from "react";
 import { useServerFn } from "@tanstack/react-start";
+import { useNavigate } from "@tanstack/react-router";
+import { Sparkles, ArrowRight } from "lucide-react";
 import { z } from "zod";
 import { VipPass } from "./VipPass";
-import { resendCode, startRegistration, verifyCode } from "@/lib/rsvp.functions";
+import {
+  checkExistingRegistration,
+  resendCode,
+  startRegistration,
+  verifyCode,
+} from "@/lib/rsvp.functions";
 import type { GuestDetails } from "./types";
 
 const guestSchema = z.object({
@@ -84,6 +91,7 @@ function submitToGoogleSheets(formEl?: HTMLFormElement | null, currentGuest?: Gu
 }
 
 export function RsvpFlow() {
+  const navigate = useNavigate();
   const [step, setStep] = useState<Step>("form");
   const [formScreen, setFormScreen] = useState<FormScreen>("contact");
   const [guest, setGuest] = useState<GuestDetails>(DEFAULT_GUEST);
@@ -99,9 +107,15 @@ export function RsvpFlow() {
   const [previewCode, setPreviewCode] = useState<string | null>(null);
   const otpRefs = useRef<Array<HTMLInputElement | null>>([]);
 
+  const [alreadyRegistered, setAlreadyRegistered] = useState<{
+    message: string;
+    passCode: string;
+  } | null>(null);
+
   const start = useServerFn(startRegistration);
   const resend = useServerFn(resendCode);
   const verify = useServerFn(verifyCode);
+  const checkExisting = useServerFn(checkExistingRegistration);
 
   useEffect(() => {
     if (resendIn <= 0) return;
@@ -109,13 +123,32 @@ export function RsvpFlow() {
     return () => clearTimeout(t);
   }, [resendIn]);
 
+  useEffect(() => {
+    if (step === "pass" && passCode) {
+      if (typeof window !== "undefined") {
+        try {
+          sessionStorage.setItem("flaunsica_last_guest", JSON.stringify(guest));
+          sessionStorage.setItem("flaunsica_last_delivery", JSON.stringify(delivery));
+          sessionStorage.setItem("flaunsica_last_pass_code", passCode);
+        } catch {
+          // ignore
+        }
+      }
+      navigate({
+        to: "/thank-you",
+        search: { passCode },
+      });
+    }
+  }, [step, passCode, navigate, guest, delivery]);
+
   const set = <K extends keyof GuestDetails>(key: K, value: GuestDetails[K]) => {
     setGuest((g) => ({ ...g, [key]: value }));
     setErrors((e) => ({ ...e, [key]: "" }));
   };
 
-  const handleContinueToPreferences = () => {
+  const handleContinueToPreferences = async () => {
     setFormError("");
+    setAlreadyRegistered(null);
     const res = contactSchema.safeParse({
       name: guest.name,
       phone: guest.phone,
@@ -130,12 +163,33 @@ export function RsvpFlow() {
       setErrors((prev) => ({ ...prev, ...next }));
       return;
     }
+
+    setSubmitting(true);
+    try {
+      const existing = await checkExisting({
+        data: { phone: guest.phone, email: guest.email },
+      });
+      if (existing?.alreadyRegistered) {
+        setAlreadyRegistered({
+          message: existing.message,
+          passCode: existing.passCode,
+        });
+        document.getElementById("rsvp-section")?.scrollIntoView({ behavior: "smooth" });
+        return;
+      }
+    } catch {
+      // Proceed on error
+    } finally {
+      setSubmitting(false);
+    }
+
     setFormScreen("preferences");
     document.getElementById("rsvp-section")?.scrollIntoView({ behavior: "smooth" });
   };
 
   const submitForm = async () => {
     setFormError("");
+    setAlreadyRegistered(null);
     const result = guestSchema.safeParse(guest);
     if (!result.success) {
       const next: Record<string, string> = {};
@@ -156,6 +210,30 @@ export function RsvpFlow() {
         null;
       submitToGoogleSheets(formEl, guest);
 
+      // Trigger Facebook Pixel Lead event upon form submission
+      if (typeof window !== "undefined") {
+        if ((window as any).fbq) {
+          try {
+            (window as any).fbq("track", "Lead", {
+              content_name: "Flaunsica RSVP Form",
+              purpose: Array.isArray(guest.purpose) ? guest.purpose.join(", ") : guest.purpose,
+            });
+          } catch (err) {
+            console.error("Facebook Pixel Lead tracking error:", err);
+          }
+        }
+        if ((window as any).gtag) {
+          try {
+            (window as any).gtag("event", "generate_lead", {
+              event_category: "RSVP Form",
+              purpose: Array.isArray(guest.purpose) ? guest.purpose.join(", ") : guest.purpose,
+            });
+          } catch (err) {
+            console.error("Google tag Lead tracking error:", err);
+          }
+        }
+      }
+
       const res = await start({
         data: {
           name: guest.name.trim(),
@@ -167,6 +245,16 @@ export function RsvpFlow() {
           interests: guest.interests,
         },
       });
+
+      if (res.alreadyRegistered) {
+        setAlreadyRegistered({
+          message: res.message || "You are already registered for Flaunsica with these details.",
+          passCode: res.passCode,
+        });
+        document.getElementById("rsvp-section")?.scrollIntoView({ behavior: "smooth" });
+        return;
+      }
+
       setRegistrationId(res.registrationId);
       setPassCode(res.passCode);
       setDelivery(res.delivery);
@@ -241,7 +329,21 @@ export function RsvpFlow() {
       }
       setPassCode(res.passCode);
       setStep("pass");
-      document.getElementById("rsvp-section")?.scrollIntoView({ behavior: "smooth" });
+
+      if (typeof window !== "undefined") {
+        try {
+          sessionStorage.setItem("flaunsica_last_guest", JSON.stringify(guest));
+          sessionStorage.setItem("flaunsica_last_delivery", JSON.stringify(delivery));
+          sessionStorage.setItem("flaunsica_last_pass_code", res.passCode);
+        } catch {
+          // ignore
+        }
+      }
+
+      navigate({
+        to: "/thank-you",
+        search: { passCode: res.passCode },
+      });
     } catch (error) {
       console.error(error);
       setOtpError("We couldn't verify that code. Please try again.");
@@ -363,6 +465,56 @@ export function RsvpFlow() {
 
           {/* The Registration Form */}
           <form id="guest-form" name="guest-form" className="luxury-form" noValidate onSubmit={handleFormSubmit}>
+            {/* Already Registered Message Banner */}
+            {alreadyRegistered && (
+              <div
+                className="already-registered-box animate-in fade-in slide-in-from-top-3 duration-300 mx-1 mb-6 p-4 sm:p-5 rounded-xl border border-[#d4af37]/45 bg-[#7b1113]/6 text-[#140406]"
+                role="alert"
+              >
+                <div className="flex items-start gap-3.5">
+                  <div className="w-9 h-9 rounded-full bg-[#d4af37]/25 border border-[#d4af37]/40 flex items-center justify-center shrink-0 text-[#7b1113] mt-0.5">
+                    <Sparkles className="w-4 h-4 text-[#d4af37]" />
+                  </div>
+                  <div className="flex-1">
+                    <div className="flex items-center gap-2">
+                      <span className="text-[0.65rem] font-bold tracking-[0.2em] uppercase text-[#7b1113] bg-[#7b1113]/10 px-2.5 py-0.5 rounded-full">
+                        Already Registered
+                      </span>
+                    </div>
+                    <p className="mt-1.5 text-sm font-medium text-[#140406] leading-relaxed">
+                      {alreadyRegistered.message}
+                    </p>
+                    <p className="mt-1 text-xs text-[#6e585b]">
+                      Pass Code: <strong className="font-mono text-[#7b1113]">{alreadyRegistered.passCode}</strong>
+                    </p>
+                    <div className="mt-3.5 flex flex-wrap items-center gap-3">
+                      <button
+                        type="button"
+                        id="btnSeePass"
+                        onClick={() => {
+                          navigate({
+                            to: "/thank-you",
+                            search: { passCode: alreadyRegistered.passCode },
+                          });
+                        }}
+                        className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-[#7b1113] text-[#fffdfa] text-xs uppercase tracking-[0.16em] font-semibold hover:bg-[#5e0c0e] shadow-sm transition-all cursor-pointer"
+                      >
+                        <span>See Pass</span>
+                        <ArrowRight className="w-3.5 h-3.5" />
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => setAlreadyRegistered(null)}
+                        className="text-xs text-[#7b1113] hover:underline cursor-pointer py-1 font-medium"
+                      >
+                        Register another guest
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )}
+
             {/* SCREEN 1: CONTACT DETAILS */}
             {formScreen === "contact" && (
               <div className="form-screen-slide">

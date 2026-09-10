@@ -22,11 +22,75 @@ function makeCode() {
   return String(crypto.getRandomValues(new Uint32Array(1))[0]! % 10000).padStart(4, "0");
 }
 
+export const checkExistingRegistration = createServerFn({ method: "POST" })
+  .validator((input: unknown) =>
+    z
+      .object({
+        phone: z.string().optional(),
+        email: z.string().optional(),
+      })
+      .parse(input),
+  )
+  .handler(async ({ data }) => {
+    const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+    const conditions: string[] = [];
+    const phone = data.phone?.trim();
+    const email = data.email?.toLowerCase().trim();
+
+    if (phone && phone.length === 10) conditions.push(`phone.eq.${phone}`);
+    if (email && email.includes("@")) conditions.push(`email.eq.${email}`);
+    if (conditions.length === 0) return null;
+
+    const { data: existing } = await supabaseAdmin
+      .from("registrations")
+      .select("id, pass_code, name, phone, email, phone_verified")
+      .or(conditions.join(","))
+      .order("created_at", { ascending: false })
+      .limit(1)
+      .maybeSingle();
+
+    if (!existing) return null;
+    return {
+      alreadyRegistered: true as const,
+      passCode: existing.pass_code,
+      name: existing.name,
+      message: `You are already registered for Flaunsica 10th Refined Edition with ${
+        phone && existing.phone === phone ? "mobile number +91 " + existing.phone : "email " + existing.email
+      }.`,
+    };
+  });
+
 export const startRegistration = createServerFn({ method: "POST" })
   .validator((input: unknown) => guestSchema.parse(input))
   .handler(async ({ data }) => {
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
     const { sendEmailCode, sendSmsCode, sendWhatsAppCode } = await import("./otp-delivery.server");
+
+    const sanitizedPhone = data.phone.trim();
+    const sanitizedEmail = data.email.toLowerCase().trim();
+
+    // Check if guest is already registered with this phone number or email
+    const { data: existing } = await supabaseAdmin
+      .from("registrations")
+      .select("id, pass_code, name, phone, email, phone_verified")
+      .or(`phone.eq.${sanitizedPhone},email.eq.${sanitizedEmail}`)
+      .order("created_at", { ascending: false })
+      .limit(1)
+      .maybeSingle();
+
+    if (existing) {
+      return {
+        alreadyRegistered: true as const,
+        registrationId: existing.id,
+        passCode: existing.pass_code,
+        guestName: existing.name,
+        delivery: { email: false, sms: false, whatsapp: false },
+        previewCode: null,
+        message: `You are already registered for Flaunsica 10th Refined Edition with ${
+          existing.phone === sanitizedPhone ? "mobile number +91 " + existing.phone : "email " + existing.email
+        }.`,
+      };
+    }
 
     const passCode = makePassCode();
     const { data: registration, error } = await supabaseAdmin
@@ -34,8 +98,8 @@ export const startRegistration = createServerFn({ method: "POST" })
       .insert({
         pass_code: passCode,
         name: data.name,
-        phone: data.phone,
-        email: data.email.toLowerCase(),
+        phone: sanitizedPhone,
+        email: sanitizedEmail,
         is_bride: data.isBride === "Yes",
         purpose: data.purpose,
         attending_with: data.attendingWith,
@@ -67,11 +131,13 @@ export const startRegistration = createServerFn({ method: "POST" })
     ]);
 
     return {
+      alreadyRegistered: false as const,
       registrationId: registration.id,
       passCode: registration.pass_code,
       delivery: { email, sms, whatsapp },
       // Only exposed while neither delivery channel is configured
       previewCode: !email && !sms && !whatsapp ? code : null,
+      message: "",
     };
   });
 
