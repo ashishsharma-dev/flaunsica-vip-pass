@@ -1861,6 +1861,7 @@ input {
   from {
     opacity: 0;
   }
+
   to {
     opacity: 1;
   }
@@ -1891,6 +1892,7 @@ input {
   0% {
     transform: rotate(0deg);
   }
+
   100% {
     transform: rotate(360deg);
   }
@@ -1946,9 +1948,11 @@ input {
   0% {
     transform: translateX(-100%);
   }
+
   50% {
     transform: translateX(120%);
   }
+
   100% {
     transform: translateX(260%);
   }
@@ -4076,7 +4080,7 @@ input {
   max-width: 960px;
   margin: 0 auto;
   background: linear-gradient(135deg, rgba(123, 17, 19, 0.04), rgba(212, 175, 55, 0.08));
-  border: 1px solid rgba(212, 175, 55, 0.35);
+  /* border: 1px solid rgba(212, 175, 55, 0.35); */
   border-radius: var(--radius-lg);
   padding: 3.5rem 2.5rem;
   text-align: center;
