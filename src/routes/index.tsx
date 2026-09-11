@@ -35,9 +35,9 @@ function Index() {
 
       <main>
         {/* =================================================================
-            HOMEPAGE SECTION 1: HERO
+            HOMEPAGE SECTION 1: HERO & RSVP REGISTRATION
             ================================================================= */}
-        <section className="new-hero-section">
+        <section className="new-hero-section" id="rsvp-section">
           <div className="new-hero-container">
             {/* Left Copy Column */}
             <div className="new-hero-copy-col">
@@ -54,52 +54,10 @@ function Index() {
                   height={150}
                 />
               </div>
-
-              <p className="hero-editorial-desc">
-                55+ Brands. One Curated Edit. Hyderabad’s most coveted luxury designer trunk show returns to <strong>Park Hyatt, Banjara Hills</strong> on <strong><br />23 September 2026</strong>. Experience hand-picked couture, bridal trousseau, fine jewelry, and contemporary pret curated by Prestha Agarwal.
-              </p>
             </div>
 
-            {/* Right Visual Column */}
-            <div className="new-hero-visual-col">
-              <div className="hero-visual-frame">
-                <img
-                  src="/assets/mam-image.jpg"
-                  alt="Flaunsica 10th Refined Edition Couture"
-                  className="hero-visual-img"
-                  loading="eager"
-                />
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* =================================================================
-            HOMEPAGE SECTION 2: INVITATION / RSVP REGISTRATION DESK
-            ================================================================= */}
-        <section className="new-rsvp-section" id="rsvp-section">
-          <div className="new-rsvp-container">
-            {/* Left Column */}
-            <div className="new-rsvp-left-col">
-              <h2 className="section-invite-heading">
-                Register for your exclusive invite to attend the show
-              </h2>
-
-              <a
-                href="#form-card-container"
-                onClick={(e) => {
-                  e.preventDefault();
-                  document.getElementById("fullName")?.focus();
-                  document.getElementById("form-card-container")?.scrollIntoView({ behavior: "smooth" });
-                }}
-                className="btn-get-vip-pass-pill"
-              >
-                Get Invite
-              </a>
-            </div>
-
-            {/* Right Column: RSVP Registration Form Card */}
-            <div className="new-rsvp-right-col">
+            {/* Right Form Column */}
+            <div className="new-hero-visual-col new-hero-form-col">
               <RsvpFlow />
             </div>
           </div>

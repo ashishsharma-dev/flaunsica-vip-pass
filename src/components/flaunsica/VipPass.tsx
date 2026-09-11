@@ -380,30 +380,33 @@ export function VipPass({
               {/* Left: Guest Details */}
               <div className="guest-info-block">
                 <div className="tk-field">
-                  <span className="tk-label">GUEST NAME</span>
+                  {/* <span className="tk-label">GUEST NAME</span> */}
                   <span className="tk-val tk-name">{guest.name || "Aanya Sharma"}</span>
                 </div>
 
                 <div className="tk-row-2">
-                  <div className="tk-field">
+                  {/* <div className="tk-field">
                     <span className="tk-label">MOBILE</span>
                     <span className="tk-val">+91 {guest.phone}</span>
-                  </div>
+                  </div> */}
                   <div className="tk-field">
-                    <span className="tk-label">PARTY SIZE</span>
-                    <span className="tk-val">{party}</span>
+                    {/* <span className="tk-label">PARTY SIZE</span>
+                    <span className="tk-val">{party}</span> */}
+
+                    {/* <span className="tk-label">INVITE ID</span> */}
+                    <span className="tk-val tk-pass-id">{passCode}</span>
                   </div>
                 </div>
 
                 <div className="tk-row-2">
-                  <div className="tk-field">
+                  {/* <div className="tk-field">
                     <span className="tk-label">PRIMARY FOCUS</span>
                     <span className="tk-val">{focus}</span>
-                  </div>
-                  <div className="tk-field">
+                  </div> */}
+                  {/* <div className="tk-field">
                     <span className="tk-label">INVITE ID</span>
                     <span className="tk-val tk-pass-id">{passCode}</span>
-                  </div>
+                  </div> */}
                 </div>
               </div>
 
@@ -438,7 +441,7 @@ export function VipPass({
             {/* Event Details Footer on Card */}
             <div className="ticket-footer-meta">
               <div className="tf-item">
-                <span className="tf-icon">📅</span>
+                {/* <span className="tf-icon">📅</span> */}
                 <div className="tf-col">
                   <span className="tf-label">DATE</span>
                   <span className="tf-val">Wednesday, 23 Sept 2026</span>
@@ -446,7 +449,7 @@ export function VipPass({
               </div>
 
               <div className="tf-item">
-                <span className="tf-icon">📍</span>
+                {/* <span className="tf-icon">📍</span> */}
                 <div className="tf-col">
                   <span className="tf-label">VENUE</span>
                   <span className="tf-val">Park Hyatt, Banjara Hills</span>
@@ -454,7 +457,7 @@ export function VipPass({
               </div>
 
               <div className="tf-item">
-                <span className="tf-icon">⏱</span>
+                {/* <span className="tf-icon">⏱</span> */}
                 <div className="tf-col">
                   <span className="tf-label">HOURS</span>
                   <span className="tf-val">11:00 AM – 7:00 PM</span>
@@ -463,7 +466,7 @@ export function VipPass({
             </div>
 
             <div className="ticket-curator-seal">
-              curated by Prestha Agarwal • Official 10th Edition Exclusive Invite
+              Curated by Prestha Agarwal • Official 10th Edition Exclusive Invite
             </div>
           </div>
         </div>
@@ -500,7 +503,7 @@ export function VipPass({
             <span>{isDownloading ? "Downloading Pass..." : "Download Exclusive Invite (PNG)"}</span>
           </button>
 
-          <button
+          {/* <button
             type="button"
             onClick={addToCalendar}
             className="btn-action btn-outline-luxury"
@@ -512,7 +515,7 @@ export function VipPass({
               <line x1="3" y1="10" x2="21" y2="10"></line>
             </svg>
             <span>Add to Calendar (.ics)</span>
-          </button>
+          </button> */}
 
           <button
             type="button"
@@ -530,7 +533,7 @@ export function VipPass({
             <span>{isSharing ? "Preparing Share..." : "Share Invitation"}</span>
           </button>
 
-          {onReset && (
+          {/* {onReset && (
             <button
               type="button"
               onClick={onReset}
@@ -538,11 +541,11 @@ export function VipPass({
             >
               <span>Register Another Guest &rarr;</span>
             </button>
-          )}
+          )} */}
         </div>
 
         {/* Google Calendar Quick Link */}
-        <div className="mt-3 flex items-center justify-center gap-1.5 text-xs text-stone-600 dark:text-stone-400">
+        {/* <div className="mt-3 flex items-center justify-center gap-1.5 text-xs text-stone-600 dark:text-stone-400">
           <span>Prefer Google Calendar?</span>
           <a
             href={googleCalendarUrl}
@@ -551,11 +554,11 @@ export function VipPass({
             className="inline-flex items-center gap-1 font-semibold text-[#9a2828] underline underline-offset-4 hover:text-[#7a1818] transition-colors"
           >
             <svg className="size-3.5" viewBox="0 0 24 24" fill="currentColor">
-              <path d="M19 4h-1V2h-2v2H8V2H6v2H5c-1.11 0-1.99.9-1.99 2L3 20a2 2 0 0 0 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 16H5V9h14v11z"/>
+              <path d="M19 4h-1V2h-2v2H8V2H6v2H5c-1.11 0-1.99.9-1.99 2L3 20a2 2 0 0 0 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 16H5V9h14v11z" />
             </svg>
             Add to Google Calendar &rarr;
           </a>
-        </div>
+        </div> */}
       </div>
 
       {/* Pass Preview & Share Modal (for mobile or desktop share fallback) */}
@@ -623,7 +626,7 @@ export function VipPass({
                           });
                         }
                       })
-                      .catch(() => {});
+                      .catch(() => { });
                   }
                 }}
                 className="flex-1 rounded-full bg-[#9a2828] py-2.5 text-xs font-bold text-white shadow hover:bg-[#852020] transition-colors"

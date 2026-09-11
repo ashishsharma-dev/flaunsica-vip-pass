@@ -1280,6 +1280,7 @@ input {
 .form-header {
   text-align: center;
   margin-bottom: 2rem;
+  display: none;
 }
 
 .form-badge {
@@ -2252,6 +2253,7 @@ input {
 /* Confirmation header */
 .confirmation-banner {
   text-align: center;
+  display: none;
 }
 
 .conf-badge {
@@ -2479,6 +2481,7 @@ input {
 .tk-field {
   display: flex;
   flex-direction: column;
+  align-items: center;
 }
 
 .tk-label {
@@ -2513,7 +2516,7 @@ input {
 
 .tk-row-2 {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 1fr;
   gap: 1rem;
 }
 
@@ -2631,7 +2634,7 @@ input {
   text-align: center;
   font-size: 0.6875rem;
   letter-spacing: 0.08em;
-  color: rgba(255, 255, 255, 0.65);
+  color: rgba(255, 255, 255, 0.85);
   border-top: 1px solid rgba(255, 255, 255, 0.8);
   padding-top: 0.75rem;
   position: relative;
@@ -2649,6 +2652,7 @@ input {
   align-items: flex-start;
   gap: 0.85rem;
   box-shadow: var(--shadow-subtle);
+  display: none;
 }
 
 .dispatch-icon {
@@ -3394,7 +3398,7 @@ input {
   border-color: rgba(154, 40, 40, 0.35);
 }
 
-/* SECTION 1: HERO */
+/* SECTION 1: HERO & RSVP REGISTRATION */
 .new-hero-section {
   padding: 4rem 1.5rem 5rem;
   background: #ffffff;
@@ -3404,7 +3408,7 @@ input {
   max-width: 1280px;
   margin: 0 auto;
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 1fr 1.15fr;
   gap: 3.5rem;
   align-items: center;
 }
@@ -3435,108 +3439,24 @@ input {
   display: block;
 }
 
-.hero-editorial-desc {
-  font-size: 1.0625rem;
-  line-height: 1.75;
-  color: var(--color-text-muted);
-  max-width: 520px;
-}
-
-.new-hero-visual-col {
+.new-hero-visual-col,
+.new-hero-form-col {
   display: flex;
   justify-content: center;
-}
-
-.hero-visual-frame {
-  width: 100%;
-  max-width: 540px;
-  height: 540px;
-  background: #ebebeb;
-  border-radius: var(--radius-sm);
-  overflow: hidden;
-  box-shadow: var(--shadow-luxury);
-  position: relative;
-}
-
-.hero-visual-img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
-  transition: transform 0.8s ease;
-}
-
-.hero-visual-frame:hover .hero-visual-img {
-  transform: scale(1.03);
-}
-
-/* SECTION 2: RSVP DESK */
-.new-rsvp-section {
-  padding: 5rem 1.5rem 6rem;
-  background: #ffffff;
-  border-top: 1px solid rgba(123, 17, 19, 0.08);
-  border-bottom: 1px solid rgba(123, 17, 19, 0.08);
-}
-
-.new-rsvp-container {
-  max-width: 1280px;
-  margin: 0 auto;
-  display: grid;
-  grid-template-columns: 1fr 1.25fr;
-  gap: 4rem;
-  align-items: center;
-}
-
-.new-rsvp-left-col {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 2.5rem;
-}
-
-.section-invite-heading {
-  font-family: var(--font-serif-headline);
-  font-size: 2.25rem;
-  font-weight: 500;
-  line-height: 1.35;
-  color: #1a1a1a;
-  max-width: 440px;
-}
-
-.btn-get-vip-pass-pill {
-  background: var(--color-burgundy);
-  color: #ffffff;
-  font-size: 1.0625rem;
-  font-weight: 600;
-  letter-spacing: 0.04em;
-  padding: 0.95rem 2.25rem;
-  border-radius: var(--radius-pill);
-  box-shadow: none;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  border: 1px solid rgba(154, 40, 40, 0.35);
-  cursor: pointer;
-  text-decoration: none;
-}
-
-.btn-get-vip-pass-pill:hover {
-  background: var(--color-burgundy);
-  transform: none;
-  box-shadow: none;
-}
-
-.new-rsvp-right-col {
   width: 100%;
 }
 
-.new-rsvp-right-col .registration-section {
+.new-hero-form-col .registration-section,
+.new-hero-visual-col .registration-section {
   padding: 0;
   background: transparent;
+  width: 100%;
 }
 
-.new-rsvp-right-col .reg-container {
+.new-hero-form-col .reg-container,
+.new-hero-visual-col .reg-container {
   max-width: 100%;
+  padding: 0;
 }
 
 /* SECTION 3: THE NOTE */
@@ -4170,27 +4090,9 @@ input {
     gap: 2.5rem;
   }
 
-  .new-hero-visual-col {
-    order: -1;
-  }
-
-  .hero-visual-frame {
-    height: 380px;
-  }
-
-  .new-rsvp-container {
-    grid-template-columns: 1fr;
-    gap: 2.5rem;
-  }
-
-  .new-rsvp-left-col {
-    align-items: center;
-    text-align: center;
-    gap: 1.5rem;
-  }
-
-  .section-invite-heading {
-    font-size: 1.85rem;
+  .new-hero-visual-col,
+  .new-hero-form-col {
+    order: 0;
   }
 
   .the-note-container {
@@ -4795,16 +4697,20 @@ a.curation-cta-btn:hover,
   .thank-you-main {
     padding: 2rem 1rem 4rem;
   }
+
   .thank-you-fallback-card {
     padding: 2rem 1.25rem;
   }
+
   .thank-you-card-title {
     font-size: 1.65rem;
   }
+
   .thank-you-nav-actions {
     flex-direction: column;
     width: 100%;
   }
+
   .thank-you-btn-primary,
   .thank-you-btn-secondary {
     width: 100%;
@@ -5046,9 +4952,11 @@ a.curation-cta-btn:hover,
     padding: 2.5rem 1.25rem 1.75rem !important;
     border-radius: 20px !important;
   }
+
   .already-registered-title {
     font-size: 1.65rem !important;
   }
+
   .already-registered-passcode-code {
     font-size: 1.25rem !important;
   }
