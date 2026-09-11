@@ -468,16 +468,16 @@ export function RsvpFlow() {
             {/* Already Registered Message Banner */}
             {alreadyRegistered && (
               <div
-                className="already-registered-box animate-in fade-in slide-in-from-top-3 duration-300 mx-1 mb-6 p-4 sm:p-5 rounded-xl border border-[#d4af37]/45 bg-[#7b1113]/6 text-[#140406]"
+                className="already-registered-box animate-in fade-in slide-in-from-top-3 duration-300 mx-1 mb-6 p-4 sm:p-5 rounded-xl border border-[#9a2828]/40 bg-[#9a2828]/6 text-[#140406]"
                 role="alert"
               >
                 <div className="flex items-start gap-3.5">
-                  <div className="w-9 h-9 rounded-full bg-[#d4af37]/25 border border-[#d4af37]/40 flex items-center justify-center shrink-0 text-[#7b1113] mt-0.5">
-                    <Sparkles className="w-4 h-4 text-[#d4af37]" />
+                  <div className="w-9 h-9 rounded-full bg-[#9a2828]/15 border border-[#9a2828]/30 flex items-center justify-center shrink-0 text-[#9a2828] mt-0.5">
+                    <Sparkles className="w-4 h-4 text-[#9a2828]" />
                   </div>
                   <div className="flex-1">
                     <div className="flex items-center gap-2">
-                      <span className="text-[0.65rem] font-bold tracking-[0.2em] uppercase text-[#7b1113] bg-[#7b1113]/10 px-2.5 py-0.5 rounded-full">
+                      <span className="text-[0.65rem] font-bold tracking-[0.2em] uppercase text-[#9a2828] bg-[#9a2828]/10 px-2.5 py-0.5 rounded-full">
                         Already Registered
                       </span>
                     </div>

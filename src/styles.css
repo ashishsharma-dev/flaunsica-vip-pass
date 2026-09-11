@@ -1,5 +1,6 @@
-@import "tailwindcss" source(none);
+@import "tailwindcss";
 @source "../src";
+@source "./**/*.{js,ts,jsx,tsx}";
 @import "tw-animate-css";
 @import "./target-layout.css";
 
@@ -86,11 +87,11 @@
   --muted: oklch(0.946 0.009 85);
   --muted-foreground: oklch(0.505 0.012 65);
 
-  /* Champagne gold */
-  --accent: oklch(0.845 0.062 82);
-  --accent-foreground: oklch(0.265 0.02 60);
-  --champagne: oklch(0.845 0.062 82);
-  --champagne-deep: oklch(0.685 0.078 78);
+  /* Logo Red / Accent */
+  --accent: oklch(0.393 0.147 26.5);
+  --accent-foreground: oklch(0.985 0.006 85);
+  --champagne: oklch(0.44 0.14 26.5);
+  --champagne-deep: oklch(0.393 0.147 26.5);
 
   --destructive: oklch(0.577 0.245 27.325);
   --destructive-foreground: oklch(0.985 0.006 85);
@@ -100,10 +101,10 @@
   --ring: oklch(0.393 0.147 26.5);
 
   --chart-1: oklch(0.393 0.147 26.5);
-  --chart-2: oklch(0.845 0.062 82);
+  --chart-2: oklch(0.44 0.14 26.5);
   --chart-3: oklch(0.505 0.012 65);
   --chart-4: oklch(0.325 0.128 26.5);
-  --chart-5: oklch(0.685 0.078 78);
+  --chart-5: oklch(0.44 0.14 26.5);
 
   --sidebar: oklch(0.976 0.006 85);
   --sidebar-foreground: oklch(0.205 0.004 60);
@@ -124,7 +125,7 @@
   --gradient-champagne: linear-gradient(
     100deg,
     transparent,
-    color-mix(in oklab, var(--champagne) 65%, transparent),
+    color-mix(in oklab, var(--primary) 30%, transparent),
     transparent
   );
   --shadow-luxe: 0 24px 60px -32px color-mix(in oklab, var(--primary) 45%, transparent);

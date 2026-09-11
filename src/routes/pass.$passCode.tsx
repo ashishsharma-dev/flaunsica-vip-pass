@@ -73,7 +73,7 @@ function PassDetails() {
             <p className="mt-3 text-[0.6rem] uppercase tracking-luxe opacity-90">
               {EVENT.edition} · Guest Verification
             </p>
-            <div className="mx-auto mt-4 h-px w-20 bg-champagne" />
+            <div className="mx-auto mt-4 h-px w-20 bg-white/40" />
           </header>
 
           <div className="px-6 py-7">

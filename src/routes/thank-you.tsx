@@ -1,10 +1,10 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { Navbar } from "@/components/flaunsica/Navbar";
 import { VipPass } from "@/components/flaunsica/VipPass";
 import { getPass } from "@/lib/rsvp.functions";
 import type { GuestDetails } from "@/components/flaunsica/types";
-import { CheckCircle, Calendar, MapPin, Sparkles, ArrowRight, Home } from "lucide-react";
+import { CheckCircle, Calendar, MapPin, Clock, ArrowRight, Home } from "lucide-react";
 
 interface ThankYouSearchParams {
   passCode?: string;
@@ -46,7 +46,8 @@ export const Route = createFileRoute("/thank-you")({
   component: ThankYouPage,
 });
 
-export default function ThankYouPage() {
+function ThankYouPage() {
+  const navigate = useNavigate();
   const { passCode: urlPassCode } = Route.useSearch();
   const registrationFromLoader = Route.useLoaderData();
 
@@ -82,7 +83,7 @@ export default function ThankYouPage() {
     return "";
   });
 
-  const [delivery, setDelivery] = useState<{ email: boolean; sms: boolean }>(() => {
+  const [delivery] = useState<{ email: boolean; sms: boolean }>(() => {
     if (typeof window !== "undefined") {
       try {
         const stored = sessionStorage.getItem("flaunsica_last_delivery");
@@ -146,95 +147,83 @@ export default function ThankYouPage() {
   }, [registrationFromLoader]);
 
   return (
-    <div className="landing-page-root min-h-screen flex flex-col bg-[#fffdfa] text-[#140406]">
+    <div className="landing-page-root thank-you-page-root">
       {/* Luxury Navbar */}
       <Navbar />
 
-      <main className="flex-1 pt-28 pb-20 px-4 sm:px-6">
-        <div className="max-w-4xl mx-auto">
-          {/* Header Banner */}
-          <div className="text-center mb-10">
-            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#7b1113]/8 border border-[#d4af37]/35 text-[#7b1113] text-xs uppercase tracking-[0.2em] font-semibold mb-5 shadow-xs">
-              <Sparkles className="w-3.5 h-3.5 text-[#d4af37]" />
-              <span>10TH REFINED EDITION • OFFICIAL CONFIRMATION</span>
+      {/* Main Content Area */}
+      {guest && passCode ? (
+        <main className="thank-you-main" style={{ padding: 0 }}>
+          <VipPass
+            guest={guest}
+            passCode={passCode}
+            delivery={delivery}
+            onReset={() => navigate({ to: "/" })}
+          />
+          <div className="thank-you-container" style={{ paddingBottom: "4rem" }}>
+            <div className="thank-you-nav-actions">
+              <Link to="/curated" className="thank-you-btn-secondary">
+                <span>Explore 55+ Designers</span>
+                <ArrowRight />
+              </Link>
+              <Link to="/" className="thank-you-btn-primary">
+                <Home />
+                <span>Return to Homepage</span>
+              </Link>
             </div>
-
-            <h1 className="font-serif text-3xl sm:text-4xl md:text-5xl font-semibold text-[#140406] tracking-tight leading-tight">
-              {guest?.name ? `Thank You, ${guest.name}` : "Thank You for Registering"}
-            </h1>
-
-            <p className="mt-4 text-base sm:text-lg text-[#554043] max-w-2xl mx-auto font-light leading-relaxed">
-              Your exclusive invitation to{" "}
-              <strong className="font-semibold text-[#140406]">Flaunsica Hyderabad</strong> is
-              confirmed. Your entry pass and schedule have been dispatched to your WhatsApp and email.
-            </p>
           </div>
-
-          {/* If pass details are present, display the official VIP Pass card */}
-          {guest && passCode ? (
-            <div className="my-8">
-              <VipPass guest={guest} passCode={passCode} delivery={delivery} />
-            </div>
-          ) : (
-            /* Fallback confirmation card when no passCode in URL */
-            <div className="my-8 p-8 sm:p-12 rounded-2xl bg-white border border-[#d4af37]/30 shadow-xl text-center max-w-2xl mx-auto">
-              <div className="w-16 h-16 rounded-full bg-[#7b1113]/10 text-[#7b1113] flex items-center justify-center mx-auto mb-6">
-                <CheckCircle className="w-8 h-8 text-[#7b1113]" />
+        </main>
+      ) : (
+        <main className="thank-you-main">
+          <div className="thank-you-container">
+            <div className="thank-you-fallback-card">
+              <div className="thank-you-icon-circle">
+                <CheckCircle />
               </div>
 
-              <h2 className="font-serif text-2xl sm:text-3xl font-semibold text-[#140406]">
-                Invitation Request Confirmed
-              </h2>
+              <div className="conf-badge">
+                <span className="conf-icon">✓</span>
+                <span>EXCLUSIVE INVITATION CONFIRMED</span>
+              </div>
 
-              <p className="mt-3 text-sm sm:text-base text-[#6b585a] leading-relaxed">
-                Thank you for your interest in attending Flaunsica. Our VIP concierge desk has
-                logged your request and our team will share entry credentials directly via WhatsApp
-                and email.
+              <h1 className="thank-you-card-title">Thank You for Registering</h1>
+
+              <p className="thank-you-card-desc">
+                Your interest in attending{" "}
+                <strong style={{ color: "var(--color-text-dark, #140406)" }}>Flaunsica Hyderabad</strong>{" "}
+                has been recorded. Our VIP concierge desk has logged your request and entry
+                credentials will be verified at the reception desk.
               </p>
 
-              <div className="mt-8 pt-6 border-t border-[#f0e6d6] flex flex-col sm:flex-row items-center justify-center gap-6 text-sm text-[#4a3b3d]">
-                <div className="flex items-center gap-2">
-                  <Calendar className="w-4 h-4 text-[#d4af37]" />
-                  <span>Wednesday, 23 September 2026</span>
+              <div className="thank-you-meta-strip">
+                <div className="thank-you-meta-item">
+                  <Calendar />
+                  <span>Wednesday, 23 Sept 2026</span>
                 </div>
-                <div className="flex items-center gap-2">
-                  <MapPin className="w-4 h-4 text-[#d4af37]" />
+                <div className="thank-you-meta-item">
+                  <MapPin />
                   <span>Park Hyatt, Hyderabad</span>
+                </div>
+                <div className="thank-you-meta-item">
+                  <Clock />
+                  <span>11:00 AM – 7:00 PM</span>
                 </div>
               </div>
 
-              <div className="mt-8">
-                <Link
-                  to="/"
-                  className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-[#7b1113] text-[#fffdfa] text-xs uppercase tracking-[0.18em] font-medium hover:bg-[#5e0c0e] transition-colors"
-                >
-                  <Home className="w-4 h-4" />
-                  <span>Return to Flaunsica Home</span>
+              <div className="thank-you-nav-actions">
+                <Link to="/curated" className="thank-you-btn-secondary">
+                  <span>Explore 55+ Designers</span>
+                  <ArrowRight />
+                </Link>
+                <Link to="/" className="thank-you-btn-primary">
+                  <Home />
+                  <span>Return to Homepage</span>
                 </Link>
               </div>
             </div>
-          )}
-
-          {/* Quick Actions & Navigation Footer */}
-          <div className="mt-12 flex flex-col sm:flex-row items-center justify-center gap-4">
-            <Link
-              to="/curated"
-              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-7 py-3.5 rounded-full border border-[#d4af37] bg-white text-[#140406] text-xs uppercase tracking-[0.18em] font-medium hover:bg-[#faf7f2] shadow-sm transition-all"
-            >
-              <span>Explore 55+ Curated Designers</span>
-              <ArrowRight className="w-4 h-4 text-[#d4af37]" />
-            </Link>
-
-            <Link
-              to="/"
-              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-7 py-3.5 rounded-full bg-[#140406] text-[#fffdfa] text-xs uppercase tracking-[0.18em] font-medium hover:bg-[#2b0c10] shadow-md transition-all"
-            >
-              <Home className="w-4 h-4" />
-              <span>Return to Homepage</span>
-            </Link>
           </div>
-        </div>
-      </main>
+        </main>
+      )}
 
       {/* Luxury Footer */}
       <footer className="site-footer-luxury mt-auto">
