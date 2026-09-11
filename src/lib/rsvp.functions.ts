@@ -4,7 +4,15 @@ import { z } from "zod";
 const guestSchema = z.object({
   name: z.string().trim().min(2).max(100),
   phone: z.string().trim().regex(/^[6-9]\d{9}$/),
-  email: z.string().trim().email().max(255),
+  email: z
+    .string()
+    .trim()
+    .max(255)
+    .optional()
+    .transform((val) => val || "")
+    .refine((val) => val === "" || z.string().email().safeParse(val).success, {
+      message: "Please enter a valid email address",
+    }),
   isBride: z.enum(["Yes", "No"]).optional().default("No"),
   purpose: z.array(z.string().max(60)).optional().default([]),
   attendingWith: z.array(z.string().max(60)).optional().default([]),
@@ -67,13 +75,18 @@ export const startRegistration = createServerFn({ method: "POST" })
     const { sendEmailCode, sendSmsCode, sendWhatsAppCode } = await import("./otp-delivery.server");
 
     const sanitizedPhone = data.phone.trim();
-    const sanitizedEmail = data.email.toLowerCase().trim();
+    const sanitizedEmail = data.email?.trim() ? data.email.toLowerCase().trim() : "";
 
     // Check if guest is already registered with this phone number or email
+    const conditions: string[] = [`phone.eq.${sanitizedPhone}`];
+    if (sanitizedEmail && sanitizedEmail.includes("@")) {
+      conditions.push(`email.eq.${sanitizedEmail}`);
+    }
+
     const { data: existing } = await supabaseAdmin
       .from("registrations")
       .select("id, pass_code, name, phone, email, phone_verified")
-      .or(`phone.eq.${sanitizedPhone},email.eq.${sanitizedEmail}`)
+      .or(conditions.join(","))
       .order("created_at", { ascending: false })
       .limit(1)
       .maybeSingle();
@@ -125,7 +138,9 @@ export const startRegistration = createServerFn({ method: "POST" })
     }
 
     const [email, sms, whatsapp] = await Promise.all([
-      sendEmailCode(data.email, data.name, code),
+      sanitizedEmail && sanitizedEmail.includes("@")
+        ? sendEmailCode(sanitizedEmail, data.name, code)
+        : Promise.resolve(false),
       sendSmsCode(data.phone, code),
       sendWhatsAppCode(data.phone, data.name, code),
     ]);
@@ -162,7 +177,9 @@ export const resendCode = createServerFn({ method: "POST" })
     });
 
     const [email, sms, whatsapp] = await Promise.all([
-      sendEmailCode(registration.email, registration.name, code),
+      registration.email && registration.email.includes("@")
+        ? sendEmailCode(registration.email, registration.name, code)
+        : Promise.resolve(false),
       sendSmsCode(registration.phone, code),
       sendWhatsAppCode(registration.phone, registration.name, code),
     ]);

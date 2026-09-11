@@ -22,7 +22,15 @@ const guestSchema = z.object({
     .string()
     .trim()
     .regex(/^[6-9]\d{9}$/, "Enter a valid 10-digit Indian mobile number"),
-  email: z.string().trim().email("Enter a valid email address").max(255),
+  email: z
+    .string()
+    .trim()
+    .max(255)
+    .optional()
+    .transform((val) => val || "")
+    .refine((val) => val === "" || z.string().email().safeParse(val).success, {
+      message: "Enter a valid email address",
+    }),
   isBride: z.string().optional().default("No"),
   purpose: z.array(z.string()).optional().default([]),
   attendingWith: z.array(z.string()).optional().default([]),
@@ -39,7 +47,15 @@ const contactSchema = z.object({
     .string()
     .trim()
     .regex(/^[6-9]\d{9}$/, "Enter a valid 10-digit Indian mobile number"),
-  email: z.string().trim().email("Enter a valid email address").max(255),
+  email: z
+    .string()
+    .trim()
+    .max(255)
+    .optional()
+    .transform((val) => val || "")
+    .refine((val) => val === "" || z.string().email().safeParse(val).success, {
+      message: "Enter a valid email address",
+    }),
 });
 
 const DEFAULT_GUEST: GuestDetails = {
@@ -479,10 +495,10 @@ export function RsvpFlow() {
                     <label htmlFor="mobile" className="floating-label tel-label">WhatsApp / Mobile Number *</label>
                   </div>
                   {errors.phone ? <span className="field-error">{errors.phone}</span> : null}
-                  <span className="field-hint">Your QR invite will be sent to this WhatsApp number & email</span>
+                  <span className="field-hint">Your QR invite will be sent to this WhatsApp number</span>
                 </div>
 
-                {/* 3. Email Address */}
+                {/* 3. Email Address (Optional) */}
                 <div className={`form-group floating-group ${errors.email ? "has-error" : ""}`}>
                   <input
                     type="email"
@@ -490,12 +506,11 @@ export function RsvpFlow() {
                     name="email"
                     className="form-input"
                     placeholder=" "
-                    required
                     autoComplete="email"
                     value={guest.email}
                     onChange={(e) => set("email", e.target.value)}
                   />
-                  <label htmlFor="email" className="floating-label">Email Address *</label>
+                  <label htmlFor="email" className="floating-label">Email Address (Optional)</label>
                   {errors.email ? <span className="field-error">{errors.email}</span> : null}
                 </div>
               </div>

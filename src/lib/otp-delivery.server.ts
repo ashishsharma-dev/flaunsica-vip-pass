@@ -33,6 +33,7 @@ export async function sendEmailCode(
   name: string,
   code: string,
 ): Promise<boolean> {
+  if (!to || !to.includes("@")) return false;
   if (!process.env["RESEND_API_KEY"]) {
     console.log(`[Dev OTP] Verification code for ${to} (${name}): ${code}`);
     return true;
