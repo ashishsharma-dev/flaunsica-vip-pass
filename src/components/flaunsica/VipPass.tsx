@@ -36,166 +36,207 @@ export function VipPass({
   }, [passCode]);
 
   const [isDownloading, setIsDownloading] = useState(false);
+  const [isSharing, setIsSharing] = useState(false);
   const [previewImageUrl, setPreviewImageUrl] = useState<string | null>(null);
+
+  const generatePassCanvas = async (): Promise<HTMLCanvasElement | null> => {
+    const canvas = document.createElement("canvas");
+    const ctx = canvas.getContext("2d");
+    if (!ctx) return null;
+
+    // High DPI dimensions (1200x760 for crisp luxury pass print)
+    canvas.width = 1200;
+    canvas.height = 760;
+
+    // 1. Logo Red Luxury Background
+    const bgGradient = ctx.createLinearGradient(0, 0, canvas.width, canvas.height);
+    bgGradient.addColorStop(0, "#9a2828");
+    bgGradient.addColorStop(0.5, "#8b2020");
+    bgGradient.addColorStop(1, "#7a1818");
+    ctx.fillStyle = bgGradient;
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+    // 2. White Luxury Outer Border
+    ctx.strokeStyle = "#ffffff";
+    ctx.lineWidth = 5;
+    ctx.strokeRect(20, 20, canvas.width - 40, canvas.height - 40);
+
+    // Inner thin border
+    ctx.strokeStyle = "rgba(255, 255, 255, 0.4)";
+    ctx.lineWidth = 1.5;
+    ctx.strokeRect(30, 30, canvas.width - 60, canvas.height - 60);
+
+    // 3. Brand Header
+    ctx.fillStyle = "#ffffff";
+    ctx.font = 'bold 44px "New Baskerville", Georgia, serif';
+    ctx.fillText("FLAUNSICA", 70, 95);
+
+    ctx.fillStyle = "rgba(255, 255, 255, 0.85)";
+    ctx.font = '600 16px "Coco Gothic", sans-serif';
+    ctx.fillText("HYDERABAD", 72, 125);
+
+    // Edition Badge on Right
+    ctx.fillStyle = "#ffffff";
+    ctx.font = 'bold 30px "New Baskerville", Georgia, serif';
+    ctx.fillText("10TH REFINED EDITION", 750, 95);
+
+    ctx.fillStyle = "rgba(255, 255, 255, 0.85)";
+    ctx.font = '15px "Coco Gothic", sans-serif';
+    ctx.fillText("PARK HYATT • BANJARA HILLS", 750, 125);
+
+    // Divider line
+    ctx.strokeStyle = "rgba(255, 255, 255, 0.35)";
+    ctx.lineWidth = 1.5;
+    ctx.beginPath();
+    ctx.moveTo(60, 155);
+    ctx.lineTo(1140, 155);
+    ctx.stroke();
+
+    // 4. Guest Tier Strip
+    const tierText = getTier(guest);
+    ctx.fillStyle = "rgba(255, 255, 255, 0.15)";
+    ctx.fillRect(60, 175, 1080, 48);
+    ctx.fillStyle = "#ffffff";
+    ctx.font = 'bold 18px "Coco Gothic", sans-serif';
+    ctx.textAlign = "center";
+    ctx.fillText(`✦   ${tierText}   ✦`, canvas.width / 2, 206);
+    ctx.textAlign = "left";
+
+    // 5. Guest Information Columns
+    ctx.fillStyle = "rgba(255, 255, 255, 0.75)";
+    ctx.font = 'bold 13px "Coco Gothic", sans-serif';
+    ctx.fillText("GUEST NAME", 70, 270);
+    ctx.fillText("MOBILE NUMBER", 70, 370);
+    ctx.fillText("PURPOSE OF VISIT", 70, 460);
+    ctx.fillText("ATTENDING WITH", 440, 370);
+    ctx.fillText("PASS SERIAL ID", 440, 460);
+
+    // Values
+    ctx.fillStyle = "#ffffff";
+    ctx.font = 'bold 38px "New Baskerville", Georgia, serif';
+    ctx.fillText(guest.name || "VIP Guest", 70, 318);
+
+    ctx.font = 'bold 22px "Coco Gothic", sans-serif';
+    ctx.fillText(`+91 ${guest.phone}`, 70, 405);
+    ctx.fillText(guest.purpose?.join(", ") || "Wedding Shopping", 70, 495);
+    ctx.fillText(guest.attendingWith?.join(", ") || "Just me", 440, 405);
+
+    ctx.fillStyle = "#ffffff";
+    ctx.font = "bold 22px Courier, monospace";
+    ctx.fillText(passCode, 440, 495);
+
+    // 6. Draw QR Code if available
+    if (qrUrl) {
+      await new Promise<void>((resolve) => {
+        const img = new Image();
+        img.crossOrigin = "anonymous";
+        img.onload = () => {
+          ctx.fillStyle = "#ffffff";
+          ctx.fillRect(840, 255, 250, 250);
+          ctx.strokeStyle = "#9a2828";
+          ctx.lineWidth = 3;
+          ctx.strokeRect(840, 255, 250, 250);
+          ctx.drawImage(img, 855, 270, 220, 220);
+
+          ctx.fillStyle = "#9a2828";
+          ctx.font = 'bold 13px "Plus Jakarta Sans", sans-serif';
+          ctx.textAlign = "center";
+          ctx.fillText("SCAN AT VIP DESK", 965, 525);
+          ctx.textAlign = "left";
+          resolve();
+        };
+        img.onerror = () => resolve();
+        img.src = qrUrl;
+        if (img.complete) {
+          img.onload(null as any);
+        }
+      });
+    }
+
+    // Perforation
+    ctx.strokeStyle = "rgba(255, 255, 255, 0.35)";
+    ctx.setLineDash([8, 8]);
+    ctx.lineWidth = 2;
+    ctx.beginPath();
+    ctx.moveTo(60, 560);
+    ctx.lineTo(1140, 560);
+    ctx.stroke();
+    ctx.setLineDash([]);
+
+    // Footer
+    ctx.fillStyle = "rgba(255, 255, 255, 0.85)";
+    ctx.font = 'bold 14px "Coco Gothic", sans-serif';
+    ctx.fillText("📅 WEDNESDAY, 23 SEPT 2026", 70, 615);
+    ctx.fillText("📍 PARK HYATT, HYDERABAD", 460, 615);
+    ctx.fillText("⏱ 10:00 AM – 8:30 PM", 860, 615);
+
+    ctx.fillStyle = "rgba(255, 255, 255, 0.65)";
+    ctx.font = '13px "Plus Jakarta Sans", sans-serif';
+    ctx.textAlign = "center";
+    ctx.fillText(
+      "curated by Prestha Agarwal • 55+ Premier Luxury Designer Brands",
+      600,
+      680
+    );
+    ctx.textAlign = "left";
+
+    return canvas;
+  };
 
   const downloadPassPng = async () => {
     if (isDownloading) return;
     setIsDownloading(true);
 
     try {
-      const canvas = document.createElement("canvas");
-      const ctx = canvas.getContext("2d");
-      if (!ctx) {
+      const canvas = await generatePassCanvas();
+      if (!canvas) {
         setIsDownloading(false);
         return;
       }
 
-      // High DPI dimensions (1200x760 for crisp luxury pass print)
-      canvas.width = 1200;
-      canvas.height = 760;
+      const safeName = guest.name.replace(/[^a-zA-Z0-9]/g, "_") || "Guest";
+      const fileName = `Flaunsica_VIP_Pass_${safeName}.png`;
 
-      // 1. Logo Red Luxury Background
-      const bgGradient = ctx.createLinearGradient(0, 0, canvas.width, canvas.height);
-      bgGradient.addColorStop(0, "#9a2828");
-      bgGradient.addColorStop(0.5, "#8b2020");
-      bgGradient.addColorStop(1, "#7a1818");
-      ctx.fillStyle = bgGradient;
-      ctx.fillRect(0, 0, canvas.width, canvas.height);
+      // Direct download to user device
+      const blob = await new Promise<Blob | null>((res) => canvas.toBlob(res, "image/png"));
+      const blobUrl = blob ? URL.createObjectURL(blob) : canvas.toDataURL("image/png");
 
-      // 2. White Luxury Outer Border
-      ctx.strokeStyle = "#ffffff";
-      ctx.lineWidth = 5;
-      ctx.strokeRect(20, 20, canvas.width - 40, canvas.height - 40);
+      const link = document.createElement("a");
+      link.download = fileName;
+      link.href = blobUrl;
+      link.rel = "noopener";
+      document.body.appendChild(link);
+      link.click();
 
-      // Inner thin border
-      ctx.strokeStyle = "rgba(255, 255, 255, 0.4)";
-      ctx.lineWidth = 1.5;
-      ctx.strokeRect(30, 30, canvas.width - 60, canvas.height - 60);
+      setTimeout(() => {
+        document.body.removeChild(link);
+        if (blob) URL.revokeObjectURL(blobUrl);
+      }, 500);
+    } catch (err) {
+      console.error("Failed to download pass PNG", err);
+    } finally {
+      setIsDownloading(false);
+    }
+  };
 
-      // 3. Brand Header
-      ctx.fillStyle = "#ffffff";
-      ctx.font = 'bold 44px "New Baskerville", Georgia, serif';
-      ctx.fillText("FLAUNSICA", 70, 95);
+  const shareInvitation = async () => {
+    if (isSharing) return;
+    setIsSharing(true);
 
-      ctx.fillStyle = "rgba(255, 255, 255, 0.85)";
-      ctx.font = '600 16px "Coco Gothic", sans-serif';
-      ctx.fillText("HYDERABAD", 72, 125);
-
-      // Edition Badge on Right
-      ctx.fillStyle = "#ffffff";
-      ctx.font = 'bold 30px "New Baskerville", Georgia, serif';
-      ctx.fillText("10TH REFINED EDITION", 750, 95);
-
-      ctx.fillStyle = "rgba(255, 255, 255, 0.85)";
-      ctx.font = '15px "Coco Gothic", sans-serif';
-      ctx.fillText("PARK HYATT • BANJARA HILLS", 750, 125);
-
-      // Divider line
-      ctx.strokeStyle = "rgba(255, 255, 255, 0.35)";
-      ctx.lineWidth = 1.5;
-      ctx.beginPath();
-      ctx.moveTo(60, 155);
-      ctx.lineTo(1140, 155);
-      ctx.stroke();
-
-      // 4. Guest Tier Strip
-      const tierText = getTier(guest);
-      ctx.fillStyle = "rgba(255, 255, 255, 0.15)";
-      ctx.fillRect(60, 175, 1080, 48);
-      ctx.fillStyle = "#ffffff";
-      ctx.font = 'bold 18px "Coco Gothic", sans-serif';
-      ctx.textAlign = "center";
-      ctx.fillText(`✦   ${tierText}   ✦`, canvas.width / 2, 206);
-      ctx.textAlign = "left";
-
-      // 5. Guest Information Columns
-      ctx.fillStyle = "rgba(255, 255, 255, 0.75)";
-      ctx.font = 'bold 13px "Coco Gothic", sans-serif';
-      ctx.fillText("GUEST NAME", 70, 270);
-      ctx.fillText("MOBILE NUMBER", 70, 370);
-      ctx.fillText("PURPOSE OF VISIT", 70, 460);
-      ctx.fillText("ATTENDING WITH", 440, 370);
-      ctx.fillText("PASS SERIAL ID", 440, 460);
-
-      // Values
-      ctx.fillStyle = "#ffffff";
-      ctx.font = 'bold 38px "New Baskerville", Georgia, serif';
-      ctx.fillText(guest.name || "VIP Guest", 70, 318);
-
-      ctx.font = 'bold 22px "Coco Gothic", sans-serif';
-      ctx.fillText(`+91 ${guest.phone}`, 70, 405);
-      ctx.fillText(guest.purpose?.join(", ") || "Wedding Shopping", 70, 495);
-      ctx.fillText(guest.attendingWith?.join(", ") || "Just me", 440, 405);
-
-      ctx.fillStyle = "#ffffff";
-      ctx.font = "bold 22px Courier, monospace";
-      ctx.fillText(passCode, 440, 495);
-
-      // 6. Draw QR Code if available
-      if (qrUrl) {
-        await new Promise<void>((resolve) => {
-          const img = new Image();
-          img.crossOrigin = "anonymous";
-          img.onload = () => {
-            ctx.fillStyle = "#ffffff";
-            ctx.fillRect(840, 255, 250, 250);
-            ctx.strokeStyle = "#9a2828";
-            ctx.lineWidth = 3;
-            ctx.strokeRect(840, 255, 250, 250);
-            ctx.drawImage(img, 855, 270, 220, 220);
-
-            ctx.fillStyle = "#9a2828";
-            ctx.font = 'bold 13px "Plus Jakarta Sans", sans-serif';
-            ctx.textAlign = "center";
-            ctx.fillText("SCAN AT VIP DESK", 965, 525);
-            ctx.textAlign = "left";
-            resolve();
-          };
-          img.onerror = () => resolve();
-          img.src = qrUrl;
-          if (img.complete) {
-            img.onload(null as any);
-          }
-        });
+    try {
+      const canvas = await generatePassCanvas();
+      if (!canvas) {
+        setIsSharing(false);
+        return;
       }
-
-      // Perforation
-      ctx.strokeStyle = "rgba(255, 255, 255, 0.35)";
-      ctx.setLineDash([8, 8]);
-      ctx.lineWidth = 2;
-      ctx.beginPath();
-      ctx.moveTo(60, 560);
-      ctx.lineTo(1140, 560);
-      ctx.stroke();
-      ctx.setLineDash([]);
-
-      // Footer
-      ctx.fillStyle = "rgba(255, 255, 255, 0.85)";
-      ctx.font = 'bold 14px "Coco Gothic", sans-serif';
-      ctx.fillText("📅 WEDNESDAY, 23 SEPT 2026", 70, 615);
-      ctx.fillText("📍 PARK HYATT, HYDERABAD", 460, 615);
-      ctx.fillText("⏱ 10:00 AM – 8:30 PM", 860, 615);
-
-      ctx.fillStyle = "rgba(255, 255, 255, 0.65)";
-      ctx.font = '13px "Plus Jakarta Sans", sans-serif';
-      ctx.textAlign = "center";
-      ctx.fillText(
-        "curated by Prestha Agarwal • 55+ Premier Luxury Designer Brands",
-        600,
-        680
-      );
-      ctx.textAlign = "left";
 
       const safeName = guest.name.replace(/[^a-zA-Z0-9]/g, "_") || "Guest";
       const fileName = `Flaunsica_VIP_Pass_${safeName}.png`;
-      const isIOS =
-        typeof navigator !== "undefined" &&
-        (/iPad|iPhone|iPod/.test(navigator.userAgent) ||
-          (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1));
 
-      // 1. Primary mobile path: Web Share API
-      // On iOS Safari 15+, this invokes the native Share sheet with direct "Save Image" to Photos
       const blob = await new Promise<Blob | null>((res) => canvas.toBlob(res, "image/png"));
+      const dataUrl = canvas.toDataURL("image/png");
+
+      // 1. Primary mobile path: Web Share API with File attached
       if (blob && typeof navigator !== "undefined" && typeof navigator.canShare === "function") {
         try {
           const file = new File([blob], fileName, { type: "image/png" });
@@ -203,45 +244,52 @@ export function VipPass({
             await navigator.share({
               files: [file],
               title: "Flaunsica VIP Pass",
-              text: `Flaunsica VIP Pass for ${guest.name} – 23 Sept 2026 at Park Hyatt`,
+              text: `Exclusive VIP Pass for Flaunsica Hyderabad – 10th Refined Edition (23 Sept 2026 at Park Hyatt). Curated by Prestha Agarwal. Register here: https://flaunsica.com`,
             });
-            setIsDownloading(false);
+            setIsSharing(false);
             return;
           }
         } catch (err: any) {
           if (err.name === "AbortError") {
-            setIsDownloading(false);
+            setIsSharing(false);
             return;
           }
-          console.warn("Web Share API failed, using fallback", err);
+          console.warn("navigator.share with files failed, trying fallback", err);
         }
       }
 
-      const dataUrl = canvas.toDataURL("image/png");
-
-      // 2. iOS fallback (in-app browsers like Instagram, Facebook, or if share is denied)
-      // Opens high-res pass modal allowing "Tap & hold to Save to Photos"
-      if (isIOS) {
-        setPreviewImageUrl(dataUrl);
-        setIsDownloading(false);
-        return;
+      // 2. Standard share without files (if supported)
+      if (typeof navigator !== "undefined" && navigator.share) {
+        try {
+          await navigator.share({
+            title: "Flaunsica VIP Pass",
+            text: `Hey! I just got my Exclusive Invite for *Flaunsica Hyderabad – 10th Refined Edition* (23 Sept 2026 at Park Hyatt). 55+ luxury designer brands under one roof! curated by Prestha Agarwal. Get your complimentary Exclusive Invite here: https://flaunsica.com`,
+            url: "https://flaunsica.com",
+          });
+          setIsSharing(false);
+          return;
+        } catch (err: any) {
+          if (err.name === "AbortError") {
+            setIsSharing(false);
+            return;
+          }
+        }
       }
 
-      // 3. Desktop / Android standard download
-      const link = document.createElement("a");
-      link.download = fileName;
-      link.href = blob ? URL.createObjectURL(blob) : dataUrl;
-      document.body.appendChild(link);
-      link.click();
-      setTimeout(() => {
-        document.body.removeChild(link);
-        if (blob) URL.revokeObjectURL(link.href);
-      }, 200);
+      // 3. Fallback: Show the preview modal (allows "Save to Photos", WhatsApp share, etc.)
+      setPreviewImageUrl(dataUrl);
     } catch (err) {
-      console.error("Failed to generate pass PNG", err);
+      console.error("Failed to share invitation", err);
+      shareWhatsAppDirect();
     } finally {
-      setIsDownloading(false);
+      setIsSharing(false);
     }
+  };
+
+  const shareWhatsAppDirect = () => {
+    const shareText = `Hey! I just got my Exclusive Invite for *Flaunsica Hyderabad – 10th Refined Edition* (23 Sept 2026 at Park Hyatt). 55+ luxury designer brands under one roof! curated by Prestha Agarwal. Get your complimentary Exclusive Invite here: https://flaunsica.com`;
+    const shareUrl = `https://api.whatsapp.com/send?text=${encodeURIComponent(shareText)}`;
+    window.open(shareUrl, "_blank");
   };
 
   const addToCalendar = () => {
@@ -273,12 +321,6 @@ export function VipPass({
   )}&location=${encodeURIComponent(
     "The Ballroom, Park Hyatt, Road No. 2, Banjara Hills, Hyderabad, Telangana 500034"
   )}`;
-
-  const shareWhatsApp = () => {
-    const shareText = `Hey! I just got my Exclusive Invite for *Flaunsica Hyderabad – 10th Refined Edition* (23 Sept 2026 at Park Hyatt). 55+ luxury designer brands under one roof! curated by Prestha Agarwal. Get your complimentary Exclusive Invite here: https://flaunsica.com`;
-    const shareUrl = `https://api.whatsapp.com/send?text=${encodeURIComponent(shareText)}`;
-    window.open(shareUrl, "_blank");
-  };
 
   const tier = getTier(guest);
   const party = guest.attendingWith?.length ? guest.attendingWith.join(", ") : "Just me";
@@ -455,7 +497,7 @@ export function VipPass({
               <polyline points="7 10 12 15 17 10"></polyline>
               <line x1="12" y1="15" x2="12" y2="3"></line>
             </svg>
-            <span>{isDownloading ? "Preparing Pass..." : "Download Exclusive Invite (PNG)"}</span>
+            <span>{isDownloading ? "Downloading Pass..." : "Download Exclusive Invite (PNG)"}</span>
           </button>
 
           <button
@@ -474,13 +516,18 @@ export function VipPass({
 
           <button
             type="button"
-            onClick={shareWhatsApp}
+            onClick={shareInvitation}
+            disabled={isSharing}
             className="btn-action btn-whatsapp"
           >
-            <svg viewBox="0 0 24 24" fill="currentColor">
-              <path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.149.929 3.182 0 5.767-2.587 5.768-5.766 0-3.18-2.586-5.771-5.768-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.312.045-.694.067-2.072-.502-1.614-.666-2.66-2.317-2.74-2.424-.08-.107-.645-.858-.645-1.636 0-.777.408-1.16.552-1.317.144-.158.312-.198.416-.198.104 0 .208.002.296.007.096.005.224-.037.352.27.128.307.44 1.072.48 1.152.04.08.064.175.016.273-.048.098-.072.158-.144.241-.072.083-.152.186-.216.25-.072.072-.148.151-.064.296.084.144.372.614.798.994.548.488 1.01.639 1.154.711.144.072.228.064.312-.033.084-.096.36-.421.456-.565.096-.144.192-.12.32-.072.128.048.816.385.956.455.14.07.234.105.268.163.034.058.034.339-.11.744z" />
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <circle cx="18" cy="5" r="3"></circle>
+              <circle cx="6" cy="12" r="3"></circle>
+              <circle cx="18" cy="19" r="3"></circle>
+              <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line>
+              <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line>
             </svg>
-            <span>Share Invitation</span>
+            <span>{isSharing ? "Preparing Share..." : "Share Invitation"}</span>
           </button>
 
           {onReset && (
@@ -511,7 +558,7 @@ export function VipPass({
         </div>
       </div>
 
-      {/* iOS Pass Image Preview Modal (Fallback for iOS in-app browsers) */}
+      {/* Pass Preview & Share Modal (for mobile or desktop share fallback) */}
       {previewImageUrl && (
         <div
           className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/85 p-4 backdrop-blur-sm"
@@ -528,7 +575,7 @@ export function VipPass({
                 <span className="flex size-7 items-center justify-center rounded-full bg-[#9a2828] text-xs font-bold text-white">
                   ✓
                 </span>
-                <h3 className="font-serif text-lg font-bold">Your VIP Pass</h3>
+                <h3 className="font-serif text-lg font-bold">Share Your VIP Pass</h3>
               </div>
               <button
                 type="button"
@@ -544,7 +591,7 @@ export function VipPass({
             </div>
 
             <div className="my-3 rounded-lg bg-[#9a2828]/25 border border-[#9a2828]/50 p-2.5 text-xs text-rose-100">
-              📱 <strong>Save to Photos:</strong> Tap and hold the pass image below, then choose <strong>&ldquo;Save to Photos&rdquo;</strong>.
+              📱 <strong>Save or Share:</strong> Tap and hold the pass image below to save to photos, or use the share buttons below.
             </div>
 
             <div className="overflow-hidden rounded-xl border border-white/15 bg-black/50 shadow-inner">
@@ -555,7 +602,7 @@ export function VipPass({
               />
             </div>
 
-            <div className="mt-4 flex gap-2.5">
+            <div className="mt-4 flex flex-col sm:flex-row gap-2.5">
               <button
                 type="button"
                 onClick={() => {
@@ -569,7 +616,11 @@ export function VipPass({
                           { type: "image/png" }
                         );
                         if (navigator.canShare({ files: [file] })) {
-                          navigator.share({ files: [file], title: "Flaunsica VIP Pass" });
+                          navigator.share({
+                            files: [file],
+                            title: "Flaunsica VIP Pass",
+                            text: `Exclusive VIP Pass for Flaunsica Hyderabad – 10th Refined Edition (23 Sept 2026 at Park Hyatt). Register: https://flaunsica.com`
+                          });
                         }
                       })
                       .catch(() => {});
@@ -577,7 +628,14 @@ export function VipPass({
                 }}
                 className="flex-1 rounded-full bg-[#9a2828] py-2.5 text-xs font-bold text-white shadow hover:bg-[#852020] transition-colors"
               >
-                Share / Save via iOS
+                Share Pass (with Image)
+              </button>
+              <button
+                type="button"
+                onClick={shareWhatsAppDirect}
+                className="flex-1 rounded-full bg-[#25D366] py-2.5 text-xs font-bold text-white shadow hover:bg-[#20bd5a] transition-colors"
+              >
+                Share via WhatsApp
               </button>
               <button
                 type="button"
