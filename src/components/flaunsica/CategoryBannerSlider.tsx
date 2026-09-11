@@ -64,7 +64,7 @@ export function CategoryBannerSlider({
         <img
           src={encodeURI(banners[0] || "")}
           alt={alt}
-          className="curation-edge-banner-img"
+          className="curation-edge-banner-img w-full h-auto block"
           loading={priority ? "eager" : "lazy"}
         />
       </div>
@@ -83,15 +83,15 @@ export function CategoryBannerSlider({
       aria-label={`${alt} Banner Slider`}
     >
       <div
-        className="flex w-full h-full transition-transform duration-700 ease-out"
+        className="flex w-full transition-transform duration-700 ease-out"
         style={{ transform: `translateX(-${current * 100}%)` }}
       >
         {banners.map((src, idx) => (
-          <div key={idx} className="w-full h-full shrink-0 relative">
+          <div key={idx} className="w-full shrink-0 relative">
             <img
               src={encodeURI(src)}
               alt={`${alt} banner ${idx + 1}`}
-              className="curation-edge-banner-img"
+              className="curation-edge-banner-img w-full h-auto block"
               loading={priority && idx === 0 ? "eager" : "lazy"}
             />
           </div>

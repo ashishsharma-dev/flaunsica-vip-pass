@@ -567,7 +567,7 @@ export function RsvpFlow() {
           {alreadyRegistered && (
             <div
               id="already-registered-modal"
-              className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/65 backdrop-blur-sm animate-in fade-in duration-200"
+              className="already-registered-overlay"
               role="dialog"
               aria-modal="true"
               aria-labelledby="already-registered-title"
@@ -575,44 +575,44 @@ export function RsvpFlow() {
                 if (e.target === e.currentTarget) setAlreadyRegistered(null);
               }}
             >
-              <div className="relative w-full max-w-md bg-white rounded-2xl shadow-2xl border border-[#9a2828]/25 p-6 sm:p-7 text-center overflow-hidden animate-in zoom-in-95 duration-200">
+              <div className="already-registered-modal-card">
                 {/* Top luxury crimson and gold accent line */}
-                <div className="absolute top-0 left-0 right-0 h-1.5 bg-gradient-to-r from-[#9a2828] via-[#e5a93b] to-[#9a2828]" />
+                <div className="already-registered-accent-bar" />
 
                 {/* Close button */}
                 <button
                   type="button"
                   onClick={() => setAlreadyRegistered(null)}
-                  className="absolute top-3.5 right-3.5 w-8 h-8 rounded-full bg-[#f4ece1]/80 hover:bg-[#ebdcc8] text-[#554044] hover:text-[#140406] flex items-center justify-center transition-colors cursor-pointer"
+                  className="already-registered-close-btn"
                   aria-label="Close popup"
                 >
                   <X className="w-4 h-4" />
                 </button>
 
                 {/* Luxury Seal Icon */}
-                <div className="w-14 h-14 mx-auto rounded-full bg-[#9a2828]/10 border border-[#9a2828]/20 flex items-center justify-center text-[#9a2828] mb-3.5 shadow-inner">
-                  <Sparkles className="w-6 h-6 text-[#9a2828]" />
+                <div className="already-registered-icon-wrap">
+                  <Sparkles className="w-7 h-7" />
                 </div>
 
-                <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#9a2828]/10 text-[#9a2828] text-[0.6875rem] font-bold tracking-[0.18em] uppercase mb-2">
+                <div className="already-registered-badge">
                   <span>VIP Guest Record Found</span>
                 </div>
 
-                <h3 id="already-registered-title" className="text-xl sm:text-2xl font-serif font-bold text-[#140406] leading-snug mb-2">
+                <h3 id="already-registered-title" className="already-registered-title">
                   Already Registered!
                 </h3>
 
-                <p className="text-sm text-[#554044] leading-relaxed mb-4">
+                <p className="already-registered-message">
                   {alreadyRegistered.message}
                 </p>
 
                 {/* Highlighted Pass Code Box with Copy */}
-                <div className="bg-[#faf6f0] border border-[#e5d8c5] rounded-xl p-3.5 mb-5 text-center">
-                  <span className="block text-[0.65rem] font-bold tracking-[0.18em] uppercase text-[#735d61] mb-1">
+                <div className="already-registered-passcode-box">
+                  <span className="already-registered-passcode-label">
                     Your Exclusive VIP Pass Code
                   </span>
-                  <div className="flex items-center justify-center gap-2">
-                    <span className="font-mono text-lg sm:text-xl font-bold text-[#9a2828] tracking-wider select-all">
+                  <div className="already-registered-passcode-row">
+                    <span className="already-registered-passcode-code">
                       {alreadyRegistered.passCode}
                     </span>
                     <button
@@ -624,19 +624,20 @@ export function RsvpFlow() {
                           setTimeout(() => setCopiedPassCode(false), 2000);
                         }
                       }}
-                      className="p-1.5 rounded-md hover:bg-[#ebdcc8] text-[#735d61] hover:text-[#9a2828] transition-colors cursor-pointer"
+                      className="already-registered-copy-btn"
                       title="Copy Pass Code"
                     >
-                      {copiedPassCode ? <Check className="w-4 h-4 text-emerald-600" /> : <Copy className="w-4 h-4" />}
+                      {copiedPassCode ? <Check className="w-3.5 h-3.5 text-emerald-600" /> : <Copy className="w-3.5 h-3.5" />}
+                      <span style={{ fontSize: "0.7rem", fontWeight: 600 }}>{copiedPassCode ? "Copied" : "Copy"}</span>
                     </button>
                   </div>
-                  <span className="block text-[0.72rem] text-[#735d61] mt-1">
-                    {copiedPassCode ? "Pass code copied to clipboard!" : "Present this code or your QR pass at Park Hyatt VIP reception."}
+                  <span className="already-registered-passcode-hint">
+                    {copiedPassCode ? "Pass code copied to clipboard!" : "Present this pass code or your QR pass at Park Hyatt VIP reception."}
                   </span>
                 </div>
 
                 {/* Action Buttons */}
-                <div className="flex flex-col gap-2.5">
+                <div className="already-registered-actions">
                   <button
                     type="button"
                     id="btnPopupViewPass"
@@ -646,7 +647,7 @@ export function RsvpFlow() {
                         search: { passCode: alreadyRegistered.passCode },
                       });
                     }}
-                    className="w-full py-3.5 px-5 rounded-full bg-[#9a2828] hover:bg-[#7e1e1e] text-white text-xs uppercase tracking-[0.16em] font-semibold flex items-center justify-center gap-2 shadow-md transition-all cursor-pointer"
+                    className="already-registered-view-btn"
                   >
                     <span>View My Exclusive Pass</span>
                     <ArrowRight className="w-4 h-4" />
@@ -659,7 +660,7 @@ export function RsvpFlow() {
                       setGuest(DEFAULT_GUEST);
                       setErrors({});
                     }}
-                    className="w-full py-2 px-4 text-xs text-[#735d61] hover:text-[#140406] font-medium transition-colors cursor-pointer"
+                    className="already-registered-dismiss-btn"
                   >
                     Register Another Guest
                   </button>
