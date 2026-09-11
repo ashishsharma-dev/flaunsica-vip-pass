@@ -5,10 +5,10 @@ const guestSchema = z.object({
   name: z.string().trim().min(2).max(100),
   phone: z.string().trim().regex(/^[6-9]\d{9}$/),
   email: z.string().trim().email().max(255),
-  isBride: z.enum(["Yes", "No"]),
-  purpose: z.array(z.string().max(60)).min(1).max(10),
-  attendingWith: z.array(z.string().max(60)).min(1).max(10),
-  interests: z.array(z.string().max(60)).min(1).max(10),
+  isBride: z.enum(["Yes", "No"]).optional().default("No"),
+  purpose: z.array(z.string().max(60)).optional().default([]),
+  attendingWith: z.array(z.string().max(60)).optional().default([]),
+  interests: z.array(z.string().max(60)).optional().default([]),
 });
 
 function makePassCode() {

@@ -1,9 +1,27 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { Navbar } from "@/components/flaunsica/Navbar";
+import { CategoryBannerSlider } from "@/components/flaunsica/CategoryBannerSlider";
 
 export const Route = createFileRoute("/curated")({
   component: CuratedPage,
 });
+
+const FASHION_COUTURE_BANNERS = [
+  "/assets/Fashion And Couture Designers/banner1.png",
+  "/assets/Fashion And Couture Designers/banner2.png",
+];
+
+const JEWELLERY_BANNERS = [
+  "/assets/Jewellery/banner.png",
+];
+
+const ACCESSORIES_BANNERS = [
+  "/assets/Accessories/banner.png",
+];
+
+const LIFESTYLE_BANNERS = [
+  "/assets/Home & Lifestyle/banner.png",
+];
 
 interface BrandPartner {
   name: string;
@@ -133,19 +151,11 @@ function CuratedPage() {
 
         {/* SECTION 1: FASHION AND COUTURE DESIGNERS */}
         <section className="curation-category-section" id="fashion-couture">
-          {/* Edge-to-Edge Single Banner Image */}
-          <div className="curation-edge-banner">
-            <img
-              src="/assets/hero-couture.jpg"
-              alt="Fashion And Couture Designers"
-              className="curation-edge-banner-img"
-              loading="eager"
-            />
-            <div className="curation-edge-banner-overlay">
-              {/* <span className="curation-edge-banner-badge">CATEGORY 01 • ATELIER SHOWCASE</span> */}
-              {/* <h2 className="curation-edge-banner-title">Fashion And Couture Designers</h2> */}
-            </div>
-          </div>
+          <CategoryBannerSlider
+            banners={FASHION_COUTURE_BANNERS}
+            alt="Fashion And Couture Designers"
+            priority={true}
+          />
 
           <div className="curation-brand-partners-wrap">
             <div className="curation-category-intro">
@@ -161,19 +171,10 @@ function CuratedPage() {
 
         {/* SECTION 2: JEWELLERY DESIGNERS */}
         <section className="curation-category-section" id="jewellery">
-          {/* Edge-to-Edge Single Banner Image */}
-          <div className="curation-edge-banner">
-            <img
-              src="/assets/ad1.jpg"
-              alt="Jewellery Designers"
-              className="curation-edge-banner-img"
-              loading="lazy"
-            />
-            <div className="curation-edge-banner-overlay">
-              {/* <span className="curation-edge-banner-badge">CATEGORY 02 • HIGH JEWELLERY</span> */}
-              {/* <h2 className="curation-edge-banner-title">Jewellery Designers</h2> */}
-            </div>
-          </div>
+          <CategoryBannerSlider
+            banners={JEWELLERY_BANNERS}
+            alt="Jewellery Designers"
+          />
 
           <div className="curation-brand-partners-wrap">
             <div className="curation-category-intro">
@@ -189,19 +190,10 @@ function CuratedPage() {
 
         {/* SECTION 3: ACCESSORIES */}
         <section className="curation-category-section" id="accessories">
-          {/* Edge-to-Edge Single Banner Image */}
-          <div className="curation-edge-banner">
-            <img
-              src="/assets/ad2.jpg"
-              alt="Artisanal Accessories"
-              className="curation-edge-banner-img"
-              loading="lazy"
-            />
-            <div className="curation-edge-banner-overlay">
-              {/* <span className="curation-edge-banner-badge">CATEGORY 03 • ARTISANAL ACCESSORIES</span> */}
-              {/* <h2 className="curation-edge-banner-title">Accessories</h2> */}
-            </div>
-          </div>
+          <CategoryBannerSlider
+            banners={ACCESSORIES_BANNERS}
+            alt="Accessories"
+          />
 
           <div className="curation-brand-partners-wrap">
             <div className="curation-category-intro">
@@ -217,19 +209,10 @@ function CuratedPage() {
 
         {/* SECTION 4: HOME & LIFESTYLE */}
         <section className="curation-category-section" id="home-lifestyle">
-          {/* Edge-to-Edge Single Banner Image */}
-          <div className="curation-edge-banner">
-            <img
-              src="/assets/hero-couture.jpg"
-              alt="Home & Lifestyle"
-              className="curation-edge-banner-img"
-              loading="lazy"
-            />
-            <div className="curation-edge-banner-overlay">
-              {/* <span className="curation-edge-banner-badge">CATEGORY 04 • CURATED LIVING</span> */}
-              {/* <h2 className="curation-edge-banner-title">Home &amp; Lifestyle</h2> */}
-            </div>
-          </div>
+          <CategoryBannerSlider
+            banners={LIFESTYLE_BANNERS}
+            alt="Home & Lifestyle"
+          />
 
           <div className="curation-brand-partners-wrap">
             <div className="curation-category-intro">

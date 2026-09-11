@@ -2,10 +2,10 @@ export interface GuestDetails {
   name: string;
   phone: string;
   email: string;
-  isBride: string;
-  purpose: string[];
-  attendingWith: string[];
-  interests: string[];
+  isBride?: string;
+  purpose?: string[];
+  attendingWith?: string[];
+  interests?: string[];
 }
 
 export const PURPOSE_OPTIONS = [
