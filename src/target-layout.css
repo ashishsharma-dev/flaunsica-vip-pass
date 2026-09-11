@@ -4755,7 +4755,10 @@ a.curation-cta-btn:hover,
   left: 0 !important;
   right: 0 !important;
   height: 6px !important;
-  background: linear-gradient(90deg, #9a2828 0%, #e5a93b 50%, #9a2828 100%) !important;
+  /* background: linear-gradient(90deg, #9a2828 0%, #e5a93b 50%, #9a2828 100%) !important; */
+  background-color: #9a2828;
+
+
 }
 
 .already-registered-close-btn {

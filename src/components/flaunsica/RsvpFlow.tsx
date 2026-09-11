@@ -553,12 +553,12 @@ export function RsvpFlow() {
                     </>
                   )}
                 </button>
-                <div className="security-caption">
+                {/* <div className="security-caption">
                   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                     <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
                   </svg>
                   <span>Takes only 15 seconds • Instant verification via WhatsApp & Email</span>
-                </div>
+                </div> */}
               </div>
             </div>
           </form>
@@ -594,9 +594,9 @@ export function RsvpFlow() {
                   <Sparkles className="w-7 h-7" />
                 </div>
 
-                <div className="already-registered-badge">
+                {/* <div className="already-registered-badge">
                   <span>VIP Guest Record Found</span>
-                </div>
+                </div> */}
 
                 <h3 id="already-registered-title" className="already-registered-title">
                   Already Registered!
@@ -632,7 +632,7 @@ export function RsvpFlow() {
                     </button>
                   </div>
                   <span className="already-registered-passcode-hint">
-                    {copiedPassCode ? "Pass code copied to clipboard!" : "Present this pass code or your QR pass at Park Hyatt VIP reception."}
+                    {copiedPassCode ? "Pass code copied to clipboard!" : "Present this pass code or your QR pass at Park Hyatt."}
                   </span>
                 </div>
 

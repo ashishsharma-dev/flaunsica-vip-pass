@@ -4,8 +4,8 @@ import type { GuestDetails } from "./types";
 
 function getTier(guest: GuestDetails) {
   return guest.purpose?.includes("Wedding Shopping") || guest.purpose?.includes("Trousseau")
-    ? "VIP BRIDE & TROUSSEAU GUEST"
-    : "VIP CONNOISSEUR GUEST";
+    ? "VIP PASS"
+    : "VIP PASS";
 }
 
 export function VipPass({
