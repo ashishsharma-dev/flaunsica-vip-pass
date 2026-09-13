@@ -1,6 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { Navbar } from "@/components/flaunsica/Navbar";
 import { CategoryBannerSlider } from "@/components/flaunsica/CategoryBannerSlider";
+import { BrandDiscounts } from "@/components/flaunsica/BrandDiscounts";
 
 export const Route = createFileRoute("/curated")({
   component: CuratedPage,
@@ -225,6 +226,9 @@ function CuratedPage() {
             <BrandGrid brands={LIFESTYLE_BRANDS} />
           </div>
         </section>
+
+        {/* SECTION 5: EXHIBITION BRAND DISCOUNTS & PRIVILEGES */}
+        <BrandDiscounts />
 
         {/* Bottom VIP Invitation Call to Action */}
         <section className="curation-cta-section">

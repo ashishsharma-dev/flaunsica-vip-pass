@@ -5261,3 +5261,251 @@ a.curation-cta-btn:hover,
   max-width: 440px;
   margin: 0 auto 2rem;
 }
+
+/* ==========================================================================
+   EXHIBITION BRAND DISCOUNTS & PRIVILEGES
+   ========================================================================== */
+.brand-discounts-section {
+  width: 100%;
+  background: #ffffff;
+  position: relative;
+  z-index: 2;
+}
+
+.brand-discounts-full {
+  padding: 5rem 1.5rem;
+  border-top: 1px solid rgba(154, 40, 40, 0.12);
+  border-bottom: 1px solid rgba(154, 40, 40, 0.12);
+}
+
+.brand-discounts-compact {
+  padding: 2.5rem 0 1.5rem;
+  background: transparent;
+}
+
+.brand-discounts-container {
+  max-width: 1280px;
+  margin: 0 auto;
+}
+
+.brand-discounts-compact-container {
+  max-width: 100%;
+  margin: 0 auto;
+}
+
+.brand-discounts-header {
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+.brand-discounts-compact .brand-discounts-header {
+  margin-bottom: 2rem;
+}
+
+.brand-discounts-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--color-burgundy, #7b1113);
+  margin-bottom: 0.75rem;
+}
+
+.brand-discounts-title {
+  font-family: var(--font-serif-display, Georgia, serif);
+  font-size: 2.35rem;
+  font-weight: 600;
+  color: var(--color-burgundy, #7b1113);
+  margin: 0;
+  line-height: 1.2;
+}
+
+.brand-discounts-compact .brand-discounts-title {
+  font-size: 1.85rem;
+}
+
+.brand-discounts-subtitle {
+  font-size: 0.95rem;
+  color: var(--color-text-muted, #664d50);
+  max-width: 640px;
+  margin: 0.75rem auto 0;
+  line-height: 1.6;
+}
+
+.brand-discounts-compact .brand-discounts-subtitle {
+  font-size: 0.875rem;
+}
+
+.brand-discounts-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.25rem;
+}
+
+.brand-discounts-compact .brand-discounts-grid {
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+}
+
+@media (max-width: 1100px) {
+  .brand-discounts-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .brand-discounts-grid,
+  .brand-discounts-compact .brand-discounts-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.85rem;
+  }
+
+  .brand-discounts-full {
+    padding: 3.5rem 1rem;
+  }
+
+  .brand-discounts-title {
+    font-size: 1.75rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .brand-discounts-grid,
+  .brand-discounts-compact .brand-discounts-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.75rem;
+  }
+
+  .brand-discount-card {
+    padding: 1rem 0.75rem !important;
+  }
+
+  .brand-discount-name {
+    font-size: 0.925rem !important;
+  }
+
+  .brand-discount-badge {
+    font-size: 0.6875rem !important;
+    padding: 0.25rem 0.55rem !important;
+  }
+}
+
+.brand-discount-card {
+  background: #ffffff;
+  border: 1.5px solid rgba(154, 40, 40, 0.16);
+  border-radius: 1rem;
+  padding: 1.35rem 1rem 1.25rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  position: relative;
+  transition: all 0.25s ease;
+  box-shadow: 0 4px 16px rgba(123, 17, 19, 0.04);
+}
+
+.brand-discount-card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(154, 40, 40, 0.4);
+  box-shadow: 0 10px 28px rgba(123, 17, 19, 0.1);
+}
+
+.brand-discount-badge-wrap {
+  margin-bottom: 0.85rem;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.brand-discount-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  background: #9a2828;
+  color: #ffffff;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  padding: 0.3rem 0.75rem;
+  border-radius: 9999px;
+  box-shadow: 0 2px 8px rgba(154, 40, 40, 0.25);
+  text-transform: uppercase;
+}
+
+.brand-discount-visual {
+  height: 52px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 0.75rem;
+  width: 100%;
+}
+
+.brand-discount-logo {
+  max-height: 46px;
+  max-width: 120px;
+  width: auto;
+  object-fit: contain;
+  filter: brightness(0.92);
+}
+
+.brand-discount-monogram {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: rgba(154, 40, 40, 0.06);
+  border: 1px solid rgba(154, 40, 40, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-burgundy, #7b1113);
+  font-family: var(--font-serif-display, Georgia, serif);
+  font-weight: 700;
+  font-size: 0.85rem;
+  letter-spacing: 0.08em;
+}
+
+.brand-discount-info {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.brand-discount-name {
+  font-family: var(--font-serif-display, Georgia, serif);
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: var(--color-text-dark, #140406);
+  margin: 0;
+  line-height: 1.25;
+}
+
+.brand-discount-category {
+  font-size: 0.6875rem;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--color-text-muted, #785a5e);
+  font-weight: 600;
+}
+
+.brand-discount-note {
+  font-size: 0.6875rem;
+  font-style: italic;
+  color: #9a2828;
+  font-weight: 600;
+  margin-top: 0.15rem;
+}
+
+.brand-discounts-footer-note {
+  text-align: center;
+  margin-top: 2.5rem;
+  font-size: 0.8125rem;
+  color: var(--color-text-muted, #664d50);
+  letter-spacing: 0.04em;
+  line-height: 1.5;
+}

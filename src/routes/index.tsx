@@ -1,6 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { Navbar } from "@/components/flaunsica/Navbar";
 import { RsvpFlow } from "@/components/flaunsica/RsvpFlow";
+import { BrandDiscounts } from "@/components/flaunsica/BrandDiscounts";
 
 const TITLE = "Flaunsica Hyderabad – 10th Refined Edition | Official Exclusive Invite & RSVP";
 const DESCRIPTION =
@@ -62,6 +63,11 @@ function Index() {
             </div>
           </div>
         </section>
+
+        {/* =================================================================
+            HOMEPAGE SECTION 2: BRAND PRIVILEGES & DISCOUNTS
+            ================================================================= */}
+        <BrandDiscounts />
 
         {/* =================================================================
             HOMEPAGE SECTION 3: THE NOTE

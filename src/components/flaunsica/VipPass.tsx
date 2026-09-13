@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import QRCode from "qrcode";
 import type { GuestDetails } from "./types";
+import { BrandDiscounts } from "./BrandDiscounts";
 
 function getTier(guest: GuestDetails) {
   return guest.purpose?.includes("Wedding Shopping") || guest.purpose?.includes("Trousseau")
@@ -532,33 +533,10 @@ export function VipPass({
             </svg>
             <span>{isSharing ? "Preparing Share..." : "Share Invitation"}</span>
           </button>
-
-          {/* {onReset && (
-            <button
-              type="button"
-              onClick={onReset}
-              className="btn-action btn-subtle"
-            >
-              <span>Register Another Guest &rarr;</span>
-            </button>
-          )} */}
         </div>
 
-        {/* Google Calendar Quick Link */}
-        {/* <div className="mt-3 flex items-center justify-center gap-1.5 text-xs text-stone-600 dark:text-stone-400">
-          <span>Prefer Google Calendar?</span>
-          <a
-            href={googleCalendarUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center gap-1 font-semibold text-[#9a2828] underline underline-offset-4 hover:text-[#7a1818] transition-colors"
-          >
-            <svg className="size-3.5" viewBox="0 0 24 24" fill="currentColor">
-              <path d="M19 4h-1V2h-2v2H8V2H6v2H5c-1.11 0-1.99.9-1.99 2L3 20a2 2 0 0 0 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 16H5V9h14v11z" />
-            </svg>
-            Add to Google Calendar &rarr;
-          </a>
-        </div> */}
+        {/* Brand Discounts & Privileges Grid */}
+        <BrandDiscounts variant="compact" />
       </div>
 
       {/* Pass Preview & Share Modal (for mobile or desktop share fallback) */}
