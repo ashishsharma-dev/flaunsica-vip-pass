@@ -71,6 +71,9 @@ const DEFAULT_GUEST: GuestDetails = {
 type Step = "form" | "otp" | "pass";
 type Delivery = { email: boolean; sms: boolean };
 
+// Feature flag: set to false to completely disable OTP verification and show QR pass directly
+const OTP_ENABLED = false;
+
 const GOOGLE_SHEETS_SCRIPT_URL =
   (typeof import.meta !== "undefined" && import.meta.env?.["VITE_GOOGLE_SHEETS_SCRIPT_URL"]) ||
   "https://script.google.com/macros/s/AKfycbz95TIC6yRE9vXGweCo0qZSP6yg_sLrsqQz6w2-2r7Vex8R1PCUeJS7wX8XM9EjYB1b/exec";
@@ -189,15 +192,35 @@ export function RsvpFlow() {
     }
     setSubmitting(true);
     try {
-      // 1. Instant check if guest is already registered
+      // 1. Instant check if guest is already registered -> directly show QR pass!
       try {
         const existing = await checkExisting({
           data: { phone: guest.phone, email: guest.email },
         });
-        if (existing?.alreadyRegistered) {
-          setAlreadyRegistered({
-            message: existing.message,
-            passCode: existing.passCode,
+        if (existing?.alreadyRegistered && existing.passCode) {
+          const targetGuest: GuestDetails = (existing as any).guest || {
+            ...guest,
+            name: existing.name || guest.name,
+            phone: existing.phone || guest.phone,
+            email: existing.email || guest.email,
+          };
+          setPassCode(existing.passCode);
+          setGuest(targetGuest);
+          setStep("pass");
+
+          if (typeof window !== "undefined") {
+            try {
+              sessionStorage.setItem("flaunsica_last_guest", JSON.stringify(targetGuest));
+              sessionStorage.setItem("flaunsica_last_delivery", JSON.stringify({ email: true, sms: true }));
+              sessionStorage.setItem("flaunsica_last_pass_code", existing.passCode);
+            } catch {
+              // ignore
+            }
+          }
+
+          navigate({
+            to: "/thank-you",
+            search: { passCode: existing.passCode },
           });
           setSubmitting(false);
           return;
@@ -234,7 +257,7 @@ export function RsvpFlow() {
         }
       }
 
-      // 4. Start Registration (OTP dispatch)
+      // 4. Start Registration
       const res = await start({
         data: {
           name: guest.name.trim(),
@@ -247,14 +270,36 @@ export function RsvpFlow() {
         },
       });
 
-      if (res.alreadyRegistered) {
-        setAlreadyRegistered({
-          message: res.message || "You are already registered for Flaunsica with these details.",
-          passCode: res.passCode,
-        });
-        return;
+      // If OTP is disabled or already registered: directly show QR pass!
+      if (!OTP_ENABLED || res.alreadyRegistered) {
+        if (res.passCode) {
+          const targetGuest: GuestDetails = {
+            ...guest,
+            name: (res as any).guestName || guest.name,
+          };
+          setPassCode(res.passCode);
+          setGuest(targetGuest);
+          setStep("pass");
+
+          if (typeof window !== "undefined") {
+            try {
+              sessionStorage.setItem("flaunsica_last_guest", JSON.stringify(targetGuest));
+              sessionStorage.setItem("flaunsica_last_delivery", JSON.stringify(res.delivery || { email: true, sms: true }));
+              sessionStorage.setItem("flaunsica_last_pass_code", res.passCode);
+            } catch {
+              // ignore
+            }
+          }
+
+          navigate({
+            to: "/thank-you",
+            search: { passCode: res.passCode },
+          });
+          return;
+        }
       }
 
+      // OTP Verification Flow (when OTP_ENABLED is set to true)
       setRegistrationId(res.registrationId);
       setPassCode(res.passCode);
       setDelivery(res.delivery);
@@ -399,7 +444,7 @@ export function RsvpFlow() {
                 </div>
                 <h4 className="submitting-title">Securing Your Exclusive Invite</h4>
                 <p className="submitting-subtitle">
-                  Confirming your guest reservation &amp; dispatching verification code...
+                  Confirming your guest reservation &amp; generating your personal QR invite...
                 </p>
                 <div className="submitting-progress-track">
                   <div className="submitting-progress-bar" />
@@ -418,25 +463,14 @@ export function RsvpFlow() {
               <span className="step-label">Guest Details</span>
             </div>
             <div
-              className={`step-line ${step !== "form" ? "completed" : ""}`}
+              className={`step-line ${step === "pass" ? "completed" : ""}`}
               id="step-line-1"
             />
             <div
-              className={`step-node ${step === "otp" ? "active" : step === "pass" ? "completed" : ""}`}
+              className={`step-node ${step === "pass" ? "active" : ""}`}
               id="step-node-2"
             >
-              <span className="step-num">{step === "pass" ? "✓" : "2"}</span>
-              <span className="step-label">Verification</span>
-            </div>
-            <div
-              className={`step-line ${step === "pass" ? "completed" : ""}`}
-              id="step-line-2"
-            />
-            <div
-              className={`step-node ${step === "pass" ? "active" : ""}`}
-              id="step-node-3"
-            >
-              <span className="step-num">3</span>
+              <span className="step-num">2</span>
               <span className="step-label">Exclusive Invite</span>
             </div>
           </div>
@@ -447,7 +481,7 @@ export function RsvpFlow() {
               <div className="form-header">
                 <div className="form-stage-pill">
                   <span className="stage-pill-dot" />
-                  <span>STEP 1 OF 2 • GUEST RESERVATION</span>
+                  <span>RESERVATION • INSTANT EXCLUSIVE INVITE</span>
                 </div>
                 <h2 className="form-title">Request Your Exclusive Invitation</h2>
                 <p className="form-subtitle">
@@ -686,8 +720,8 @@ export function RsvpFlow() {
         </div>
       </div>
 
-      {/* Step 2: OTP Verification Modal */}
-      {step === "otp" && (
+      {/* Step 2: OTP Verification Modal (disabled when OTP_ENABLED is false) */}
+      {OTP_ENABLED && step === "otp" && (
         <div
           id="otp-modal"
           className="modal-backdrop"

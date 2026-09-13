@@ -30,6 +30,9 @@ function makeCode() {
   return String(crypto.getRandomValues(new Uint32Array(1))[0]! % 10000).padStart(4, "0");
 }
 
+// Feature flag: set to false to completely disable OTP verification and issue passes directly
+export const OTP_ENABLED = false;
+
 export const checkExistingRegistration = createServerFn({ method: "POST" })
   .validator((input: unknown) =>
     z
@@ -51,20 +54,38 @@ export const checkExistingRegistration = createServerFn({ method: "POST" })
 
     const { data: existing } = await supabaseAdmin
       .from("registrations")
-      .select("id, pass_code, name, phone, email, phone_verified")
+      .select("id, pass_code, name, phone, email, is_bride, purpose, attending_with, interests, phone_verified")
       .or(conditions.join(","))
       .order("created_at", { ascending: false })
       .limit(1)
       .maybeSingle();
 
     if (!existing) return null;
+
+    // Ensure verified status if OTP is disabled
+    if (!OTP_ENABLED && !existing.phone_verified) {
+      await supabaseAdmin
+        .from("registrations")
+        .update({ phone_verified: true, email_verified: true })
+        .eq("id", existing.id);
+    }
+
     return {
       alreadyRegistered: true as const,
       passCode: existing.pass_code,
       name: existing.name,
-      message: `You are already registered for Flaunsica 10th Refined Edition with ${
-        phone && existing.phone === phone ? "mobile number +91 " + existing.phone : "email " + existing.email
-      }.`,
+      phone: existing.phone,
+      email: existing.email,
+      guest: {
+        name: existing.name,
+        phone: existing.phone,
+        email: existing.email,
+        isBride: existing.is_bride ? ("Yes" as const) : ("No" as const),
+        purpose: existing.purpose || [],
+        attendingWith: existing.attending_with || [],
+        interests: existing.interests || [],
+      },
+      message: `You are already registered for Flaunsica 10th Refined Edition.`,
     };
   });
 
@@ -72,7 +93,6 @@ export const startRegistration = createServerFn({ method: "POST" })
   .validator((input: unknown) => guestSchema.parse(input))
   .handler(async ({ data }) => {
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
-    const { sendEmailCode, sendSmsCode, sendWhatsAppCode } = await import("./otp-delivery.server");
 
     const sanitizedPhone = data.phone.trim();
     const sanitizedEmail = data.email?.trim() ? data.email.toLowerCase().trim() : "";
@@ -92,20 +112,83 @@ export const startRegistration = createServerFn({ method: "POST" })
       .maybeSingle();
 
     if (existing) {
+      if (!OTP_ENABLED && !existing.phone_verified) {
+        await supabaseAdmin
+          .from("registrations")
+          .update({ phone_verified: true, email_verified: true })
+          .eq("id", existing.id);
+      }
+
+      // Best effort WhatsApp pass delivery
+      try {
+        const { sendWhatsAppVipPass } = await import("./whatsapp.server");
+        await sendWhatsAppVipPass(existing.phone, existing.name, existing.pass_code);
+      } catch (err) {
+        console.error("Failed to send WhatsApp pass for existing registration:", err);
+      }
+
       return {
         alreadyRegistered: true as const,
         registrationId: existing.id,
         passCode: existing.pass_code,
         guestName: existing.name,
-        delivery: { email: false, sms: false, whatsapp: false },
+        delivery: { email: true, sms: true, whatsapp: true },
         previewCode: null,
-        message: `You are already registered for Flaunsica 10th Refined Edition with ${
-          existing.phone === sanitizedPhone ? "mobile number +91 " + existing.phone : "email " + existing.email
-        }.`,
+        message: "",
       };
     }
 
     const passCode = makePassCode();
+
+    if (!OTP_ENABLED) {
+      // OTP IS DISABLED: Insert immediately verified and return confirmed pass
+      const { data: registration, error } = await supabaseAdmin
+        .from("registrations")
+        .insert({
+          pass_code: passCode,
+          name: data.name,
+          phone: sanitizedPhone,
+          email: sanitizedEmail,
+          is_bride: data.isBride === "Yes",
+          purpose: data.purpose,
+          attending_with: data.attendingWith,
+          interests: data.interests,
+          phone_verified: true,
+          email_verified: true,
+        })
+        .select("id, pass_code, name, phone")
+        .single();
+
+      if (error || !registration) {
+        console.error("registration insert failed", error);
+        throw new Error("We could not save your registration. Please try again.");
+      }
+
+      // Send confirmed exclusive invite pass via WhatsApp directly
+      try {
+        const { sendWhatsAppVipPass } = await import("./whatsapp.server");
+        await sendWhatsAppVipPass(
+          registration.phone,
+          registration.name,
+          registration.pass_code
+        );
+      } catch (err) {
+        console.error("Failed to send WhatsApp pass on direct registration:", err);
+      }
+
+      return {
+        alreadyRegistered: false as const,
+        registrationId: registration.id,
+        passCode: registration.pass_code,
+        delivery: { email: true, sms: true, whatsapp: true },
+        previewCode: null,
+        message: "",
+      };
+    }
+
+    // OTP IS ENABLED FLOW (Can be restarted when desired):
+    const { sendEmailCode, sendSmsCode, sendWhatsAppCode } = await import("./otp-delivery.server");
+
     const { data: registration, error } = await supabaseAdmin
       .from("registrations")
       .insert({
@@ -150,7 +233,6 @@ export const startRegistration = createServerFn({ method: "POST" })
       registrationId: registration.id,
       passCode: registration.pass_code,
       delivery: { email, sms, whatsapp },
-      // Only exposed while neither delivery channel is configured
       previewCode: !email && !sms && !whatsapp ? code : null,
       message: "",
     };
@@ -268,6 +350,16 @@ export const getPass = createServerFn({ method: "GET" })
       .maybeSingle();
 
     if (!registration) return null;
+
+    if (!OTP_ENABLED && (!registration.phone_verified || !registration.email_verified)) {
+      registration.phone_verified = true;
+      registration.email_verified = true;
+      await supabaseAdmin
+        .from("registrations")
+        .update({ phone_verified: true, email_verified: true })
+        .eq("pass_code", data.passCode);
+    }
+
     return registration;
   });
 
