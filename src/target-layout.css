@@ -5302,18 +5302,6 @@ a.curation-cta-btn:hover,
   margin-bottom: 2rem;
 }
 
-.brand-discounts-eyebrow {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.5rem;
-  font-size: 0.75rem;
-  font-weight: 700;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-  color: var(--color-burgundy, #7b1113);
-  margin-bottom: 0.75rem;
-}
 
 .brand-discounts-title {
   font-family: var(--font-serif-display, Georgia, serif);
@@ -5328,17 +5316,6 @@ a.curation-cta-btn:hover,
   font-size: 1.85rem;
 }
 
-.brand-discounts-subtitle {
-  font-size: 0.95rem;
-  color: var(--color-text-muted, #664d50);
-  max-width: 640px;
-  margin: 0.75rem auto 0;
-  line-height: 1.6;
-}
-
-.brand-discounts-compact .brand-discounts-subtitle {
-  font-size: 0.875rem;
-}
 
 .brand-discounts-grid {
   display: grid;
@@ -5454,13 +5431,6 @@ a.curation-cta-btn:hover,
   line-height: 1.25;
 }
 
-.brand-discount-category {
-  font-size: 0.6875rem;
-  text-transform: uppercase;
-  letter-spacing: 0.12em;
-  color: var(--color-text-muted, #785a5e);
-  font-weight: 600;
-}
 
 .brand-discount-note {
   font-size: 0.6875rem;

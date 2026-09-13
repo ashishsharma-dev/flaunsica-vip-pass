@@ -1,4 +1,4 @@
-import { Sparkles, Tag } from "lucide-react";
+import { Tag } from "lucide-react";
 
 export interface BrandDiscount {
   name: string;
@@ -179,19 +179,9 @@ export function BrandDiscounts({ variant = "full", className = "" }: BrandDiscou
       <div className={isCompact ? "brand-discounts-compact-container" : "brand-discounts-container"}>
         {/* Section Header */}
         <div className="brand-discounts-header">
-          <div className="brand-discounts-eyebrow">
-            <Sparkles className="size-3.5 text-[#d4af37]" />
-            <span>EXCLUSIVE EXHIBITION PRIVILEGES</span>
-            <Sparkles className="size-3.5 text-[#d4af37]" />
-          </div>
-
           <h2 className="brand-discounts-title">
             Private Hour Designer
           </h2>
-
-          <p className="brand-discounts-subtitle">
-            Curated privileges for registered guests attending Flaunsica 10th Refined Edition on 23rd September at Park Hyatt, Banjara Hills.
-          </p>
         </div>
 
         {/* Brand Cards Grid */}
@@ -209,9 +199,6 @@ export function BrandDiscounts({ variant = "full", className = "" }: BrandDiscou
               {/* Brand Information */}
               <div className="brand-discount-info">
                 <h3 className="brand-discount-name">{item.name}</h3>
-                {item.category && (
-                  <span className="brand-discount-category">{item.category}</span>
-                )}
                 {item.note && (
                   <span className="brand-discount-note">*{item.note}</span>
                 )}
