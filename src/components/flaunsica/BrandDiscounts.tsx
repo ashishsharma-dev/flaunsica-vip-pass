@@ -186,11 +186,11 @@ export function BrandDiscounts({ variant = "full", className = "" }: BrandDiscou
           </div>
 
           <h2 className="brand-discounts-title">
-            Special Brand Discounts &amp; Privileges
+            Private Hour Designer
           </h2>
 
           <p className="brand-discounts-subtitle">
-            Exclusive privileges curated for registered guests attending Flaunsica 10th Refined Edition on 23rd September at Park Hyatt, Banjara Hills.
+            Curated privileges for registered guests attending Flaunsica 10th Refined Edition on 23rd September at Park Hyatt, Banjara Hills.
           </p>
         </div>
 
@@ -204,29 +204,6 @@ export function BrandDiscounts({ variant = "full", className = "" }: BrandDiscou
                   <Tag className="size-3 shrink-0" />
                   <span>{item.discount}</span>
                 </span>
-              </div>
-
-              {/* Logo or Brand Visual */}
-              <div className="brand-discount-visual">
-                {item.logo ? (
-                  <img
-                    src={encodeURI(item.logo)}
-                    alt={item.name}
-                    className="brand-discount-logo"
-                    loading="lazy"
-                  />
-                ) : (
-                  <div className="brand-discount-monogram">
-                    <span className="monogram-text">
-                      {item.name
-                        .split(" ")
-                        .map((w) => w[0])
-                        .join("")
-                        .slice(0, 3)
-                        .toUpperCase()}
-                    </span>
-                  </div>
-                )}
               </div>
 
               {/* Brand Information */}

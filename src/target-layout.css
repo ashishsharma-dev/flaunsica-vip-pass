@@ -5398,10 +5398,12 @@ a.curation-cta-btn:hover,
   background: #ffffff;
   border: 1.5px solid rgba(154, 40, 40, 0.16);
   border-radius: 1rem;
-  padding: 1.35rem 1rem 1.25rem;
+  padding: 1.5rem 1.15rem 1.35rem;
+  min-height: 120px;
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
   text-align: center;
   position: relative;
   transition: all 0.25s ease;
@@ -5415,7 +5417,7 @@ a.curation-cta-btn:hover,
 }
 
 .brand-discount-badge-wrap {
-  margin-bottom: 0.85rem;
+  margin-bottom: 0.65rem;
   width: 100%;
   display: flex;
   justify-content: center;
@@ -5430,50 +5432,17 @@ a.curation-cta-btn:hover,
   font-size: 0.75rem;
   font-weight: 700;
   letter-spacing: 0.08em;
-  padding: 0.3rem 0.75rem;
+  padding: 0.32rem 0.8rem;
   border-radius: 9999px;
   box-shadow: 0 2px 8px rgba(154, 40, 40, 0.25);
   text-transform: uppercase;
-}
-
-.brand-discount-visual {
-  height: 52px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-bottom: 0.75rem;
-  width: 100%;
-}
-
-.brand-discount-logo {
-  max-height: 46px;
-  max-width: 120px;
-  width: auto;
-  object-fit: contain;
-  filter: brightness(0.92);
-}
-
-.brand-discount-monogram {
-  width: 44px;
-  height: 44px;
-  border-radius: 50%;
-  background: rgba(154, 40, 40, 0.06);
-  border: 1px solid rgba(154, 40, 40, 0.2);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: var(--color-burgundy, #7b1113);
-  font-family: var(--font-serif-display, Georgia, serif);
-  font-weight: 700;
-  font-size: 0.85rem;
-  letter-spacing: 0.08em;
 }
 
 .brand-discount-info {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 0.25rem;
+  gap: 0.3rem;
 }
 
 .brand-discount-name {
