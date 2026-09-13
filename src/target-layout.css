@@ -4964,3 +4964,300 @@ a.curation-cta-btn:hover,
     font-size: 1.25rem !important;
   }
 }
+
+/* ==========================================================================
+   PASS VERIFICATION & DETAILS PAGE LUXURY DESIGN
+   ========================================================================== */
+.pass-page-root {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background-color: var(--color-alabaster, #fffdfa);
+  color: var(--color-text-dark, #140406);
+}
+
+.pass-verification-main {
+  flex: 1 0 auto;
+  width: 100%;
+  padding: 0 0 5rem;
+}
+
+.pass-verification-container {
+  max-width: 780px;
+  margin: 0 auto;
+  padding: 0 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.pass-status-pill-strip {
+  display: flex;
+  justify-content: center;
+  margin: 1.5rem 0 0.5rem;
+}
+
+.pass-status-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.65rem;
+  padding: 0.6rem 1.4rem;
+  border-radius: 9999px;
+  background: #f0fdf4;
+  border: 1px solid rgba(22, 163, 74, 0.35);
+  color: #15803d;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  box-shadow: 0 4px 14px rgba(22, 163, 74, 0.1);
+}
+
+.pass-status-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: #16a34a;
+  box-shadow: 0 0 0 3px rgba(22, 163, 74, 0.25);
+  animation: pulse-dot 2s infinite;
+}
+
+@keyframes pulse-dot {
+  0% {
+    transform: scale(0.95);
+    box-shadow: 0 0 0 0 rgba(22, 163, 74, 0.5);
+  }
+  70% {
+    transform: scale(1);
+    box-shadow: 0 0 0 6px rgba(22, 163, 74, 0);
+  }
+  100% {
+    transform: scale(0.95);
+    box-shadow: 0 0 0 0 rgba(22, 163, 74, 0);
+  }
+}
+
+.pass-record-card {
+  background: #ffffff;
+  border: 1px solid rgba(154, 40, 40, 0.2);
+  border-radius: 1.25rem;
+  padding: 2.5rem 2.25rem;
+  box-shadow: 0 16px 40px -12px rgba(123, 17, 19, 0.07);
+}
+
+.pass-record-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 1px solid rgba(154, 40, 40, 0.15);
+  margin-bottom: 2rem;
+}
+
+.pass-record-title-group h3 {
+  font-family: var(--font-serif-display, Georgia, serif);
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--color-burgundy, #7b1113);
+  margin: 0;
+  line-height: 1.2;
+}
+
+.pass-record-title-group p {
+  font-size: 0.75rem;
+  color: var(--color-text-muted, #785a5e);
+  margin: 0.35rem 0 0;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+}
+
+.pass-record-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.4rem 0.9rem;
+  border-radius: 9999px;
+  background: rgba(16, 185, 129, 0.12);
+  color: #059669;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.pass-record-badge svg {
+  width: 14px;
+  height: 14px;
+}
+
+.pass-record-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.75rem 2.5rem;
+}
+
+@media (max-width: 640px) {
+  .pass-record-card {
+    padding: 1.75rem 1.25rem;
+  }
+  .pass-record-grid {
+    grid-template-columns: 1fr;
+    gap: 1.35rem;
+  }
+}
+
+.pass-record-item {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.pass-record-label {
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--color-text-muted, #785a5e);
+}
+
+.pass-record-val {
+  font-size: 1.05rem;
+  font-weight: 500;
+  color: var(--color-text-dark, #140406);
+  line-height: 1.4;
+  word-break: break-word;
+}
+
+.pass-code-pill {
+  display: inline-block;
+  font-family: 'Courier New', Courier, monospace;
+  font-weight: 700;
+  font-size: 0.95rem;
+  letter-spacing: 0.08em;
+  color: var(--color-burgundy, #7b1113);
+  background: rgba(154, 40, 40, 0.06);
+  padding: 0.25rem 0.65rem;
+  border-radius: 0.35rem;
+  border: 1px solid rgba(154, 40, 40, 0.18);
+  width: fit-content;
+}
+
+.pass-tags-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 0.25rem;
+}
+
+.pass-tag-pill {
+  display: inline-block;
+  font-size: 0.75rem;
+  font-weight: 500;
+  padding: 0.3rem 0.75rem;
+  border-radius: 9999px;
+  background: var(--color-alabaster, #FAF7F2);
+  border: 1px solid rgba(154, 40, 40, 0.18);
+  color: var(--color-text-dark, #140406);
+}
+
+.pass-venue-strip {
+  margin-top: 2rem;
+  padding-top: 1.75rem;
+  border-top: 1px dashed rgba(154, 40, 40, 0.25);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.pass-venue-info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+}
+
+.pass-venue-line {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--color-text-dark, #140406);
+}
+
+.pass-venue-line svg {
+  color: var(--color-burgundy, #7b1113);
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+}
+
+.btn-maps-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  background: #9a2828;
+  color: #ffffff !important;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  padding: 0.8rem 1.6rem;
+  border-radius: 9999px;
+  text-decoration: none !important;
+  transition: all 0.2s ease;
+  box-shadow: none !important;
+}
+
+.btn-maps-link:hover {
+  background: #7e1e1e;
+  color: #ffffff !important;
+}
+
+.pass-not-found-card {
+  background: #ffffff;
+  border: 1px solid rgba(154, 40, 40, 0.25);
+  border-radius: 1.25rem;
+  padding: 3.5rem 2rem;
+  text-align: center;
+  max-width: 580px;
+  margin: 3rem auto;
+  box-shadow: 0 16px 40px -15px rgba(123, 17, 19, 0.08);
+}
+
+.pass-not-found-icon {
+  width: 4.5rem;
+  height: 4.5rem;
+  border-radius: 50%;
+  background: rgba(154, 40, 40, 0.08);
+  color: var(--color-burgundy, #7b1113);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 1.5rem;
+}
+
+.pass-not-found-icon svg {
+  width: 2.25rem;
+  height: 2.25rem;
+}
+
+.pass-not-found-title {
+  font-family: var(--font-serif-display, Georgia, serif);
+  font-size: 2rem;
+  font-weight: 600;
+  color: var(--color-burgundy, #7b1113);
+  margin-bottom: 0.75rem;
+}
+
+.pass-not-found-desc {
+  font-size: 0.95rem;
+  color: var(--color-text-muted, #785a5e);
+  line-height: 1.6;
+  max-width: 440px;
+  margin: 0 auto 2rem;
+}

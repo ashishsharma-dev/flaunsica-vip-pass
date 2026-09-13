@@ -1,11 +1,14 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { BadgeCheck, CalendarDays, MapPin, ShieldAlert } from "lucide-react";
+import { BadgeCheck, CalendarDays, MapPin, ShieldAlert, ArrowRight, Home } from "lucide-react";
+import { Navbar } from "@/components/flaunsica/Navbar";
+import { VipPass } from "@/components/flaunsica/VipPass";
+import type { GuestDetails } from "@/components/flaunsica/types";
 import { EVENT } from "@/components/flaunsica/event";
 import { getPass } from "@/lib/rsvp.functions";
 
-const TITLE = "VIP Pass Verification — Flaunsica Hyderabad";
+const TITLE = "Official Exclusive Invite & VIP Pass — Flaunsica Hyderabad";
 const DESCRIPTION =
-  "Scan-verified guest details for the Flaunsica Hyderabad 10th Refined Edition VIP entry pass.";
+  "Official scan-verified exclusive invitation and digital entry pass for Flaunsica Hyderabad 10th Refined Edition at Park Hyatt.";
 
 export const Route = createFileRoute("/pass/$passCode")({
   loader: ({ params }) => getPass({ data: { passCode: params.passCode } }),
@@ -21,115 +24,215 @@ export const Route = createFileRoute("/pass/$passCode")({
   component: PassDetails,
 });
 
-function Row({ label, value }: { label: string; value: string }) {
-  return (
-    <div>
-      <dt className="text-[0.6rem] uppercase tracking-[0.2em] text-muted-foreground">{label}</dt>
-      <dd className="mt-1 break-words font-medium">{value || "—"}</dd>
-    </div>
-  );
-}
-
 function PassDetails() {
   const registration = Route.useLoaderData();
   const { passCode } = Route.useParams();
 
   if (!registration) {
     return (
-      <main className="flex min-h-screen items-center justify-center bg-background px-5">
-        <div className="max-w-sm text-center">
-          <ShieldAlert className="mx-auto size-7 text-destructive" aria-hidden="true" />
-          <h1 className="mt-5 font-display text-3xl">Pass Not Found</h1>
-          <p className="mt-3 text-sm text-muted-foreground">
-            No VIP registration matches pass code{" "}
-            <span className="text-foreground">{passCode}</span>. Please check with the registration
-            desk.
-          </p>
-          <Link
-            to="/"
-            className="mt-7 inline-flex rounded-sm border border-foreground/25 px-6 py-3 text-[0.7rem] uppercase tracking-[0.2em] transition-colors hover:border-primary hover:text-primary"
-          >
-            Back to RSVP
-          </Link>
-        </div>
-      </main>
+      <div className="landing-page-root thank-you-page-root pass-page-root">
+        <Navbar />
+        <main className="pass-verification-main">
+          <div className="pass-verification-container">
+            <div className="pass-not-found-card">
+              <div className="pass-not-found-icon">
+                <ShieldAlert />
+              </div>
+              <h1 className="pass-not-found-title">Exclusive Invite Not Found</h1>
+              <p className="pass-not-found-desc">
+                No VIP reservation was found matching invite code{" "}
+                <strong className="text-foreground">{passCode}</strong>. Please check your invite
+                link or request a new exclusive invitation below.
+              </p>
+              <div className="thank-you-nav-actions" style={{ justifyContent: "center" }}>
+                <Link to="/" className="thank-you-btn-primary">
+                  <Home />
+                  <span>Request Exclusive Invite</span>
+                </Link>
+                <Link to="/curated" className="thank-you-btn-secondary">
+                  <span>Explore Designers</span>
+                  <ArrowRight />
+                </Link>
+              </div>
+            </div>
+          </div>
+        </main>
+        <footer className="site-footer-luxury mt-auto">
+          <div className="footer-container">
+            <div className="footer-bottom">
+              <p>&copy; 2026 Flaunsica Hyderabad. Curated by Prestha Agarwal. All rights reserved.</p>
+              <div className="footer-legal">
+                <Link to="/">Home</Link>
+                <Link to="/curated">The Curation</Link>
+              </div>
+            </div>
+          </div>
+        </footer>
+      </div>
     );
   }
 
-  const verified = registration.phone_verified && registration.email_verified;
+  const guest: GuestDetails = {
+    name: registration.name,
+    phone: registration.phone,
+    email: registration.email,
+    isBride: registration.is_bride ? "Yes" : "No",
+    purpose: registration.purpose || [],
+    attendingWith: registration.attending_with || [],
+    interests: registration.interests || [],
+  };
 
   return (
-    <main className="min-h-screen bg-background px-5 py-14">
-      <div className="mx-auto max-w-xl">
-        <article className="overflow-hidden rounded-lg surface-luxe">
-          <header className="gradient-crimson px-6 py-8 text-center text-primary-foreground">
-            <img
-              src="/assets/logos/flaunsica-logo-white.svg"
-              alt="Flaunsica"
-              className="mx-auto h-9 w-auto object-contain"
-              width={160}
-              height={45}
-            />
-            <p className="mt-3 text-[0.6rem] uppercase tracking-luxe opacity-90">
-              {EVENT.edition} · Guest Verification
-            </p>
-            <div className="mx-auto mt-4 h-px w-20 bg-white/40" />
-          </header>
+    <div className="landing-page-root thank-you-page-root pass-page-root">
+      <Navbar />
 
-          <div className="px-6 py-7">
-            <div className="text-center">
-              <p className="font-display text-3xl">{registration.name}</p>
-              <p className="mt-2 text-xs uppercase tracking-[0.2em] text-muted-foreground">
-                {registration.is_bride ? "Bride" : (registration.purpose[0] ?? "Guest")}
-              </p>
-              <p
-                className={`mt-4 inline-flex items-center gap-2 rounded-full px-4 py-1.5 text-[0.62rem] uppercase tracking-[0.18em] ${
-                  verified
-                    ? "bg-primary/10 text-primary"
-                    : "bg-destructive/10 text-destructive"
-                }`}
-              >
-                <BadgeCheck className="size-3.5" aria-hidden="true" />
-                {verified ? "Verified Guest" : "Verification Pending"}
-              </p>
+      <main className="pass-verification-main">
+        {/* Verified Status Banner */}
+        <div className="pass-status-pill-strip">
+          <div className="pass-status-pill">
+            <span className="pass-status-dot" />
+            <span>Official Exclusive Invite • Verified Guest</span>
+          </div>
+        </div>
+
+        {/* The Physical VIP Pass / Exclusive Invite Card with High-Res QR Code & Download */}
+        <VipPass
+          guest={guest}
+          passCode={passCode}
+          delivery={{ email: true, sms: true }}
+        />
+
+        {/* Gate Verification & Concierge Details Card */}
+        <div className="pass-verification-container">
+          <div className="pass-record-card">
+            <div className="pass-record-header">
+              <div className="pass-record-title-group">
+                <h3>Gate Verification & Registration Details</h3>
+                <p>Official Record for Reception Desk Fast-Track Entry</p>
+              </div>
+              <div className="pass-record-badge">
+                <BadgeCheck className="size-4" />
+                <span>Scan-Verified Entry</span>
+              </div>
             </div>
 
-            <dl className="mt-8 grid grid-cols-2 gap-x-4 gap-y-5 text-sm">
-              <Row label="Pass ID" value={registration.pass_code} />
-              <Row
-                label="Registered On"
-                value={new Date(registration.created_at).toLocaleDateString("en-IN", {
-                  day: "numeric",
-                  month: "short",
-                  year: "numeric",
-                })}
-              />
-              <Row label="Mobile" value={`+91 ${registration.phone}`} />
-              <Row label="Email" value={registration.email} />
-              <div className="col-span-2">
-                <Row label="Purpose of Visit" value={registration.purpose.join(", ")} />
+            <div className="pass-record-grid">
+              <div className="pass-record-item">
+                <span className="pass-record-label">Exclusive Invite ID</span>
+                <span className="pass-code-pill">{registration.pass_code}</span>
               </div>
-              <div className="col-span-2">
-                <Row label="Attending With" value={registration.attending_with.join(", ")} />
+
+              <div className="pass-record-item">
+                <span className="pass-record-label">Registered Guest</span>
+                <span className="pass-record-val font-semibold">{registration.name}</span>
               </div>
-              <div className="col-span-2">
-                <Row label="Shopping Interests" value={registration.interests.join(", ")} />
+
+              <div className="pass-record-item">
+                <span className="pass-record-label">Contact Number</span>
+                <span className="pass-record-val">+91 {registration.phone}</span>
               </div>
-            </dl>
+
+              <div className="pass-record-item">
+                <span className="pass-record-label">Email Address</span>
+                <span className="pass-record-val">{registration.email || "—"}</span>
+              </div>
+
+              <div className="pass-record-item">
+                <span className="pass-record-label">Registration Date</span>
+                <span className="pass-record-val">
+                  {new Date(registration.created_at).toLocaleDateString("en-IN", {
+                    day: "numeric",
+                    month: "short",
+                    year: "numeric",
+                  })}
+                </span>
+              </div>
+
+              <div className="pass-record-item">
+                <span className="pass-record-label">Entry Tier</span>
+                <span className="pass-record-val">
+                  {registration.is_bride ? "VIP Bride" : "VIP Exclusive Pass"}
+                </span>
+              </div>
+
+              {registration.purpose && registration.purpose.length > 0 && (
+                <div className="pass-record-item sm:col-span-2">
+                  <span className="pass-record-label">Purpose of Visit</span>
+                  <div className="pass-tags-list">
+                    {registration.purpose.map((p, idx) => (
+                      <span key={idx} className="pass-tag-pill">
+                        {p}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {registration.interests && registration.interests.length > 0 && (
+                <div className="pass-record-item sm:col-span-2">
+                  <span className="pass-record-label">Shopping Interests</span>
+                  <div className="pass-tags-list">
+                    {registration.interests.map((i, idx) => (
+                      <span key={idx} className="pass-tag-pill">
+                        {i}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </div>
+
+            {/* Venue Information & Google Maps Button */}
+            <div className="pass-venue-strip">
+              <div className="pass-venue-info">
+                <div className="pass-venue-line">
+                  <CalendarDays />
+                  <span>Wednesday, 23 September 2026 · 11:00 AM – 7:00 PM</span>
+                </div>
+                <div className="pass-venue-line">
+                  <MapPin />
+                  <span>The Ballroom, Park Hyatt, Road No. 2, Banjara Hills, Hyderabad</span>
+                </div>
+              </div>
+
+              <a
+                href="https://maps.google.com/?q=Park+Hyatt+Hyderabad+Banjara+Hills"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="btn-maps-link"
+              >
+                <span>Open in Google Maps</span>
+                <ArrowRight className="size-3.5" />
+              </a>
+            </div>
           </div>
 
-          <footer className="space-y-2 border-t border-dashed border-border bg-secondary/60 px-6 py-5 text-xs text-muted-foreground">
-            <p className="flex items-center gap-2">
-              <CalendarDays className="size-3.5 text-primary" aria-hidden="true" />
-              {EVENT.dateLabel}
-            </p>
-            <p className="flex items-center gap-2">
-              <MapPin className="size-3.5 text-primary" aria-hidden="true" />
-              {EVENT.venue}
-            </p>
-          </footer>
-        </article>
-      </div>
-    </main>
+          {/* Return & Explore Navigation Actions */}
+          <div className="thank-you-nav-actions" style={{ marginTop: "1rem" }}>
+            <Link to="/curated" className="thank-you-btn-secondary">
+              <span>Explore 55+ Designers</span>
+              <ArrowRight />
+            </Link>
+            <Link to="/" className="thank-you-btn-primary">
+              <Home />
+              <span>Return to Homepage</span>
+            </Link>
+          </div>
+        </div>
+      </main>
+
+      {/* Luxury Footer */}
+      <footer className="site-footer-luxury mt-auto">
+        <div className="footer-container">
+          <div className="footer-bottom">
+            <p>&copy; 2026 Flaunsica Hyderabad. Curated by Prestha Agarwal. All rights reserved.</p>
+            <div className="footer-legal">
+              <Link to="/">Home</Link>
+              <Link to="/curated">The Curation</Link>
+            </div>
+          </div>
+        </div>
+      </footer>
+    </div>
   );
 }
