@@ -5027,10 +5027,12 @@ a.curation-cta-btn:hover,
     transform: scale(0.95);
     box-shadow: 0 0 0 0 rgba(22, 163, 74, 0.5);
   }
+
   70% {
     transform: scale(1);
     box-shadow: 0 0 0 6px rgba(22, 163, 74, 0);
   }
+
   100% {
     transform: scale(0.95);
     box-shadow: 0 0 0 0 rgba(22, 163, 74, 0);
@@ -5102,6 +5104,7 @@ a.curation-cta-btn:hover,
   .pass-record-card {
     padding: 1.75rem 1.25rem;
   }
+
   .pass-record-grid {
     grid-template-columns: 1fr;
     gap: 1.35rem;
@@ -5335,6 +5338,7 @@ a.curation-cta-btn:hover,
 }
 
 @media (max-width: 768px) {
+
   .brand-discounts-grid,
   .brand-discounts-compact .brand-discounts-grid {
     grid-template-columns: repeat(2, 1fr);
@@ -5351,6 +5355,7 @@ a.curation-cta-btn:hover,
 }
 
 @media (max-width: 480px) {
+
   .brand-discounts-grid,
   .brand-discounts-compact .brand-discounts-grid {
     grid-template-columns: repeat(2, 1fr);
@@ -5362,7 +5367,7 @@ a.curation-cta-btn:hover,
   }
 
   .brand-discount-name {
-    font-size: 0.925rem !important;
+    font-size: 1.2rem !important;
   }
 
   .brand-discount-badge {
@@ -5424,7 +5429,7 @@ a.curation-cta-btn:hover,
 
 .brand-discount-name {
   font-family: var(--font-serif-display, Georgia, serif);
-  font-size: 1.05rem;
+  font-size: 1.5rem;
   font-weight: 600;
   color: var(--color-text-dark, #140406);
   margin: 0;
