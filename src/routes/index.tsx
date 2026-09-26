@@ -3,9 +3,9 @@ import { Navbar } from "@/components/flaunsica/Navbar";
 import { RsvpFlow } from "@/components/flaunsica/RsvpFlow";
 import { BrandDiscounts } from "@/components/flaunsica/BrandDiscounts";
 
-const TITLE = "Registrations Closed — Flaunsica Hyderabad 10th Refined Edition";
+const TITLE = "2000+ Shoppers — Thank You Hyderabad | Flaunsica 10th Refined Edition";
 const DESCRIPTION =
-  "Online registrations for Flaunsica Hyderabad – 10th Refined Edition at Park Hyatt are now closed. Thank you for your overwhelming response.";
+  "2000+ Shoppers. Thank You Hyderabad for shopping with us at Flaunsica 10th Refined Edition at Park Hyatt. We couldn't have done it without you.";
 
 export const Route = createFileRoute("/")({
   beforeLoad: () => {
@@ -19,7 +19,9 @@ export const Route = createFileRoute("/")({
       { name: "description", content: DESCRIPTION },
       { property: "og:title", content: TITLE },
       { property: "og:description", content: DESCRIPTION },
-      { property: "og:image", content: "/assets/hero-couture.jpg" },
+      { property: "og:image", content: "/assets/thank-you-poster.jpeg" },
+      { property: "twitter:image", content: "/assets/thank-you-poster.jpeg" },
+      { property: "twitter:card", content: "summary_large_image" },
       { property: "og:type", content: "website" },
     ],
   }),

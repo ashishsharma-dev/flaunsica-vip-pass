@@ -29,19 +29,22 @@ export const Route = createFileRoute("/thank-you")({
   },
   head: () => ({
     meta: [
-      { title: "Registrations Closed — Flaunsica Hyderabad 10th Refined Edition" },
+      { title: "2000+ Shoppers — Thank You Hyderabad | Flaunsica 10th Refined Edition" },
       {
         name: "description",
         content:
-          "Registrations for Flaunsica Hyderabad – 10th Refined Edition at Park Hyatt are now closed. Thank you for your overwhelming response.",
+          "2000+ Shoppers. Thank You Hyderabad for shopping with us at Flaunsica 10th Refined Edition at Park Hyatt. We couldn't have done it without you.",
       },
       { name: "robots", content: "noindex, follow" },
-      { property: "og:title", content: "Registrations Closed — Flaunsica Hyderabad" },
+      { property: "og:title", content: "2000+ Shoppers — Thank You Hyderabad | Flaunsica" },
       {
         property: "og:description",
         content:
-          "Registrations for Flaunsica Hyderabad – 10th Refined Edition at Park Hyatt are now closed. Thank you for your overwhelming response.",
+          "2000+ Shoppers. Thank You Hyderabad for shopping with us at Flaunsica 10th Refined Edition at Park Hyatt. We couldn't have done it without you.",
       },
+      { property: "og:image", content: "/assets/thank-you-poster.jpeg" },
+      { property: "twitter:image", content: "/assets/thank-you-poster.jpeg" },
+      { property: "twitter:card", content: "summary_large_image" },
     ],
   }),
   component: ThankYouPage,
@@ -183,27 +186,35 @@ function ThankYouPage() {
         <main className="thank-you-main">
           <div className="thank-you-container">
             <div className="thank-you-fallback-card">
-              <div className="thank-you-icon-circle">
-                <Lock />
+              {/* Official 2000+ Shoppers Thank You Poster */}
+              <div className="thank-you-poster-wrap">
+                <img
+                  src="/assets/thank-you-poster.jpeg"
+                  alt="2000+ Shoppers - Thank You Hyderabad for shopping with us | Flaunsica 10th Refined Edition"
+                  className="thank-you-poster-img"
+                  width={960}
+                  height={1280}
+                  loading="eager"
+                />
               </div>
 
               <div className="conf-badge closed-badge">
                 <span className="conf-icon">✦</span>
-                <span>REGISTRATIONS CLOSED</span>
+                <span>2000+ SHOPPERS • THANK YOU HYDERABAD</span>
               </div>
 
-              <h1 className="thank-you-card-title">Registrations Are Now Closed</h1>
+              <h1 className="thank-you-card-title">Thank You, Hyderabad!</h1>
 
               <p className="thank-you-card-desc">
-                Online registrations and exclusive invite requests for{" "}
+                2000+ shoppers, 55+ extraordinary designer labels, and an unforgettable celebration of luxury couture. Online registrations for the 10th Refined Edition of{" "}
                 <strong style={{ color: "var(--color-text-dark, #140406)" }}>Flaunsica Hyderabad</strong>{" "}
-                10th Refined Edition at Park Hyatt are now officially closed. Thank you for the overwhelming love and phenomenal response from Hyderabad's fashion community.
+                at Park Hyatt are now closed. We couldn't have done it without you.
               </p>
 
               <div className="thank-you-already-registered-notice">
-                <strong>✦ Already Registered?</strong>
+                <strong>✦ Existing Pass Holders</strong>
                 <p>
-                  If you have already received your exclusive invite link, your digital VIP pass remains fully active and valid for entry. Please present it at the reception desk during exhibition hours.
+                  If you have already received your exclusive invite link, your digital VIP pass remains accessible for your records.
                 </p>
               </div>
 
