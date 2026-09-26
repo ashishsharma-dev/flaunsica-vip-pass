@@ -1,10 +1,18 @@
 import { Link, useLocation } from "@tanstack/react-router";
 import { useState, useEffect } from "react";
 
-export function Navbar({ onGetVipPass }: { onGetVipPass?: () => void }) {
+export function Navbar({
+  onGetVipPass,
+  hideHamburger = false,
+}: {
+  onGetVipPass?: () => void;
+  hideHamburger?: boolean;
+}) {
   const location = useLocation();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const isCuratedPage = location.pathname === "/curated" || location.pathname === "/the-curation";
+  const isThankYouPage = location.pathname === "/thank-you";
+  const shouldHideHamburger = hideHamburger || isThankYouPage;
 
   const handleVipPassClick = (e: React.MouseEvent) => {
     if (onGetVipPass) {
@@ -95,22 +103,24 @@ export function Navbar({ onGetVipPass }: { onGetVipPass?: () => void }) {
           </div>
 
           {/* Mobile Hamburger Menu Toggle Button */}
-          <button
-            type="button"
-            className="hamburger-menu-btn mobile-only"
-            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            aria-label={mobileMenuOpen ? "Close navigation menu" : "Open navigation menu"}
-            aria-expanded={mobileMenuOpen}
-          >
-            <span className={`hamburger-line ${mobileMenuOpen ? "open-top" : ""}`} />
-            <span className={`hamburger-line ${mobileMenuOpen ? "open-mid" : ""}`} />
-            <span className={`hamburger-line ${mobileMenuOpen ? "open-bot" : ""}`} />
-          </button>
+          {!shouldHideHamburger && (
+            <button
+              type="button"
+              className="hamburger-menu-btn mobile-only"
+              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+              aria-label={mobileMenuOpen ? "Close navigation menu" : "Open navigation menu"}
+              aria-expanded={mobileMenuOpen}
+            >
+              <span className={`hamburger-line ${mobileMenuOpen ? "open-top" : ""}`} />
+              <span className={`hamburger-line ${mobileMenuOpen ? "open-mid" : ""}`} />
+              <span className={`hamburger-line ${mobileMenuOpen ? "open-bot" : ""}`} />
+            </button>
+          )}
         </div>
       </header>
 
       {/* Mobile Menu Drawer Modal */}
-      {mobileMenuOpen && (
+      {!shouldHideHamburger && mobileMenuOpen && (
         <div
           className="mobile-nav-drawer-overlay"
           onClick={() => setMobileMenuOpen(false)}

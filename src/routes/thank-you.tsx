@@ -5,7 +5,6 @@ import { VipPass } from "@/components/flaunsica/VipPass";
 import { BrandDiscounts } from "@/components/flaunsica/BrandDiscounts";
 import { getPass } from "@/lib/rsvp.functions";
 import type { GuestDetails } from "@/components/flaunsica/types";
-import { CheckCircle, Calendar, MapPin, Clock, ArrowRight, Home, Lock, Sparkles, ExternalLink } from "lucide-react";
 
 interface ThankYouSearchParams {
   passCode?: string;
@@ -153,7 +152,7 @@ function ThankYouPage() {
   return (
     <div className="landing-page-root thank-you-page-root">
       {/* Luxury Navbar */}
-      <Navbar />
+      <Navbar hideHamburger />
 
       {/* Main Content Area */}
       {guest && passCode ? (
@@ -164,23 +163,6 @@ function ThankYouPage() {
             delivery={delivery}
             onReset={() => navigate({ to: "/" })}
           />
-          <div className="thank-you-container" style={{ paddingBottom: "4rem" }}>
-            <div className="thank-you-nav-actions">
-              <Link to="/curated" className="thank-you-btn-primary">
-                <span>Explore 55+ Designers</span>
-                <ArrowRight />
-              </Link>
-              <a
-                href="https://instagram.com/flaunsica_hyderabad"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="thank-you-btn-secondary"
-              >
-                <span>Follow @flaunsica_hyderabad</span>
-                <ExternalLink className="size-3.5" />
-              </a>
-            </div>
-          </div>
         </main>
       ) : (
         <main className="thank-you-main">
@@ -216,37 +198,6 @@ function ThankYouPage() {
                 <p>
                   If you have already received your exclusive invite link, your digital VIP pass remains accessible for your records.
                 </p>
-              </div>
-
-              <div className="thank-you-meta-strip">
-                <div className="thank-you-meta-item">
-                  <Calendar />
-                  <span>Wednesday, 23 Sept 2026</span>
-                </div>
-                <div className="thank-you-meta-item">
-                  <MapPin />
-                  <span>Park Hyatt, Hyderabad</span>
-                </div>
-                <div className="thank-you-meta-item">
-                  <Clock />
-                  <span>11:00 AM – 7:00 PM</span>
-                </div>
-              </div>
-
-              <div className="thank-you-nav-actions">
-                <Link to="/curated" className="thank-you-btn-primary">
-                  <span>Explore 55+ Designers</span>
-                  <ArrowRight />
-                </Link>
-                <a
-                  href="https://instagram.com/flaunsica_hyderabad"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="thank-you-btn-secondary"
-                >
-                  <span>Follow @flaunsica_hyderabad</span>
-                  <ExternalLink className="size-3.5" />
-                </a>
               </div>
             </div>
 

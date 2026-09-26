@@ -5504,7 +5504,6 @@ a.curation-cta-btn:hover,
   font-weight: 600;
   margin-top: 0.15rem;
 }
-
 .brand-discounts-footer-note {
   text-align: center;
   margin-top: 2.5rem;
@@ -5513,3 +5512,9 @@ a.curation-cta-btn:hover,
   letter-spacing: 0.04em;
   line-height: 1.5;
 }
+
+/* Hide Hamburger Menu on Thank You Page */
+.thank-you-page-root .hamburger-menu-btn,
+.thank-you-page-root .mobile-nav-drawer-overlay {
+  display: none !important;
+}
