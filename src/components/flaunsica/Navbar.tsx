@@ -89,19 +89,9 @@ export function Navbar({ onGetVipPass }: { onGetVipPass?: () => void }) {
               The Curation
             </Link>
 
-            {isCuratedPage ? (
-              <a href="/#rsvp-section" className="btn-nav-rsvp">
-                Get Invite
-              </a>
-            ) : (
-              <a
-                href="#rsvp-section"
-                onClick={handleVipPassClick}
-                className="btn-nav-rsvp"
-              >
-                Get Invite
-              </a>
-            )}
+            <Link to="/thank-you" className="btn-nav-rsvp">
+              Get Invite
+            </Link>
           </div>
 
           {/* Mobile Hamburger Menu Toggle Button */}
@@ -166,28 +156,14 @@ export function Navbar({ onGetVipPass }: { onGetVipPass?: () => void }) {
                 <span className="drawer-btn-sparkle">✦</span>
               </Link>
 
-              {isCuratedPage ? (
-                <a
-                  href="/#rsvp-section"
-                  className="drawer-nav-btn"
-                  onClick={() => setMobileMenuOpen(false)}
-                >
-                  <span className="drawer-btn-label">Get Invite</span>
-                  <span className="drawer-btn-sparkle">✦</span>
-                </a>
-              ) : (
-                <a
-                  href="#rsvp-section"
-                  className="drawer-nav-btn"
-                  onClick={(e) => {
-                    setMobileMenuOpen(false);
-                    handleVipPassClick(e);
-                  }}
-                >
-                  <span className="drawer-btn-label">Get Invite</span>
-                  <span className="drawer-btn-sparkle">✦</span>
-                </a>
-              )}
+              <Link
+                to="/thank-you"
+                className="drawer-nav-btn"
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                <span className="drawer-btn-label">Get Invite / Pass Status</span>
+                <span className="drawer-btn-sparkle">✦</span>
+              </Link>
             </nav>
 
             <div className="drawer-bottom-info">

@@ -2,9 +2,10 @@ import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { Navbar } from "@/components/flaunsica/Navbar";
 import { VipPass } from "@/components/flaunsica/VipPass";
+import { BrandDiscounts } from "@/components/flaunsica/BrandDiscounts";
 import { getPass } from "@/lib/rsvp.functions";
 import type { GuestDetails } from "@/components/flaunsica/types";
-import { CheckCircle, Calendar, MapPin, Clock, ArrowRight, Home } from "lucide-react";
+import { CheckCircle, Calendar, MapPin, Clock, ArrowRight, Home, Lock, Sparkles, ExternalLink } from "lucide-react";
 
 interface ThankYouSearchParams {
   passCode?: string;
@@ -28,18 +29,18 @@ export const Route = createFileRoute("/thank-you")({
   },
   head: () => ({
     meta: [
-      { title: "Thank You — Exclusive VIP Invitation Confirmed | Flaunsica Hyderabad" },
+      { title: "Registrations Closed — Flaunsica Hyderabad 10th Refined Edition" },
       {
         name: "description",
         content:
-          "Thank you for registering for Flaunsica Hyderabad – 10th Refined Edition. Your exclusive VIP invite has been confirmed.",
+          "Registrations for Flaunsica Hyderabad – 10th Refined Edition at Park Hyatt are now closed. Thank you for your overwhelming response.",
       },
       { name: "robots", content: "noindex, follow" },
-      { property: "og:title", content: "Exclusive VIP Invitation Confirmed — Flaunsica" },
+      { property: "og:title", content: "Registrations Closed — Flaunsica Hyderabad" },
       {
         property: "og:description",
         content:
-          "Your entry pass for Flaunsica Hyderabad at Park Hyatt on 23 September 2026 is confirmed.",
+          "Registrations for Flaunsica Hyderabad – 10th Refined Edition at Park Hyatt are now closed. Thank you for your overwhelming response.",
       },
     ],
   }),
@@ -162,14 +163,19 @@ function ThankYouPage() {
           />
           <div className="thank-you-container" style={{ paddingBottom: "4rem" }}>
             <div className="thank-you-nav-actions">
-              <Link to="/curated" className="thank-you-btn-secondary">
+              <Link to="/curated" className="thank-you-btn-primary">
                 <span>Explore 55+ Designers</span>
                 <ArrowRight />
               </Link>
-              <Link to="/" className="thank-you-btn-primary">
-                <Home />
-                <span>Return to Homepage</span>
-              </Link>
+              <a
+                href="https://instagram.com/flaunsica_hyderabad"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="thank-you-btn-secondary"
+              >
+                <span>Follow @flaunsica_hyderabad</span>
+                <ExternalLink className="size-3.5" />
+              </a>
             </div>
           </div>
         </main>
@@ -178,22 +184,28 @@ function ThankYouPage() {
           <div className="thank-you-container">
             <div className="thank-you-fallback-card">
               <div className="thank-you-icon-circle">
-                <CheckCircle />
+                <Lock />
               </div>
 
-              <div className="conf-badge">
-                <span className="conf-icon">✓</span>
-                <span>EXCLUSIVE INVITATION CONFIRMED</span>
+              <div className="conf-badge closed-badge">
+                <span className="conf-icon">✦</span>
+                <span>REGISTRATIONS CLOSED</span>
               </div>
 
-              <h1 className="thank-you-card-title">Thank You for Registering</h1>
+              <h1 className="thank-you-card-title">Registrations Are Now Closed</h1>
 
               <p className="thank-you-card-desc">
-                Your interest in attending{" "}
+                Online registrations and exclusive invite requests for{" "}
                 <strong style={{ color: "var(--color-text-dark, #140406)" }}>Flaunsica Hyderabad</strong>{" "}
-                has been recorded. Our VIP concierge desk has logged your request and entry
-                credentials will be verified at the reception desk.
+                10th Refined Edition at Park Hyatt are now officially closed. Thank you for the overwhelming love and phenomenal response from Hyderabad's fashion community.
               </p>
+
+              <div className="thank-you-already-registered-notice">
+                <strong>✦ Already Registered?</strong>
+                <p>
+                  If you have already received your exclusive invite link, your digital VIP pass remains fully active and valid for entry. Please present it at the reception desk during exhibition hours.
+                </p>
+              </div>
 
               <div className="thank-you-meta-strip">
                 <div className="thank-you-meta-item">
@@ -211,15 +223,25 @@ function ThankYouPage() {
               </div>
 
               <div className="thank-you-nav-actions">
-                <Link to="/curated" className="thank-you-btn-secondary">
+                <Link to="/curated" className="thank-you-btn-primary">
                   <span>Explore 55+ Designers</span>
                   <ArrowRight />
                 </Link>
-                <Link to="/" className="thank-you-btn-primary">
-                  <Home />
-                  <span>Return to Homepage</span>
-                </Link>
+                <a
+                  href="https://instagram.com/flaunsica_hyderabad"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="thank-you-btn-secondary"
+                >
+                  <span>Follow @flaunsica_hyderabad</span>
+                  <ExternalLink className="size-3.5" />
+                </a>
               </div>
+            </div>
+
+            {/* Private Hour Designer Privileges */}
+            <div className="thank-you-discounts-wrap mt-8">
+              <BrandDiscounts variant="compact" />
             </div>
           </div>
         </main>

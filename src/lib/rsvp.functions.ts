@@ -33,6 +33,9 @@ function makeCode() {
 // Feature flag: set to false to completely disable OTP verification and issue passes directly
 export const OTP_ENABLED = false;
 
+// Feature flag: set to false when registration period has ended
+export const REGISTRATIONS_OPEN = false;
+
 export const checkExistingRegistration = createServerFn({ method: "POST" })
   .validator((input: unknown) =>
     z
@@ -136,6 +139,12 @@ export const startRegistration = createServerFn({ method: "POST" })
         previewCode: null,
         message: "",
       };
+    }
+
+    if (!REGISTRATIONS_OPEN) {
+      throw new Error(
+        "Registrations for Flaunsica 10th Refined Edition are now closed. Thank you for your interest."
+      );
     }
 
     const passCode = makePassCode();

@@ -45,9 +45,9 @@ function PassDetails() {
                 link or request a new exclusive invitation below.
               </p>
               <div className="thank-you-nav-actions" style={{ justifyContent: "center" }}>
-                <Link to="/" className="thank-you-btn-primary">
+                <Link to="/thank-you" className="thank-you-btn-primary">
                   <Home />
-                  <span>Request Exclusive Invite</span>
+                  <span>View Registration Status</span>
                 </Link>
                 <Link to="/curated" className="thank-you-btn-secondary">
                   <span>Explore Designers</span>

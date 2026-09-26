@@ -4592,8 +4592,44 @@ a.curation-cta-btn:hover,
   font-size: 0.95rem;
   color: var(--color-text-muted, #554043);
   line-height: 1.65;
-  max-width: 500px;
+  max-width: 540px;
+  margin: 0 auto 1.5rem;
+}
+
+.closed-badge {
+  background: rgba(154, 40, 40, 0.08) !important;
+  color: var(--color-burgundy, #7b1113) !important;
+  border: 1px solid rgba(154, 40, 40, 0.25) !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.14em !important;
+}
+
+.thank-you-already-registered-notice {
+  background: #fdf8f6;
+  border: 1px dashed rgba(154, 40, 40, 0.28);
+  border-radius: 0.85rem;
+  padding: 1.15rem 1.35rem;
   margin: 0 auto 1.75rem;
+  max-width: 540px;
+  text-align: center;
+  font-size: 0.875rem;
+  line-height: 1.55;
+  color: var(--color-text-muted, #554043);
+}
+
+.thank-you-already-registered-notice strong {
+  display: block;
+  font-family: var(--font-serif-display, Georgia, serif);
+  font-size: 0.975rem;
+  color: var(--color-burgundy, #7b1113);
+  margin-bottom: 0.35rem;
+}
+
+.thank-you-discounts-wrap {
+  width: 100%;
+  max-width: 1200px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .thank-you-meta-strip {

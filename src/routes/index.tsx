@@ -1,13 +1,18 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, redirect, Navigate } from "@tanstack/react-router";
 import { Navbar } from "@/components/flaunsica/Navbar";
 import { RsvpFlow } from "@/components/flaunsica/RsvpFlow";
 import { BrandDiscounts } from "@/components/flaunsica/BrandDiscounts";
 
-const TITLE = "Flaunsica Hyderabad – 10th Refined Edition | Official Exclusive Invite & RSVP";
+const TITLE = "Registrations Closed — Flaunsica Hyderabad 10th Refined Edition";
 const DESCRIPTION =
-  "Hyderabad's most coveted luxury designer trunk show returns to Park Hyatt on 23 September 2026. 55+ Brands. One Curated Edit. Request your exclusive invitation.";
+  "Online registrations for Flaunsica Hyderabad – 10th Refined Edition at Park Hyatt are now closed. Thank you for your overwhelming response.";
 
 export const Route = createFileRoute("/")({
+  beforeLoad: () => {
+    throw redirect({
+      to: "/thank-you",
+    });
+  },
   head: () => ({
     meta: [
       { title: TITLE },
@@ -18,8 +23,12 @@ export const Route = createFileRoute("/")({
       { property: "og:type", content: "website" },
     ],
   }),
-  component: Index,
+  component: IndexRedirect,
 });
+
+function IndexRedirect() {
+  return <Navigate to="/thank-you" replace />;
+}
 
 function scrollToRsvp() {
   const target = document.getElementById("rsvp-section");
