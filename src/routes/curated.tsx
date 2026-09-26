@@ -236,16 +236,8 @@ function CuratedPage() {
             <span className="curation-cta-badge">10TH REFINED EDITION • 23 SEPT 2026</span>
             <h2 className="curation-cta-title">Experience The Curation in Person</h2>
             <p className="curation-cta-subtitle">
-              Join Hyderabad’s most discerning tastemakers and collectors at Park Hyatt, Banjara Hills. Complimentary exclusive invites are strictly limited.
+              Join Hyderabad’s most discerning tastemakers and collectors at Park Hyatt, Banjara Hills. Online registrations are now closed.
             </p>
-            <Link to="/thank-you" className="btn-submit-luxury curation-cta-btn">
-              <span>View Invite Status</span>
-              <span className="btn-sheen" />
-              <svg className="btn-icon-lock" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
-                <path d="M7 11V7a5 5 0 0 1 10 0v4" />
-              </svg>
-            </Link>
           </div>
         </section>
 

@@ -5517,4 +5517,11 @@ a.curation-cta-btn:hover,
 .thank-you-page-root .hamburger-menu-btn,
 .thank-you-page-root .mobile-nav-drawer-overlay {
   display: none !important;
-}
+}
+
+.thank-you-page-root .header-actions,
+.thank-you-page-root .btn-nav-curation,
+.thank-you-page-root .btn-nav-rsvp,
+.btn-nav-curation {
+  display: none !important;
+}

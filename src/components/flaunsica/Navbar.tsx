@@ -13,6 +13,7 @@ export function Navbar({
   const isCuratedPage = location.pathname === "/curated" || location.pathname === "/the-curation";
   const isThankYouPage = location.pathname === "/thank-you";
   const shouldHideHamburger = hideHamburger || isThankYouPage;
+  const shouldHideActions = isThankYouPage;
 
   const handleVipPassClick = (e: React.MouseEvent) => {
     if (onGetVipPass) {
@@ -88,19 +89,13 @@ export function Navbar({
           </Link>
 
           {/* Desktop Navigation Actions */}
-          <div className="header-actions desktop-only">
-            <Link
-              to="/curated"
-              className={`btn-nav-curation ${isCuratedPage ? "active" : ""}`}
-              aria-current={isCuratedPage ? "page" : undefined}
-            >
-              The Curation
-            </Link>
-
-            <Link to="/thank-you" className="btn-nav-rsvp">
-              Get Invite
-            </Link>
-          </div>
+          {!shouldHideActions && (
+            <div className="header-actions desktop-only">
+              <Link to="/thank-you" className="btn-nav-rsvp">
+                Get Invite
+              </Link>
+            </div>
+          )}
 
           {/* Mobile Hamburger Menu Toggle Button */}
           {!shouldHideHamburger && (
@@ -157,15 +152,6 @@ export function Navbar({
             </div>
 
             <nav className="drawer-menu-links">
-              <Link
-                to="/curated"
-                className={`drawer-nav-btn ${isCuratedPage ? "active" : ""}`}
-                onClick={() => setMobileMenuOpen(false)}
-              >
-                <span className="drawer-btn-label">The Curation</span>
-                <span className="drawer-btn-sparkle">✦</span>
-              </Link>
-
               <Link
                 to="/thank-you"
                 className="drawer-nav-btn"

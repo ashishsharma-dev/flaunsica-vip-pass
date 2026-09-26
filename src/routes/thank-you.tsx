@@ -216,7 +216,6 @@ function ThankYouPage() {
             <p>&copy; 2026 Flaunsica Hyderabad. Curated by Prestha Agarwal. All rights reserved.</p>
             <div className="footer-legal">
               <Link to="/">Home</Link>
-              <Link to="/curated">The Curation</Link>
             </div>
           </div>
         </div>
